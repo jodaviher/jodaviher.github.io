@@ -61,6 +61,8 @@
                 if (!respuesta.ok) throw new Error('No se pudo cargar el archivo JSON');
                 
                 db = await respuesta.json();
+                // --- LÍNEA AÑADIDA PARA ORDENAR POR NOMBRE ---
+                db.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 console.log("Datos cargados correctamente:", db);
                 
                 popularReinas(); // Una vez cargados, llenamos el primer select
@@ -132,4 +134,5 @@
         cargarDatos();
     </script>
 </body>
+
 </html>
