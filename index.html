@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Carnaval</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); }
+        select, button { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+        button { background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #fff); border: none; font-weight: bold; cursor: pointer; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h3>Registro de Urnas</h3>
+
+    <label for="reinaSelect">1. Selecciona la Reina:</label>
+    <select id="reinaSelect">
+        <option value="">-- Elegir Reina --</option>
+    </select>
+
+    <div id="divLocal" class="hidden">
+        <label for="localSelect">2. Selecciona el Local:</label>
+        <select id="localSelect">
+            <option value="">-- Elegir Local --</option>
+        </select>
+    </div>
+
+    <div id="divTipo" class="hidden">
+        <label for="tipoSelect">3. Tipo de Foto:</label>
+        <select id="tipoSelect">
+            <option value="">-- Elegir Actividad --</option>
+            <option value="RECOGIDA">RECOGIDA</option>
+            <option value="CLASIFICACION">CLASIFICACION</option>
+            <option value="PESAJE">PESAJE</option>
+        </select>
+    </div>
+
+    <button id="btnEnviar" class="hidden">CONFIRMAR DATOS</button>
+
+    <script>   
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let db = []; // Inicializamos la base de datos vacía
+
+        const reinaSelect = document.getElementById('reinaSelect');
+        const localSelect = document.getElementById('localSelect');
+        const tipoSelect = document.getElementById('tipoSelect');
+        const divLocal = document.getElementById('divLocal');
+        const divTipo = document.getElementById('divTipo');
+        const btnEnviar = document.getElementById('btnEnviar');
+
+        // --- FUNCIÓN PARA CARGAR LOS DATOS EXTERNOS ---
+        async function cargarDatos() {
+            try {
+                // Fetch busca el archivo en la misma ruta donde esté el index.html
+                const respuesta = await fetch('data.json');
+                if (!respuesta.ok) throw new Error('No se pudo cargar el archivo JSON');
+                
+                db = await respuesta.json();
+                console.log("Datos cargados correctamente:", db);
+                
+                popularReinas(); // Una vez cargados, llenamos el primer select
+            } catch (error) {
+                console.error("Error al cargar JSON:", error);
+                alert("Error al cargar la lista de locales. Por favor, recarga la app.");
+            }
+        }
+
+        // Llenar el select de Reinas
+        function popularReinas() {
+            db.forEach((item, index) => {
+                let opt = document.createElement('option');
+                opt.value = index;
+                opt.innerHTML = `${item.nombre} (${item.barrio})`;
+                reinaSelect.appendChild(opt);
+            });
+        }
+
+        // --- EVENTOS DE INTERFAZ ---
+
+        reinaSelect.addEventListener('change', () => {
+            localSelect.innerHTML = '<option value="">-- Elegir Local --</option>';
+            divLocal.classList.add('hidden');
+            divTipo.classList.add('hidden');
+            btnEnviar.classList.add('hidden');
+
+            if(reinaSelect.value !== "") {
+                const dataReina = db[reinaSelect.value];
+                dataReina.locales.forEach(loc => {
+                    let opt = document.createElement('option');
+                    opt.value = loc;
+                    opt.innerHTML = loc;
+                    localSelect.appendChild(opt);
+                });
+                divLocal.classList.remove('hidden');
+            }
+        });
+
+        localSelect.addEventListener('change', () => {
+            if(localSelect.value !== "") {
+                divTipo.classList.remove('hidden');
+            } else {
+                divTipo.classList.add('hidden');
+                btnEnviar.classList.add('hidden');
+            }
+        });
+
+        tipoSelect.addEventListener('change', () => {
+            if(tipoSelect.value !== "") {
+                btnEnviar.classList.remove('hidden');
+            } else {
+                btnEnviar.classList.add('hidden');
+            }
+        });
+
+        btnEnviar.addEventListener('click', () => {
+            const dataReina = db[reinaSelect.value];
+            const payload = {
+                reina: dataReina.nombre,
+                barrio: dataReina.barrio,
+                local: localSelect.value,
+                tipo: tipoSelect.value
+            };
+            tg.sendData(JSON.stringify(payload));
+        });
+
+        // INICIAR LA CARGA AL ABRIR LA APP
+        cargarDatos();
+    </script>
+</body>
+</html>
