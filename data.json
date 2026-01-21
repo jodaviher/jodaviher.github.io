@@ -843,19 +843,26 @@
     "nombre": "Karla Sofia Soñett Vega",
     "barrio": "SAN JOSE",
     "locales": [
-      "Chicharoneria La Especial",
-      "Iguanos Club",
-      "La CosteÒa",
-      "La NiÒa Kely",
+      "Tienda Los Cocos",
       "La Preferida",
-      "Tienda El Bacano",
-      "Tienda El Delfin",
-      "Tienda El Manjar De La 44",
-      "Tienda La Ina # 2",
       "Tienda La Palmita",
+      "Iguanos Club",
+      "Tienda El Delfin",
+      "Tienda La Ina # 2",
+      "Billares Y Estadero El Tiboli",
+      "Tienda El Manjar De La 44",
+      "La CosteÒa",
+      "Las Vegas Recreaciones S.A.S",
+      "El NorteÒo",
+      "Tienda Patti",
+      "La Consentida",
+      "Tienda El Techito",
+      "Tienda El Exito",
+      "Tienda El Bacano",
+      "La NiÒa Kely",
       "Tienda Los Cocos",
-      "Tienda Los Cocos",
-      "Tienda Patti"
+      "Tienda Guamenta",
+      "Chicharoneria La Especial"
     ]
   },
   {
@@ -863,45 +870,30 @@
     "nombre": "Saray Alejandra Delgado Ariza",
     "barrio": "SAN JOSE",
     "locales": [
-      "Estadero Apolo 8",
-      "Estadero Donde Argel",
-      "Estanco fiesta la 21",
-      "Licores Santy",
-      "Mercatodo La Sinuana",
       "Panes Del Portal",
-      "Tienda El Mercadito Del Fonce",
+      "Estanco fiesta la 21",
+      "Tienda La 20",
       "Tienda El NiÒo Jesus",
-      "Tienda La 20",
-      "Tienda La 20",
-      "Tienda Puerto Nuevo",
       "Tienda Villanueva Bonita",
+      "Tienda El Diamante",
+      "Tienda La 20",
+      "Tienda El Porvenir",
+      "Estanco El Geor",
+      "Tienda Zapatoca",
+      "El Baratillo",
+      "Tienda El Mercadito Del Fonce",
+      "Tienda Puerto Nuevo",
+      "Lechona Serranos",
+      "Estadero Apolo 8",
+      "Tienda Y Panaderia La Gran Napol",
       "Tienda Y Estadero La Sinuana",
-      "Tienda Zapatoca"
+      "Mercatodo La Sinuana",
+      "Licores Santy",
+      "Estadero Donde Argel"
     ]
   },
   {
     "id": 31,
-    "nombre": "Valentina Rudas Villalobos",
-    "barrio": "SAN JOSE",
-    "locales": [
-      "Billares Y Estadero El Tiboli",
-      "El Baratillo",
-      "El NorteÒo",
-      "Estanco El Geor",
-      "La Consentida",
-      "Las Tres J",
-      "Las Vegas Recreaciones S.A.S",
-      "Lechona Serranos",
-      "Tienda El Diamante",
-      "Tienda El Exito",
-      "Tienda El Porvenir",
-      "Tienda El Techito",
-      "Tienda Guamenta",
-      "Tienda Y Panaderia La Gran Napol"
-    ]
-  },
-  {
-    "id": 32,
     "nombre": "Karla andrea lopez molina",
     "barrio": "SANTO DOMINGO DE GUZMAN",
     "locales": [
@@ -916,7 +908,7 @@
     ]
   },
   {
-    "id": 33,
+    "id": 32,
     "nombre": "Marcela De Avila Pérez",
     "barrio": "SANTO DOMINGO DE GUZMAN",
     "locales": [
@@ -944,7 +936,7 @@
     ]
   },
   {
-    "id": 34,
+    "id": 33,
     "nombre": "Steysi Manuela Fontalvo Herrera",
     "barrio": "SIAPE / Siape",
     "locales": [
@@ -978,7 +970,7 @@
     ]
   },
   {
-    "id": 35,
+    "id": 34,
     "nombre": "Danna paola Vega Cervantes",
     "barrio": "SIMON BOLIVAR",
     "locales": [
@@ -1025,7 +1017,7 @@
     ]
   },
   {
-    "id": 36,
+    "id": 35,
     "nombre": "Paula Andrea Escobar Marín",
     "barrio": "VILLAS DE SAN PABLO",
     "locales": [
