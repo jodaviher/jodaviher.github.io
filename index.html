@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Carnaval</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); }
-        select, button { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
-        button { background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #fff); border: none; font-weight: bold; cursor: pointer; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .hidden { display: none; }
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #fff);
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
     <h3>Registro de Urnas</h3>
 
@@ -38,22 +69,9 @@
         </select>
     </div>
 
-    <div id="divPesajeExtra" class="hidden" style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-        <label>Registro de Pesaje:</label>
-        <div style="margin: 10px 0;">
-            <input type="radio" id="optUnidades" name="tipoValor" value="Unidades">
-            <label for="optUnidades">Valor en unidades</label><br>
-            <input type="radio" id="optPeso" name="tipoValor" value="Peso (Kg)" checked>
-            <label for="optPeso">Valor en peso (Kg)</label>
-        </div>
-    
-        <label for="inputValor">Ingrese el número:</label>
-        <input type="number" id="inputValor" step="any" placeholder="Ej: 20 o 0.5" style="margin-top: 5px;">
-    </div>
-
     <button id="btnEnviar" class="hidden">CONFIRMAR DATOS</button>
 
-    <script>   
+    <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
@@ -65,6 +83,8 @@
         const divLocal = document.getElementById('divLocal');
         const divTipo = document.getElementById('divTipo');
         const btnEnviar = document.getElementById('btnEnviar');
+        const divPesajeExtra = document.getElementById('divPesajeExtra');
+        const inputValor = document.getElementById('inputValor');
 
         // --- FUNCIÓN PARA CARGAR LOS DATOS EXTERNOS ---
         async function cargarDatos() {
@@ -72,12 +92,12 @@
                 // Fetch busca el archivo en la misma ruta donde esté el index.html
                 const respuesta = await fetch('data.json');
                 if (!respuesta.ok) throw new Error('No se pudo cargar el archivo JSON');
-                
+
                 db = await respuesta.json();
                 // --- LÍNEA AÑADIDA PARA ORDENAR POR NOMBRE ---
                 db.sort((a, b) => a.nombre.localeCompare(b.nombre));
                 console.log("Datos cargados correctamente:", db);
-                
+
                 popularReinas(); // Una vez cargados, llenamos el primer select
             } catch (error) {
                 console.error("Error al cargar JSON:", error);
@@ -103,7 +123,7 @@
             divTipo.classList.add('hidden');
             btnEnviar.classList.add('hidden');
 
-            if(reinaSelect.value !== "") {
+            if (reinaSelect.value !== "") {
                 const dataReina = db[reinaSelect.value];
                 dataReina.locales.forEach(loc => {
                     let opt = document.createElement('option');
@@ -116,7 +136,7 @@
         });
 
         localSelect.addEventListener('change', () => {
-            if(localSelect.value !== "") {
+            if (localSelect.value !== "") {
                 divTipo.classList.remove('hidden');
             } else {
                 divTipo.classList.add('hidden');
@@ -125,7 +145,14 @@
         });
 
         tipoSelect.addEventListener('change', () => {
-            if(tipoSelect.value !== "") {
+            if (tipoSelect.value === "PESAJE") {
+                divPesajeExtra.classList.remove('hidden');
+            } else {
+                divPesajeExtra.classList.add('hidden');
+            }
+
+            // Solo mostramos confirmar si hay un tipo seleccionado
+            if (tipoSelect.value !== "") {
                 btnEnviar.classList.remove('hidden');
             } else {
                 btnEnviar.classList.add('hidden');
@@ -133,14 +160,44 @@
         });
 
         btnEnviar.addEventListener('click', () => {
-            const dataReina = db[reinaSelect.value];
-            const payload = {
-                reina: dataReina.nombre,
-                barrio: dataReina.barrio,
-                local: localSelect.value,
-                tipo: tipoSelect.value
-            };
-            tg.sendData(JSON.stringify(payload));
+            // Validación específica para PESAJE
+            if (tipoSelect.value === "PESAJE") {
+                const valor = inputValor.value.trim();
+                const tipoValorSeleccionado = document.querySelector('input[name="tipoValor"]:checked');
+
+                if (valor === "" || isNaN(valor)) {
+                    alert("Por favor ingrese un valor numérico válido para el pesaje.");
+                    return;
+                }
+                if (!tipoValorSeleccionado) {
+                    alert("Seleccione si el valor es en Unidades o Peso.");
+                    return;
+                }
+
+                // Payload extendido para Pesaje
+                const dataReina = db[reinaSelect.value];
+                const payload = {
+                    reina: dataReina.nombre,
+                    barrio: dataReina.barrio,
+                    local: localSelect.value,
+                    tipo: tipoSelect.value,
+                    valor_registrado: valor,
+                    unidad: tipoValorSeleccionado.value
+                };
+                tg.sendData(JSON.stringify(payload));
+            } else {
+                // Payload normal para otros tipos
+                const dataReina = db[reinaSelect.value];
+                const payload = {
+                    reina: dataReina.nombre,
+                    barrio: dataReina.barrio,
+                    local: localSelect.value,
+                    tipo: tipoSelect.value,
+                    valor_registrado: "N/A", // Columnas vacías para otros tipos
+                    unidad: "N/A"
+                };
+                tg.sendData(JSON.stringify(payload));
+            }
         });
 
         // INICIAR LA CARGA AL ABRIR LA APP
