@@ -38,6 +38,19 @@
         </select>
     </div>
 
+    <div id="divPesajeExtra" class="hidden" style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+        <label>Registro de Pesaje:</label>
+        <div style="margin: 10px 0;">
+            <input type="radio" id="optUnidades" name="tipoValor" value="Unidades">
+            <label for="optUnidades">Valor en unidades</label><br>
+            <input type="radio" id="optPeso" name="tipoValor" value="Peso (Kg)" checked>
+            <label for="optPeso">Valor en peso (Kg)</label>
+        </div>
+    
+        <label for="inputValor">Ingrese el número:</label>
+        <input type="number" id="inputValor" step="any" placeholder="Ej: 20 o 0.5" style="margin-top: 5px;">
+    </div>
+
     <button id="btnEnviar" class="hidden">CONFIRMAR DATOS</button>
 
     <script>   
@@ -134,5 +147,4 @@
         cargarDatos();
     </script>
 </body>
-
 </html>
