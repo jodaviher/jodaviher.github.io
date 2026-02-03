@@ -8,7 +8,6 @@
     <style>
         body { font-family: sans-serif; padding: 20px; background-color: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); }
         
-        /* Estilos unificados para selects, botones e inputs numéricos */
         select, button, input[type="number"] { 
             width: 100%; 
             padding: 10px; 
@@ -16,17 +15,15 @@
             border-radius: 8px; 
             border: 1px solid #ccc; 
             font-size: 16px; 
-            box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+            box-sizing: border-box; 
         }
 
         button { background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #fff); border: none; font-weight: bold; cursor: pointer; }
         button:disabled { opacity: 0.6; cursor: not-allowed; }
         
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        
         .hidden { display: none; }
 
-        /* Estilos para el bloque de radio buttons */
         .radio-group { background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .radio-option { margin-bottom: 8px; display: flex; align-items: center; }
         .radio-option input { width: auto; margin-right: 10px; margin-bottom: 0; transform: scale(1.2); }
@@ -36,20 +33,27 @@
 <body>
     <h3>👑 Registro de Urnas</h3>
 
-    <label for="reinaSelect">1. Selecciona la Reina:</label>
-    <select id="reinaSelect">
-        <option value="">-- Elegir Reina --</option>
+    <label for="rutaSelect">1. Selecciona la Ruta:</label>
+    <select id="rutaSelect">
+        <option value="">-- Elegir Ruta --</option>
     </select>
 
+    <div id="divReina" class="hidden">
+        <label for="reinaSelect">2. Selecciona la Reina:</label>
+        <select id="reinaSelect">
+            <option value="">-- Elegir Reina --</option>
+        </select>
+    </div>
+
     <div id="divLocal" class="hidden">
-        <label for="localSelect">2. Selecciona el Local:</label>
+        <label for="localSelect">3. Selecciona el Local:</label>
         <select id="localSelect">
             <option value="">-- Elegir Local --</option>
         </select>
     </div>
 
     <div id="divTipo" class="hidden">
-        <label for="tipoSelect">3. Tipo de Foto:</label>
+        <label for="tipoSelect">4. Tipo de Foto:</label>
         <select id="tipoSelect">
             <option value="">-- Elegir Actividad --</option>
             <option value="RECOGIDA">RECOGIDA</option>
@@ -59,19 +63,17 @@
     </div>
 
     <div id="divPesajeExtra" class="hidden radio-group">
-        <label>4. Datos del Pesaje:</label>
-        
+        <label>5. Datos del Pesaje:</label>
         <div class="radio-option">
             <input type="radio" id="optUnidades" name="tipoValor" value="Unidades">
-            <label for="optUnidades">Valor en Unidades (Conteo manual)</label>
+            <label for="optUnidades">Valor en Unidades</label>
         </div>
         <div class="radio-option">
             <input type="radio" id="optPeso" name="tipoValor" value="Peso (Kg)" checked>
-            <label for="optPeso">Valor en Peso (Kilogramos)</label>
+            <label for="optPeso">Valor en Peso (Kg)</label>
         </div>
-        
-        <label for="inputValor" style="margin-top: 10px;">Ingrese la cantidad registrada:</label>
-        <input type="number" id="inputValor" step="any" placeholder="Ej: 20 o 0.5">
+        <label for="inputValor" style="margin-top: 10px;">Ingrese la cantidad:</label>
+        <input type="number" id="inputValor" step="any" placeholder="Ej: 20">
     </div>
 
     <button id="btnEnviar" class="hidden">CONFIRMAR DATOS</button>
@@ -80,73 +82,73 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        let db = []; // Inicializamos la base de datos vacía
+        let db = []; 
+        let dbFiltrada = []; // Para manejar las reinas de la ruta seleccionada
 
-        // Referencias al DOM
+        const rutaSelect = document.getElementById('rutaSelect');
         const reinaSelect = document.getElementById('reinaSelect');
         const localSelect = document.getElementById('localSelect');
         const tipoSelect = document.getElementById('tipoSelect');
+        
+        const divReina = document.getElementById('divReina');
         const divLocal = document.getElementById('divLocal');
         const divTipo = document.getElementById('divTipo');
-        const divPesajeExtra = document.getElementById('divPesajeExtra'); // Nuevo div
-        const inputValor = document.getElementById('inputValor');         // Nuevo input
+        const divPesajeExtra = document.getElementById('divPesajeExtra');
+        const inputValor = document.getElementById('inputValor');
         const btnEnviar = document.getElementById('btnEnviar');
 
-        // --- FUNCIÓN PARA CARGAR LOS DATOS EXTERNOS ---
         async function cargarDatos() {
             try {
-                // Fetch busca el archivo data.json en la misma ruta
                 const respuesta = await fetch('data.json');
                 if (!respuesta.ok) throw new Error('No se pudo cargar el archivo JSON');
-
                 db = await respuesta.json();
                 
-                // --- NUEVO ORDENAMIENTO POR RUTA ---
-                db.sort((a, b) => {
-                    // Primero comparamos por ruta (Numérico ascendente)
-                    if (a.ruta !== b.ruta) {
-                        return a.ruta - b.ruta;
-                    }
-                    // Si la ruta es la misma, desempatamos alfabéticamente por nombre
-                    return a.nombre.localeCompare(b.nombre);
-                });
-                
-                console.log("Datos cargados y ordenados por Ruta.");
-
-                popularReinas(); // Una vez cargados, llenamos el primer select
+                popularRutas();
             } catch (error) {
-                console.error("Error al cargar JSON:", error);
-                alert("Error al cargar la lista de locales. Por favor, verifica tu conexión o recarga la app.");
+                console.error("Error:", error);
+                alert("Error al cargar datos.");
             }
         }
 
-        // Llenar el select de Reinas
-        function popularReinas() {
-            db.forEach((item, index) => {
+        // Llenar el primer select con rutas únicas del 1 al 14
+        function popularRutas() {
+            const rutasUnicas = [...new Set(db.map(item => item.ruta))].sort((a, b) => a - b);
+            rutasUnicas.forEach(ruta => {
                 let opt = document.createElement('option');
-                // Usamos el índice del array ya ordenado
-                opt.value = index; 
-                
-                // --- NUEVA VISUALIZACIÓN: "1 - Nombre (Barrio)" ---
-                // Nos aseguramos que exista el campo ruta, si no, ponemos "?"
-                const numRuta = item.ruta ? item.ruta : "?"; 
-                opt.innerHTML = `${numRuta} - ${item.nombre} (${item.barrio})`;
-                
-                reinaSelect.appendChild(opt);
+                opt.value = ruta;
+                opt.innerHTML = `Ruta ${ruta}`;
+                rutaSelect.appendChild(opt);
             });
         }
 
-        // --- EVENTOS DE INTERFAZ ---
+        // EVENTO: Cambio de Ruta -> Filtra Reinas
+        rutaSelect.addEventListener('change', () => {
+            reinaSelect.innerHTML = '<option value="">-- Elegir Reina --</option>';
+            [divReina, divLocal, divTipo, divPesajeExtra, btnEnviar].forEach(d => d.classList.add('hidden'));
 
+            if(rutaSelect.value !== "") {
+                const rutaElegida = parseInt(rutaSelect.value);
+                // Filtramos la DB global por la ruta y ordenamos alfabéticamente
+                dbFiltrada = db.filter(item => item.ruta === rutaElegida)
+                               .sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+                dbFiltrada.forEach((item, index) => {
+                    let opt = document.createElement('option');
+                    opt.value = index;
+                    opt.innerHTML = `${item.nombre} (${item.barrio})`;
+                    reinaSelect.appendChild(opt);
+                });
+                divReina.classList.remove('hidden');
+            }
+        });
+
+        // EVENTO: Cambio de Reina -> Muestra Locales
         reinaSelect.addEventListener('change', () => {
             localSelect.innerHTML = '<option value="">-- Elegir Local --</option>';
-            divLocal.classList.add('hidden');
-            divTipo.classList.add('hidden');
-            divPesajeExtra.classList.add('hidden'); // Ocultar pesaje si cambia reina
-            btnEnviar.classList.add('hidden');
+            [divLocal, divTipo, divPesajeExtra, btnEnviar].forEach(d => d.classList.add('hidden'));
 
             if(reinaSelect.value !== "") {
-                const dataReina = db[reinaSelect.value];
+                const dataReina = dbFiltrada[reinaSelect.value];
                 dataReina.locales.forEach(loc => {
                     let opt = document.createElement('option');
                     opt.value = loc;
@@ -157,75 +159,50 @@
             }
         });
 
+        // El resto del flujo se mantiene igual
         localSelect.addEventListener('change', () => {
-            if(localSelect.value !== "") {
-                divTipo.classList.remove('hidden');
-            } else {
-                divTipo.classList.add('hidden');
-                divPesajeExtra.classList.add('hidden');
-                btnEnviar.classList.add('hidden');
-            }
+            if(localSelect.value !== "") divTipo.classList.remove('hidden');
+            else [divTipo, divPesajeExtra, btnEnviar].forEach(d => d.classList.add('hidden'));
         });
 
         tipoSelect.addEventListener('change', () => {
-            // Lógica para mostrar/ocultar campos de pesaje
             if(tipoSelect.value === "PESAJE") {
                 divPesajeExtra.classList.remove('hidden');
-                inputValor.value = ""; // Limpiar valor anterior
+                inputValor.value = "";
             } else {
                 divPesajeExtra.classList.add('hidden');
             }
-
-            // Mostrar botón si hay selección
-            if(tipoSelect.value !== "") {
-                btnEnviar.classList.remove('hidden');
-            } else {
-                btnEnviar.classList.add('hidden');
-            }
+            if(tipoSelect.value !== "") btnEnviar.classList.remove('hidden');
+            else btnEnviar.classList.add('hidden');
         });
 
         btnEnviar.addEventListener('click', () => {
-            const dataReina = db[reinaSelect.value];
-            let payload = {};
+            const dataReina = dbFiltrada[reinaSelect.value];
+            let payload = {
+                reina: dataReina.nombre,
+                barrio: dataReina.barrio,
+                local: localSelect.value,
+                tipo: tipoSelect.value,
+                ruta: dataReina.ruta // Enviamos la ruta también
+            };
 
-            // Validación específica para PESAJE
             if(tipoSelect.value === "PESAJE") {
                 const valor = inputValor.value.trim();
-                const tipoValorSeleccionado = document.querySelector('input[name="tipoValor"]:checked');
-                
-                // Validar que haya número
+                const tipoValor = document.querySelector('input[name="tipoValor"]:checked').value;
                 if(valor === "" || isNaN(valor)) {
-                    tg.showPopup({title: 'Error', message: 'Por favor ingrese un valor numérico válido para el pesaje.'});
+                    tg.showPopup({title: 'Error', message: 'Ingrese un valor válido.'});
                     return;
                 }
-                
-                // Construir payload completo
-                payload = {
-                    reina: dataReina.nombre,
-                    barrio: dataReina.barrio,
-                    local: localSelect.value,
-                    tipo: tipoSelect.value,
-                    valor_registrado: valor,
-                    unidad: tipoValorSeleccionado.value
-                };
-
+                payload.valor_registrado = valor;
+                payload.unidad = tipoValor;
             } else {
-                // Payload estándar para RECOGIDA / CLASIFICACION
-                payload = {
-                    reina: dataReina.nombre,
-                    barrio: dataReina.barrio,
-                    local: localSelect.value,
-                    tipo: tipoSelect.value,
-                    valor_registrado: "N/A",
-                    unidad: "N/A"
-                };
+                payload.valor_registrado = "N/A";
+                payload.unidad = "N/A";
             }
 
-            // Enviar datos a Telegram
             tg.sendData(JSON.stringify(payload));
         });
 
-        // INICIAR LA CARGA AL ABRIR LA APP
         cargarDatos();
     </script>
 </body>
