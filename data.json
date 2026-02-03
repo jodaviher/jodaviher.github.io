@@ -1,6 +1,7 @@
 [
   {
     "id": 0,
+    "ruta": 4,
     "nombre": "Valerie Sofia Pertuz Barrera",
     "barrio": "BARRIO ABAJO",
     "locales": [
@@ -19,6 +20,7 @@
   },
   {
     "id": 1,
+    "ruta": 4,
     "nombre": "Angely Esther Berrio Corpas",
     "barrio": "BUENA ESPERANZA",
     "locales": [
@@ -35,6 +37,7 @@
   },
   {
     "id": 2,
+    "ruta": 4,
     "nombre": "Valentina Acuña Doria",
     "barrio": "BUENA ESPERANZA",
     "locales": [
@@ -52,6 +55,7 @@
   },
   {
     "id": 3,
+    "ruta": 12,
     "nombre": "Hilari Vanesa Fernández Pino",
     "barrio": "CARRIZAL",
     "locales": [
@@ -108,6 +112,7 @@
   },
   {
     "id": 4,
+    "ruta": 8,
     "nombre": "Yariht Sandri Orozco Henriquez",
     "barrio": "CIUDAD MODESTO",
     "locales": [
@@ -128,113 +133,123 @@
   },
   {
     "id": 5,
+    "ruta": 13,
     "nombre": "Camila Andrea Ortega Guerra",
     "barrio": "CIUDADELA 20 DE JULIO",
     "locales": [
-      "Abastos El Exito",
-      "Autoservicio Merka Al Precio",
-      "Billares Comejen",
-      "Brisas De Galan",
-      "Brisas Del Fonce 3",
-      "Brisas Del Palmar",
       "Casa Fortuna",
       "Cinco Esquinas",
-      "Cinco Pesos",
       "Comidas Rapidas Donde Blanca",
-      "Dist De Bolsas Donde Fer",
-      "Donde Juancho Cafe Bar",
+      "D”nde Yaneth",
       "Dquilla Licores",
-      "Drogueria Y Tda Brisas De Galan",
-      "Dnde Yaneth",
       "El Agrado",
       "El Bambu 4",
-      "El Cristal De La Ciudadela",
       "El Girasol Donde Rafa",
-      "El Gran Acierto",
-      "El Lider",
       "El Mirador De Natti",
       "El Nuevo Amanecer",
       "El Nuevo Mercadito",
-      "El Triangulo",
       "El pibe",
+      "El Triangulo",
       "Estadero Donde Mi Vieja",
+      "Granero stadium",
+      "La Esmeralda",
+      "La Hinchada",
+      "La Mano De Dios",
+      "La NiÒa Meli",
+      "La Previa Juniorista",
+      "La Sorpresa",
+      "Locas Food",
+      "Merka Ya De Lucho",
+      "Mi Hermano Y Yo",
+      "NiÒa Yohana",
+      "Polo`s Drinks",
+      "Punto Mana",
+      "Tienda El Almendro",
+      "Tienda El Arbolito",
+      "Tienda El Centavo Menos 3",
+      "Tienda El Nuevo Mercadito",
+      "Tienda El Nuevo Renacer",
+      "Tienda El Parquesito",
+      "Tienda El Tiburon",
+      "Tienda Girasol",
+      "Tienda La 47b",
+      "Tienda La Clasica",
+      "Tienda La Favorita",
+      "Tienda La Fortuna",
+      "Tienda La Gracia De Dios",
+      "Tienda La Nueva Primavera",
+      "Autoservicio Merka Al Precio",
+      "Billares Comejen",
+      "Tienda La Sombrita",
+      "Tienda La Union",
+      "Tienda Maria Jose",
+      "Tienda Mi Cana",
+      "Tienda Mi Dos Tesoros",
+      "Tienda Nuevo Poder",
+      "Tienda Patry",
+      "Tienda Y Punto Frio La Mejor Esq"
+    ]
+  },
+  {
+    "id": 5,
+    "ruta": 14,
+    "nombre": "Camila Andrea Ortega Guerra",
+    "barrio": "CIUDADELA 20 DE JULIO",
+    "locales": [
+      "Brisas Del Palmar",
+      "Cinco Pesos",
+      "Dist De Bolsas Donde Fer",
+      "Donde Juancho Cafe Bar",
+      "Drogueria Y Tda Brisas De Galan",
+      "El Cristal De La Ciudadela",
+      "El Gran Acierto",
+      "El Lider",
       "Estadero Pao Pey",
       "Fiesta CafÈ Bar",
       "Granero La 45",
       "Granero Week End",
-      "Granero stadium",
       "Kiosko Amarillo",
       "La Botada 2",
       "La Casa Del Pull",
       "La Coronela 2",
-      "La Esmeralda",
       "La Gran Parada Gastro Bar",
-      "La Hinchada",
       "La Junior",
-      "La Mano De Dios",
-      "La NiÒa Meli",
+      "La milagrosa",
       "La Nueva Estrella",
       "La Palmera",
-      "La Previa Juniorista",
       "La Propia Fama",
-      "La Sorpresa",
-      "La milagrosa",
       "Licorera L&M",
       "Licores La Farranda",
-      "Locas Food",
       "Mercadito La Fe",
-      "Merka Ya De Lucho",
-      "Mi Hermano Y Yo",
-      "NiÒa Yohana",
       "Pa' Juancho Licores",
-      "Polo`s Drinks",
-      "Punto Mana",
       "Sebastian licores",
       "Super Star",
       "Tienda Abastos La Milagrosa",
       "Tienda Brisas Del Sur",
       "Tienda Donde Rafa",
-      "Tienda El Almendro",
-      "Tienda El Arbolito",
       "Tienda El Campito",
-      "Tienda El Centavo Menos 3",
       "Tienda El Divino NiÒo",
-      "Tienda El Nuevo Mercadito",
-      "Tienda El Nuevo Renacer",
       "Tienda El Paraiso",
-      "Tienda El Parquesito",
-      "Tienda El Tiburon",
       "Tienda El Vaiven",
-      "Tienda Girasol",
-      "Tienda La 47b",
       "Tienda La Bonga",
-      "Tienda La Clasica",
       "Tienda La Coronela",
-      "Tienda La Favorita",
-      "Tienda La Fortuna",
-      "Tienda La Gracia De Dios",
       "Tienda La Granja",
-      "Tienda La Nueva Primavera",
       "Tienda La Palmerita",
+      "Abastos El Exito",
+      "Brisas De Galan",
+      "Brisas Del Fonce 3",
       "Tienda La Placita",
       "Tienda La Popular",
-      "Tienda La Sombrita",
-      "Tienda La Union",
       "Tienda Las Banderitas",
-      "Tienda Maria Jose",
-      "Tienda Mi Cana",
-      "Tienda Mi Dos Tesoros",
       "Tienda Nuevo Amanecer",
-      "Tienda Nuevo Poder",
-      "Tienda Patry",
       "Tienda San Javier",
       "Tienda Y Estadero Los Amigos",
-      "Tienda Y Punto Frio La Mejor Esq",
       "Villa metropolis"
     ]
   },
   {
     "id": 6,
+    "ruta": 6,
     "nombre": "Michelle Ariana Arraut Urueta",
     "barrio": "EL CAMPITO",
     "locales": [
@@ -248,6 +263,7 @@
   },
   {
     "id": 7,
+    "ruta": 4,
     "nombre": "Zharick María Quintero Lara",
     "barrio": "EL CARMEN",
     "locales": [
@@ -271,6 +287,7 @@
   },
   {
     "id": 8,
+    "ruta": 9,
     "nombre": "María angel melgarejo barrios",
     "barrio": "EL PUEBLITO",
     "locales": [
@@ -286,6 +303,7 @@
   },
   {
     "id": 9,
+    "ruta": 2,
     "nombre": "Liseth Vanessa Vega Castro",
     "barrio": "GALAN",
     "locales": [
@@ -307,6 +325,7 @@
   },
   {
     "id": 10,
+    "ruta": 6,
     "nombre": "Shanina Paola Parejo Marin",
     "barrio": "LA ALBORAYA",
     "locales": [
@@ -327,6 +346,7 @@
   },
   {
     "id": 11,
+    "ruta": 8,
     "nombre": "Cristal Maria Padilla Madarriaga",
     "barrio": "LA ESMERALDA",
     "locales": [
@@ -376,6 +396,7 @@
   },
   {
     "id": 12,
+    "ruta": 7,
     "nombre": "Leidys Vanessa Perez Reyes",
     "barrio": "LA MANGA",
     "locales": [
@@ -413,6 +434,7 @@
   },
   {
     "id": 13,
+    "ruta": 10,
     "nombre": "Chris Johanna Ripoll Hernandez",
     "barrio": "LA PRADERA",
     "locales": [
@@ -450,6 +472,7 @@
   },
   {
     "id": 14,
+    "ruta": 5,
     "nombre": "Estefany Porras Palacio",
     "barrio": "LA SIERRITA",
     "locales": [
@@ -466,6 +489,7 @@
   },
   {
     "id": 15,
+    "ruta": 5,
     "nombre": "Isabela de Dios Fernandez Paternina",
     "barrio": "LA SIERRITA",
     "locales": [
@@ -490,6 +514,7 @@
   },
   {
     "id": 16,
+    "ruta": 5,
     "nombre": "Wency Paola castro González",
     "barrio": "LA SIERRITA",
     "locales": [
@@ -506,6 +531,7 @@
   },
   {
     "id": 17,
+    "ruta": 5,
     "nombre": "Olga Patricia De Orta Carrascal",
     "barrio": "LAS AMERICAS",
     "locales": [
@@ -526,6 +552,7 @@
   },
   {
     "id": 18,
+    "ruta": 1,
     "nombre": "Ariadna Lucia Caro Maldonado",
     "barrio": "LAS FLORES",
     "locales": [
@@ -560,8 +587,9 @@
   },
   {
     "id": 19,
+    "ruta": 9,
     "nombre": "Valentina Sharith Salinas Baldovino",
-    "barrio": "las malvinas",
+    "barrio": "LAS MALVINAS",
     "locales": [
       "Billares Jhonier",
       "Billares La Ye De Las Malvinas",
@@ -612,6 +640,7 @@
   },
   {
     "id": 20,
+    "ruta": 3,
     "nombre": "Maria Jose Osorio Niebles",
     "barrio": "LAS NIEVES",
     "locales": [
@@ -679,6 +708,7 @@
   },
   {
     "id": 21,
+    "ruta": 12,
     "nombre": "Stephany Paola Torres Méndez",
     "barrio": "LOS CONTINENTES",
     "locales": [
@@ -689,6 +719,7 @@
   },
   {
     "id": 22,
+    "ruta": 11,
     "nombre": "Maria Kamila Fernandez Castillo",
     "barrio": "LOS GIRASOLES",
     "locales": [
@@ -714,6 +745,7 @@
   },
   {
     "id": 23,
+    "ruta": 10,
     "nombre": "Valerie Figueroa Galindo",
     "barrio": "LOS OLIVOS",
     "locales": [
@@ -756,6 +788,7 @@
   },
   {
     "id": 24,
+    "ruta": 8,
     "nombre": "Andrea Carolina Mariotis Franco",
     "barrio": "LOS ROSALES",
     "locales": [
@@ -767,8 +800,9 @@
   },
   {
     "id": 25,
+    "ruta": 7,
     "nombre": "Valentina Cáceres tapia",
-    "barrio": "Mequejo",
+    "barrio": "MEQUEJO",
     "locales": [
       "Abastos Beraca",
       "Billares Y Estadero Carnaval",
@@ -789,6 +823,7 @@
   },
   {
     "id": 26,
+    "ruta": 4,
     "nombre": "Andrea Carolina Ruiz Arismendis",
     "barrio": "MONTECRISTO",
     "locales": [
@@ -809,6 +844,7 @@
   },
   {
     "id": 27,
+    "ruta": 7,
     "nombre": "Jussiel Florian Piñate",
     "barrio": "NUEVA COLOMBIA",
     "locales": [
@@ -828,6 +864,7 @@
   },
   {
     "id": 28,
+    "ruta": 11,
     "nombre": "Lorena Maria Rodrigues Cantillo",
     "barrio": "ROMANCE",
     "locales": [
@@ -840,6 +877,7 @@
   },
   {
     "id": 29,
+    "ruta": 6,
     "nombre": "Karla Sofia Soñett Vega",
     "barrio": "SAN JOSE",
     "locales": [
@@ -867,6 +905,7 @@
   },
   {
     "id": 30,
+    "ruta": 6,
     "nombre": "Saray Alejandra Delgado Ariza",
     "barrio": "SAN JOSE",
     "locales": [
@@ -894,6 +933,7 @@
   },
   {
     "id": 31,
+    "ruta": 11,
     "nombre": "Karla andrea lopez molina",
     "barrio": "SANTO DOMINGO DE GUZMAN",
     "locales": [
@@ -909,6 +949,7 @@
   },
   {
     "id": 32,
+    "ruta": 11,
     "nombre": "Marcela De Avila Pérez",
     "barrio": "SANTO DOMINGO DE GUZMAN",
     "locales": [
@@ -937,8 +978,9 @@
   },
   {
     "id": 33,
+    "ruta": 1,
     "nombre": "Steysi Manuela Fontalvo Herrera",
-    "barrio": "SIAPE / Siape",
+    "barrio": "SIAPE",
     "locales": [
       "40 Grados Licores Mas Rumba",
       "Autoservicio La Gran Esquina",
@@ -971,6 +1013,7 @@
   },
   {
     "id": 34,
+    "ruta": 2,
     "nombre": "Danna paola Vega Cervantes",
     "barrio": "SIMON BOLIVAR",
     "locales": [
@@ -1018,6 +1061,7 @@
   },
   {
     "id": 35,
+    "ruta": 9,
     "nombre": "Paula Andrea Escobar Marín",
     "barrio": "VILLAS DE SAN PABLO",
     "locales": [
