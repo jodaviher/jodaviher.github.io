@@ -106,7 +106,7 @@
     <div class="section-divider"></div>
 
     <label for="nit">🔍 NIT o Cédula del Negocio</label>
-    <input type="text" id="nit" placeholder="Ej: 900123456-1" required>
+    <input type="number" id="nit" placeholder="Ej: 900123456" oninput="validarNIT(this)" required>
     <button type="button" class="btn btn-search" onclick="buscarNIT()">Buscar Local</button>
 
     <div id="badge-container" class="hidden">
@@ -114,17 +114,15 @@
     </div>
 
     <div id="datos-negocio" class="hidden">
-        <label>Nombre del Negocio</label>
+        <label>Razón social</label>
         <input type="text" id="nombre_negocio" placeholder="Nombre comercial" required>
 
-        <label>Propietario / Contacto</label>
-        <input type="text" id="propietario" placeholder="Nombre completo" required>
-
-        <label>Dirección / Barrio</label>
+        <label>Dirección </label>
         <input type="text" id="direccion" placeholder="Dirección exacta" required>
 
         <label>Teléfono</label>
         <input type="tel" id="telefono" placeholder="Número de contacto" required>
+
     </div>
 
     <div class="section-divider"></div>
@@ -179,6 +177,10 @@
 </div>
 
 <script>
+    // Función para evitar que escriban letras, puntos, guiones o la letra 'e'
+    function validarNIT(input) {
+        input.value = input.value.replace(/[^0-9]/g, '');
+    }
     const tg = window.Telegram.WebApp;
     tg.expand(); // Expande la Mini App a pantalla completa
 
@@ -213,7 +215,6 @@
             badgeTipo.innerText = "✔ Negocio en Base de Datos";
 
             document.getElementById("nombre_negocio").value = datos.nombre_negocio || "";
-            document.getElementById("propietario").value = datos.propietario || "";
             document.getElementById("direccion").value = datos.direccion || "";
             document.getElementById("telefono").value = datos.telefono || "";
 
@@ -228,7 +229,6 @@
 
             // Limpiar y habilitar campos
             document.getElementById("nombre_negocio").value = "";
-            document.getElementById("propietario").value = "";
             document.getElementById("direccion").value = "";
             document.getElementById("telefono").value = "";
             
@@ -267,7 +267,6 @@
         }
 
         let nombre = document.getElementById("nombre_negocio").value;
-        let propietario = document.getElementById("propietario").value;
         let direccion = document.getElementById("direccion").value;
         let telefono = document.getElementById("telefono").value;
 
@@ -282,7 +281,6 @@
             nit: nit,
             tipo_registro: tipoRegistroActual,
             nombre_negocio: nombre,
-            propietario: propietario,
             direccion: direccion,
             telefono: telefono,
             estado_visita: estado,
