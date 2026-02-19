@@ -134,7 +134,7 @@
         <option value="">Seleccione un estado...</option>
         <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
         <option value="INACTIVA"> 🚫 Inactiva / Cierre Definitivo</option>
-        <option value="PENDIENTE">❌ Gestión Pendiente (No Efectiva)</option>
+        <option value="NO_EFECTIVA">❌ No Efectiva (Gestión Pendiente)</option>
     </select>
 
     <div id="bloque-efectiva" class="hidden">
@@ -152,9 +152,9 @@
         <label for="motivo_inactiva">¿Motivo del cierre definitivo?</label>
         <select id="motivo_inactiva">
             <option value="">Seleccione el motivo...</option>
-            <option value="Se mudó">Extorsion</option>
-            <option value="Quebró">Cerrado permanentemente</option>
-            <option value="Cambio actividad">Hay otro local diferente en esa direccion</option>
+            <option value="Extorsion">Extorsion</option>
+            <option value="Cerrado permanentemente">Cerrado permanentemente</option>
+            <option value="Hay otro local distinto es esa direccion">Hay otro local diferente en esa direccion</option>
         </select>
     </div>
 
@@ -250,7 +250,7 @@
             document.getElementById("bloque-efectiva").classList.remove("hidden");
         } else if (estado === "INACTIVA") {
             document.getElementById("bloque-inactiva").classList.remove("hidden");
-        } else if (estado === "PENDIENTE") {
+        } else if (estado === "NO_EFECTIVA") {
             document.getElementById("bloque-pendiente").classList.remove("hidden");
         }
     }
@@ -302,7 +302,7 @@
             if (!motivo) { tg.showAlert("Seleccione el motivo del cierre."); return; }
             payload.motivo = motivo;
 
-        } else if (estado === "PENDIENTE") {
+        } else if (estado === "NO_EFECTIVA") {
             const motivo = document.getElementById("motivo_pendiente").value;
             const intento = document.getElementById("intento").value;
             if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
@@ -317,8 +317,3 @@
 
 </body>
 </html>
-
-
-
-
-
