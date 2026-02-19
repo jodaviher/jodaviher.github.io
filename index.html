@@ -2,208 +2,325 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Carnaval</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Auditoría Cámara de Comercio</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); }
-        
-        select, button, input[type="number"] { 
-            width: 100%; 
-            padding: 10px; 
-            margin-bottom: 15px; 
-            border-radius: 8px; 
-            border: 1px solid #ccc; 
-            font-size: 16px; 
-            box-sizing: border-box; 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #f4f4f9);
+            color: var(--tg-theme-text-color, #333);
+            margin: 0;
+            padding: 15px;
         }
-
-        button { background-color: var(--tg-theme-button-color, #3390ec); color: var(--tg-theme-button-text-color, #fff); border: none; font-weight: bold; cursor: pointer; }
-        button:disabled { opacity: 0.6; cursor: not-allowed; }
-        
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .hidden { display: none; }
-
-        .radio-group { background: rgba(0,0,0,0.05); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .radio-option { margin-bottom: 8px; display: flex; align-items: center; }
-        .radio-option input { width: auto; margin-right: 10px; margin-bottom: 0; transform: scale(1.2); }
-        .radio-option label { margin-bottom: 0; font-weight: normal; }
+        .container {
+            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            color: #0056b3;
+            margin-top: 0;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+        }
+        input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .btn {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn-search {
+            background-color: #28a745;
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .badge-base { background-color: #d4edda; color: #155724; }
+        .badge-nuevo { background-color: #cce5ff; color: #004085; }
+        .section-divider {
+            border-top: 2px dashed #ccc;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-    <h3>👑 Registro de Urnas</h3>
 
-    <label for="rutaSelect">1. Selecciona la Ruta:</label>
-    <select id="rutaSelect">
-        <option value="">-- Elegir Ruta --</option>
+<div class="container">
+    <h2>📊 Auditoría CCB</h2>
+
+    <label for="ruta">📍 Ruta Asignada</label>
+    <select id="ruta" required>
+        <option value="">Seleccione su ruta...</option>
+        <option value="Ruta 1">Ruta 1</option>
+        <option value="Ruta 2">Ruta 2</option>
+        <option value="Ruta 3">Ruta 3</option>
+        <option value="Ruta 4">Ruta 4</option>
+        <option value="Ruta 5">Ruta 5</option>
+        <option value="Ruta 6">Ruta 6</option>
+        <option value="Ruta 7">Ruta 7</option>
+        <option value="Ruta 8">Ruta 8</option>
+        <option value="Ruta 9">Ruta 9</option>
+        <option value="Ruta 10">Ruta 10</option>
+        <option value="Ruta 11">Ruta 11</option>
+        <option value="Ruta 12">Ruta 12</option>
+        <option value="Ruta 13">Ruta 13</option>
+        <option value="Ruta 14">Ruta 14</option>
     </select>
 
-    <div id="divReina" class="hidden">
-        <label for="reinaSelect">2. Selecciona la Reina:</label>
-        <select id="reinaSelect">
-            <option value="">-- Elegir Reina --</option>
+    <div class="section-divider"></div>
+
+    <label for="nit">🔍 NIT o Cédula del Negocio</label>
+    <input type="text" id="nit" placeholder="Ej: 900123456-1" required>
+    <button type="button" class="btn btn-search" onclick="buscarNIT()">Buscar Local</button>
+
+    <div id="badge-container" class="hidden">
+        <span id="badge-tipo" class="badge"></span>
+    </div>
+
+    <div id="datos-negocio" class="hidden">
+        <label>Nombre del Negocio</label>
+        <input type="text" id="nombre_negocio" placeholder="Nombre comercial" required>
+
+        <label>Propietario / Contacto</label>
+        <input type="text" id="propietario" placeholder="Nombre completo" required>
+
+        <label>Dirección / Barrio</label>
+        <input type="text" id="direccion" placeholder="Dirección exacta" required>
+
+        <label>Teléfono</label>
+        <input type="tel" id="telefono" placeholder="Número de contacto" required>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <label for="estado_visita">📋 Estado de la Visita</label>
+    <select id="estado_visita" onchange="gestionarEstados()" required>
+        <option value="">Seleccione un estado...</option>
+        <option value="EFECTIVA">🟢 Efectiva (Encuesta realizada)</option>
+        <option value="INACTIVA">🔴 Inactiva / Cierre Definitivo</option>
+        <option value="PENDIENTE">🟡 Gestión Pendiente (No Efectiva)</option>
+    </select>
+
+    <div id="bloque-efectiva" class="hidden">
+        <label for="respuesta_ia">¿Qué opción eligió en WhatsApp?</label>
+        <select id="respuesta_ia">
+            <option value="">Seleccione la respuesta...</option>
+            <option value="A">A. Responder mensajes / WhatsApp</option>
+            <option value="B">B. Crear fotos / publicidad</option>
+            <option value="C">C. Organizar cuentas / inventarios</option>
+            <option value="D">D. Todavía no la uso (Curiosidad)</option>
         </select>
     </div>
 
-    <div id="divLocal" class="hidden">
-        <label for="localSelect">3. Selecciona el Local:</label>
-        <select id="localSelect">
-            <option value="">-- Elegir Local --</option>
+    <div id="bloque-inactiva" class="hidden">
+        <label for="motivo_inactiva">¿Motivo del cierre definitivo?</label>
+        <select id="motivo_inactiva">
+            <option value="">Seleccione el motivo...</option>
+            <option value="Se mudó">Se mudó a otro local</option>
+            <option value="Quebró">Quebró / Cerró permanentemente</option>
+            <option value="Cambio actividad">Cambio de vocación comercial</option>
         </select>
     </div>
 
-    <div id="divTipo" class="hidden">
-        <label for="tipoSelect">4. Tipo de Foto:</label>
-        <select id="tipoSelect">
-            <option value="">-- Elegir Actividad --</option>
-            <option value="RECOGIDA">RECOGIDA</option>
-            <option value="CLASIFICACION">CLASIFICACION</option>
-            <option value="PESAJE">PESAJE</option>
+    <div id="bloque-pendiente" class="hidden">
+        <label for="motivo_pendiente">¿Motivo de la no efectividad?</label>
+        <select id="motivo_pendiente">
+            <option value="">Seleccione el motivo...</option>
+            <option value="Cerrado horario">Cerrado por horario</option>
+            <option value="Rechazo">Rechazo directo (No le interesa)</option>
+            <option value="Ocupado">Atendiendo clientes (Ocupado)</option>
+            <option value="No permite celular">Políticas no permiten celular</option>
+        </select>
+
+        <label for="intento">Número de Intento</label>
+        <select id="intento">
+            <option value="1">Intento 1</option>
+            <option value="2">Intento 2</option>
+            <option value="3">Intento 3</option>
         </select>
     </div>
 
-    <div id="divPesajeExtra" class="hidden radio-group">
-        <label>5. Datos del Pesaje:</label>
-        <div class="radio-option">
-            <input type="radio" id="optUnidades" name="tipoValor" value="Unidades">
-            <label for="optUnidades">Valor en Unidades</label>
-        </div>
-        <div class="radio-option">
-            <input type="radio" id="optPeso" name="tipoValor" value="Peso (Kg)" checked>
-            <label for="optPeso">Valor en Peso (Kg)</label>
-        </div>
-        <label for="inputValor" style="margin-top: 10px;">Ingrese la cantidad:</label>
-        <input type="number" id="inputValor" step="any" placeholder="Ej: 20">
-    </div>
+    <button type="button" class="btn" onclick="enviarDatos()">📤 Enviar Registro</button>
+</div>
 
-    <button id="btnEnviar" class="hidden">CONFIRMAR DATOS</button>
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand(); // Expande la Mini App a pantalla completa
 
-    <script>   
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+    let baseDatos = {};
+    let tipoRegistroActual = "";
 
-        let db = []; 
-        let dbFiltrada = []; // Para manejar las reinas de la ruta seleccionada
+    // Cargar la base de datos al iniciar
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => baseDatos = data)
+        .catch(error => console.error("Error cargando data.json. Si estás probando localmente, puede fallar por CORS.", error));
 
-        const rutaSelect = document.getElementById('rutaSelect');
-        const reinaSelect = document.getElementById('reinaSelect');
-        const localSelect = document.getElementById('localSelect');
-        const tipoSelect = document.getElementById('tipoSelect');
+    function buscarNIT() {
+        const nit = document.getElementById("nit").value.trim();
+        if (!nit) {
+            tg.showAlert("Por favor, ingrese un NIT o Cédula.");
+            return;
+        }
+
+        const datos = baseDatos[nit];
+        const badgeContainer = document.getElementById("badge-container");
+        const badgeTipo = document.getElementById("badge-tipo");
+        const divDatos = document.getElementById("datos-negocio");
+
+        divDatos.classList.remove("hidden");
+        badgeContainer.classList.remove("hidden");
+
+        if (datos) {
+            // Es un negocio registrado
+            tipoRegistroActual = "BASE";
+            badgeTipo.className = "badge badge-base";
+            badgeTipo.innerText = "🟢 Negocio en Base de Datos";
+
+            document.getElementById("nombre_negocio").value = datos.nombre_negocio || "";
+            document.getElementById("propietario").value = datos.propietario || "";
+            document.getElementById("direccion").value = datos.direccion || "";
+            document.getElementById("telefono").value = datos.telefono || "";
+
+            // Opcional: Bloquear campos para que no los editen accidentalmente
+            document.getElementById("nombre_negocio").readOnly = true;
+            document.getElementById("direccion").readOnly = true;
+        } else {
+            // Es un negocio nuevo
+            tipoRegistroActual = "NUEVO";
+            badgeTipo.className = "badge badge-nuevo";
+            badgeTipo.innerText = "🔵 Negocio Nuevo (Por favor diligencie los datos)";
+
+            // Limpiar y habilitar campos
+            document.getElementById("nombre_negocio").value = "";
+            document.getElementById("propietario").value = "";
+            document.getElementById("direccion").value = "";
+            document.getElementById("telefono").value = "";
+            
+            document.getElementById("nombre_negocio").readOnly = false;
+            document.getElementById("direccion").readOnly = false;
+        }
+    }
+
+    function gestionarEstados() {
+        const estado = document.getElementById("estado_visita").value;
         
-        const divReina = document.getElementById('divReina');
-        const divLocal = document.getElementById('divLocal');
-        const divTipo = document.getElementById('divTipo');
-        const divPesajeExtra = document.getElementById('divPesajeExtra');
-        const inputValor = document.getElementById('inputValor');
-        const btnEnviar = document.getElementById('btnEnviar');
+        // Ocultar todos primero
+        document.getElementById("bloque-efectiva").classList.add("hidden");
+        document.getElementById("bloque-inactiva").classList.add("hidden");
+        document.getElementById("bloque-pendiente").classList.add("hidden");
 
-        async function cargarDatos() {
-            try {
-                const respuesta = await fetch('data.json');
-                if (!respuesta.ok) throw new Error('No se pudo cargar el archivo JSON');
-                db = await respuesta.json();
-                
-                popularRutas();
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Error al cargar datos.");
-            }
+        // Mostrar según selección
+        if (estado === "EFECTIVA") {
+            document.getElementById("bloque-efectiva").classList.remove("hidden");
+        } else if (estado === "INACTIVA") {
+            document.getElementById("bloque-inactiva").classList.remove("hidden");
+        } else if (estado === "PENDIENTE") {
+            document.getElementById("bloque-pendiente").classList.remove("hidden");
+        }
+    }
+
+    function enviarDatos() {
+        const ruta = document.getElementById("ruta").value;
+        const nit = document.getElementById("nit").value.trim();
+        const estado = document.getElementById("estado_visita").value;
+
+        // Validaciones básicas
+        if (!ruta || !nit || !estado || !tipoRegistroActual) {
+            tg.showAlert("Por favor complete la Ruta, el NIT, realice la búsqueda y seleccione un Estado de Visita.");
+            return;
         }
 
-        // Llenar el primer select con rutas únicas del 1 al 14
-        function popularRutas() {
-            const rutasUnicas = [...new Set(db.map(item => item.ruta))].sort((a, b) => a - b);
-            rutasUnicas.forEach(ruta => {
-                let opt = document.createElement('option');
-                opt.value = ruta;
-                opt.innerHTML = `Ruta ${ruta}`;
-                rutaSelect.appendChild(opt);
-            });
+        let nombre = document.getElementById("nombre_negocio").value;
+        let propietario = document.getElementById("propietario").value;
+        let direccion = document.getElementById("direccion").value;
+        let telefono = document.getElementById("telefono").value;
+
+        if(!nombre || !direccion) {
+            tg.showAlert("Debe llenar al menos el Nombre del Negocio y la Dirección.");
+            return;
         }
 
-        // EVENTO: Cambio de Ruta -> Filtra Reinas
-        rutaSelect.addEventListener('change', () => {
-            reinaSelect.innerHTML = '<option value="">-- Elegir Reina --</option>';
-            [divReina, divLocal, divTipo, divPesajeExtra, btnEnviar].forEach(d => d.classList.add('hidden'));
+        // Construir el objeto a enviar a Python
+        let payload = {
+            ruta: ruta,
+            nit: nit,
+            tipo_registro: tipoRegistroActual,
+            nombre_negocio: nombre,
+            propietario: propietario,
+            direccion: direccion,
+            telefono: telefono,
+            estado_visita: estado,
+            motivo: "",
+            intento: "1",
+            respuesta_ia: ""
+        };
 
-            if(rutaSelect.value !== "") {
-                const rutaElegida = parseInt(rutaSelect.value);
-                // Filtramos la DB global por la ruta y ordenamos alfabéticamente
-                dbFiltrada = db.filter(item => item.ruta === rutaElegida)
-                               .sort((a, b) => a.nombre.localeCompare(b.nombre));
+        // Extraer datos específicos según el estado
+        if (estado === "EFECTIVA") {
+            const resp = document.getElementById("respuesta_ia").value;
+            if (!resp) { tg.showAlert("Seleccione la respuesta de WhatsApp."); return; }
+            payload.respuesta_ia = resp;
 
-                dbFiltrada.forEach((item, index) => {
-                    let opt = document.createElement('option');
-                    opt.value = index;
-                    opt.innerHTML = `${item.nombre} (${item.barrio})`;
-                    reinaSelect.appendChild(opt);
-                });
-                divReina.classList.remove('hidden');
-            }
-        });
+        } else if (estado === "INACTIVA") {
+            const motivo = document.getElementById("motivo_inactiva").value;
+            if (!motivo) { tg.showAlert("Seleccione el motivo del cierre."); return; }
+            payload.motivo = motivo;
 
-        // EVENTO: Cambio de Reina -> Muestra Locales
-        reinaSelect.addEventListener('change', () => {
-            localSelect.innerHTML = '<option value="">-- Elegir Local --</option>';
-            [divLocal, divTipo, divPesajeExtra, btnEnviar].forEach(d => d.classList.add('hidden'));
+        } else if (estado === "PENDIENTE") {
+            const motivo = document.getElementById("motivo_pendiente").value;
+            const intento = document.getElementById("intento").value;
+            if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
+            payload.motivo = motivo;
+            payload.intento = intento;
+        }
 
-            if(reinaSelect.value !== "") {
-                const dataReina = dbFiltrada[reinaSelect.value];
-                dataReina.locales.forEach(loc => {
-                    let opt = document.createElement('option');
-                    opt.value = loc;
-                    opt.innerHTML = loc;
-                    localSelect.appendChild(opt);
-                });
-                divLocal.classList.remove('hidden');
-            }
-        });
+        // Enviar datos al bot de Telegram y cerrar la app
+        tg.sendData(JSON.stringify(payload));
+    }
+</script>
 
-        // El resto del flujo se mantiene igual
-        localSelect.addEventListener('change', () => {
-            if(localSelect.value !== "") divTipo.classList.remove('hidden');
-            else [divTipo, divPesajeExtra, btnEnviar].forEach(d => d.classList.add('hidden'));
-        });
-
-        tipoSelect.addEventListener('change', () => {
-            if(tipoSelect.value === "PESAJE") {
-                divPesajeExtra.classList.remove('hidden');
-                inputValor.value = "";
-            } else {
-                divPesajeExtra.classList.add('hidden');
-            }
-            if(tipoSelect.value !== "") btnEnviar.classList.remove('hidden');
-            else btnEnviar.classList.add('hidden');
-        });
-
-        btnEnviar.addEventListener('click', () => {
-            const dataReina = dbFiltrada[reinaSelect.value];
-            let payload = {
-                reina: dataReina.nombre,
-                barrio: dataReina.barrio,
-                local: localSelect.value,
-                tipo: tipoSelect.value,
-                ruta: dataReina.ruta // Enviamos la ruta también
-            };
-
-            if(tipoSelect.value === "PESAJE") {
-                const valor = inputValor.value.trim();
-                const tipoValor = document.querySelector('input[name="tipoValor"]:checked').value;
-                if(valor === "" || isNaN(valor)) {
-                    tg.showPopup({title: 'Error', message: 'Ingrese un valor válido.'});
-                    return;
-                }
-                payload.valor_registrado = valor;
-                payload.unidad = tipoValor;
-            } else {
-                payload.valor_registrado = "N/A";
-                payload.unidad = "N/A";
-            }
-
-            tg.sendData(JSON.stringify(payload));
-        });
-
-        cargarDatos();
-    </script>
 </body>
 </html>
