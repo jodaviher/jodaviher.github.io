@@ -133,8 +133,8 @@
     <select id="estado_visita" onchange="gestionarEstados()" required>
         <option value="">Seleccione un estado...</option>
         <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
-        <option value="INACTIVA"> 🚫 Inactiva / Cierre Definitivo</option>
-        <option value="NO_EFECTIVA">❌ No Efectiva (Gestión Pendiente)</option>
+        <option value="CERRADO-PERMANENTEMENTE"> 🚫 Cierre Definitivo</option>
+        <option value="NO-EFECTIVA">❌ No Efectiva (Gestión Pendiente)</option>
     </select>
 
     <div id="bloque-efectiva" class="hidden">
@@ -248,9 +248,9 @@
         // Mostrar según selección
         if (estado === "EFECTIVA") {
             document.getElementById("bloque-efectiva").classList.remove("hidden");
-        } else if (estado === "INACTIVA") {
+        } else if (estado === "CERRADO-PERMANENTEMENTE") {
             document.getElementById("bloque-inactiva").classList.remove("hidden");
-        } else if (estado === "NO_EFECTIVA") {
+        } else if (estado === "NO-EFECTIVA") {
             document.getElementById("bloque-pendiente").classList.remove("hidden");
         }
     }
@@ -297,12 +297,12 @@
             if (!resp) { tg.showAlert("Seleccione la respuesta de WhatsApp."); return; }
             payload.respuesta_ia = resp;
 
-        } else if (estado === "INACTIVA") {
+        } else if (estado === "CERRADO-PERMANENTEMENTE") {
             const motivo = document.getElementById("motivo_inactiva").value;
             if (!motivo) { tg.showAlert("Seleccione el motivo del cierre."); return; }
             payload.motivo = motivo;
 
-        } else if (estado === "NO_EFECTIVA") {
+        } else if (estado === "NO-EFECTIVA") {
             const motivo = document.getElementById("motivo_pendiente").value;
             const intento = document.getElementById("intento").value;
             if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
