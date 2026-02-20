@@ -151,8 +151,8 @@
         <select id="motivo_inactiva">
             <option value="">Seleccione el motivo...</option>
             <option value="Extorsion">Extorsion</option>
-            <option value="Cerrado permanentemente">Cerrado permanentemente</option>
-            <option value="Hay otro local distinto es esa direccion">Hay otro local diferente en esa direccion</option>
+            <option value="Cerrado permanentemente">Cerrado permanentemente, no hay nadie</option>
+            <option value="El negocio ya no esta en el lugar">Hay otro negocio diferente en esa dirreccion</option>
         </select>
     </div>
 
@@ -161,10 +161,18 @@
         <select id="motivo_pendiente">
             <option value="">Seleccione el motivo...</option>
             <option value="Cerrado horario">Cerrado por horario</option>
-            <option value="Rechazo">Rechazo directo (No le interesa)</option>
-            <option value="Ocupado">Atendiendo clientes (Ocupado)</option>
+            <option value="Rechazo">No le interesa (Rechazo directo)</option>
+            <option value="Ocupado">Ocupado (Atendiendo clientes)</option>
+            <option value="En el momento el encargado no esta">No esta el responsable y el se encarga de todo</option>
+            <option value="No atendieron">Nadie salió a atender</option>
+            <option value="direccion incompleta">la dirección está incompleta</option>
+            <option value="Extorsion">la persona reporto extorsion</option>
             <option value="No permite celular">Políticas no permiten celular</option>
+            <option value="Incomunicado">La persona no tiene celular o no sabe usarlo</option>
         </select>
+
+        <label for="observaciones">📝 Observaciones (Opcional)</label>
+        <textarea id="observaciones" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
 
         <label for="intento">Número de Intento</label>
         <select id="intento">
@@ -285,6 +293,7 @@
             telefono: telefono,
             estado_visita: estado,
             motivo: "",
+            observaciones: document.getElementById("observaciones").value.trim(),
             intento: "1",
             respuesta_ia: ""
         };
