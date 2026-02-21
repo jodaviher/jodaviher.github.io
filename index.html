@@ -196,7 +196,7 @@
     function validarNIT(input) {
         input.value = input.value.replace(/[^0-9]/g, '');
     }
-    
+
     const tg = window.Telegram.WebApp;
     tg.expand(); // Expande la Mini App a pantalla completa
 
@@ -298,7 +298,7 @@
             telefono: telefono,
             estado_visita: estado,
             motivo: "",
-            observaciones: `${textoSeleccionado} - ${document.getElementById("observaciones").value.trim()}`,
+            observaciones: document.getElementById("observaciones").value.trim(),
             intento: "1",
             respuesta_ia: ""
         };
