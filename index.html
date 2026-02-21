@@ -310,10 +310,34 @@
             payload.respuesta_ia = resp;
 
         } else if (estado === "NO-EFECTIVA") {
-            const motivo = document.getElementById("motivo_pendiente").value;
+            const selectMotivo = document.getElementById("motivo_pendiente");
+            const motivoValue = selectMotivo.value;
             const intento = document.getElementById("intento").value;
-            if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
-            payload.motivo = motivo;
+            
+            if (!motivoValue) { 
+                tg.showAlert("Seleccione el motivo de la no efectividad."); 
+                return; 
+            }
+
+            // 1. Capturamos el texto visible de la opción elegida (Ej: "Cerrado No Existe")
+            const textoMotivo = selectMotivo.options[selectMotivo.selectedIndex].text;
+            
+            // 2. Capturamos lo que el encuestador escribió a mano
+            const obsManual = document.getElementById("observaciones").value.trim();
+
+            // 3. Lógica para concatenar sin dejar guiones feos sueltos
+            let observacionFinal = "";
+            if (obsManual === "") {
+                // Si no escribió nada, la observación es solo el texto del motivo
+                observacionFinal = textoMotivo;
+            } else {
+                // Si escribió algo, unimos ambos con el guion
+                observacionFinal = textoMotivo + " - " + obsManual;
+            }
+
+            // 4. Inyectamos los datos pulidos al payload
+            payload.motivo = motivoValue; // Guarda la categoría macro para el Excel
+            payload.observaciones = observacionFinal; // Guarda el detalle concatenado
             payload.intento = intento;
         }
 
