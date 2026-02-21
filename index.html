@@ -196,7 +196,7 @@
     function validarNIT(input) {
         input.value = input.value.replace(/[^0-9]/g, '');
     }
-
+    
     const tg = window.Telegram.WebApp;
     tg.expand(); // Expande la Mini App a pantalla completa
 
@@ -310,18 +310,7 @@
             payload.respuesta_ia = resp;
 
         } else if (estado === "NO-EFECTIVA") {
-            const selectMotivo = document.getElementById("motivo_pendiente");
-            selectMotivo.addEventListener('change', function() {
-            // Así es como capturas el VALOR (lo que ya estabas haciendo)
-            const motivo = this.value; 
-
-            // ASÍ ES COMO CAPTURAS EL TEXTO VISIBLE:
-            // Explicación: Buscamos dentro de las opciones (options), 
-            // la que está seleccionada actualmente (selectedIndex) 
-            // y extraemos su texto (.text)
-            const textoSeleccionado = this.options[this.selectedIndex].text;
-            });
-
+            const motivo = document.getElementById("motivo_pendiente").value;
             const intento = document.getElementById("intento").value;
             if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
             payload.motivo = motivo;
