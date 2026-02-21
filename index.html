@@ -152,7 +152,7 @@
 
             <!--<option disabled>▬▬"𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲"▬▬</option>-->
 
-            <optgroup label="▬▬𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲▬▬">
+            <optgroup label="▬𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲▬">
                 <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
                 <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
                 <option value="CERRADO PERMANENTE">Cerrado Por Extorsión</option>
@@ -160,14 +160,14 @@
             </optgroup>
 
            <!-- <option disabled>▬▬"𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀"▬▬</option>-->
-            <optgroup label="▬▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀▬▬">
+            <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀▬">
                 <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
                 <option value="NO PERMITEN CELULARES">Políticas no permiten celular</option>
             </optgroup>
 
             <!--<option disabled>▬▬"𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼"▬▬</option>-->
 
-            <optgroup label="▬▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼▬▬">
+            <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼▬">
                 <option value="OCUPADO">Ocupado (Atendiendo clientes)</option>
                 <option value="EL ENCARGADO NO ESTA">No esta el responsable y el se encarga de todo</option>
                 <option value="NO ATENDIERON">Nadie salió a atender</option>
@@ -196,6 +196,22 @@
     function validarNIT(input) {
         input.value = input.value.replace(/[^0-9]/g, '');
     }
+    // 1. Seleccionamos nuestro menú desplegable por su ID
+    const selectMotivo = document.getElementById('motivo_pendiente');
+
+    // 2. Escuchamos cada vez que el usuario cambie su selección
+    selectMotivo.addEventListener('change', function() {
+    
+    // Así es como capturas el VALOR (lo que ya estabas haciendo)
+    const valorSeleccionado = this.value; 
+    
+    // ASÍ ES COMO CAPTURAS EL TEXTO VISIBLE:
+    // Explicación: Buscamos dentro de las opciones (options), 
+    // la que está seleccionada actualmente (selectedIndex) 
+    // y extraemos su texto (.text)
+    const textoSeleccionado = this.options[this.selectedIndex].text;
+    });
+
     const tg = window.Telegram.WebApp;
     tg.expand(); // Expande la Mini App a pantalla completa
 
@@ -297,7 +313,7 @@
             telefono: telefono,
             estado_visita: estado,
             motivo: "",
-            observaciones: document.getElementById("observaciones").value.trim(),
+            observaciones: `${textoSeleccionado} - ${document.getElementById("observaciones").value.trim()}`,
             intento: "1",
             respuesta_ia: ""
         };
