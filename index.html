@@ -6,26 +6,89 @@
     <title>Encuesta Cámara de Comercio</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: var(--tg-theme-bg-color, #f4f4f9); color: var(--tg-theme-text-color, #333); margin: 0; padding: 15px; }
-        .container { background: var(--tg-theme-secondary-bg-color, #ffffff); border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto; }
-        h2 { text-align: center; color: #0056b3; margin-top: 0; }
-        label { font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; background-color: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); }
-        input[readonly], select[readonly] { background-color: #e9ecef; color: #495057; pointer-events: none; }
-        .btn { background-color: #0056b3; color: white; padding: 12px; border: none; border-radius: 5px; width: 100%; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-        .btn-search { background-color: #28a745; margin-top: 10px; }
-        .hidden { display: none; }
-        .badge { display: inline-block; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; margin-top: 10px; text-align: center; width: 100%; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #f4f4f9);
+            color: var(--tg-theme-text-color, #333);
+            margin: 0;
+            padding: 15px;
+        }
+        .container {
+            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+            color: #0056b3;
+            margin-top: 0;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+        }
+        input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .btn {
+            background-color: #0056b3;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn-search {
+            background-color: #28a745;
+            margin-top: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
         .badge-base { background-color: #d4edda; color: #155724; }
         .badge-nuevo { background-color: #cce5ff; color: #004085; }
-        .section-divider { border-top: 2px dashed #ccc; margin: 20px 0; }
-        .alerta-historial { background-color: #fff3cd; color: #856404; padding: 10px; border-left: 5px solid #ffeeba; margin-top: 10px; font-size: 13px; border-radius: 4px; }
+        .section-divider {
+            border-top: 2px dashed #ccc;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>📊 Auditoría CCB</h2>
+    <h2>📊 Plataforma de registro para actividad CCB</h2>
 
     <label for="ruta">📍 Ruta Asignada</label>
     <select id="ruta" required>
@@ -44,247 +107,159 @@
 
     <label for="nit">🔍 NIT del negocio o Cédula</label>
     <input type="number" id="nit" placeholder="Ej: 900123456" oninput="validarNIT(this)" required>
-    <button type="button" class="btn btn-search" id="btn-buscar" onclick="buscarNIT()">Buscar Local</button>
+    <button type="button" class="btn btn-search" onclick="buscarNIT()">Buscar Local</button>
 
     <div id="badge-container" class="hidden">
         <span id="badge-tipo" class="badge"></span>
     </div>
 
-    <div id="bloque-sucursales" class="hidden">
-        <label for="selector_sucursal">🏢 Seleccione el local físico:</label>
-        <select id="selector_sucursal" onchange="seleccionarSucursal()"></select>
-        <div id="alerta-historial" class="alerta-historial hidden"></div>
-    </div>
-
     <div id="datos-negocio" class="hidden">
-        <label>Razón social / Nombre Comercial</label>
+        <label>Razón social</label>
         <input type="text" id="nombre_negocio" placeholder="Nombre comercial" required>
 
-        <label>Dirección</label>
+        <label>Dirección </label>
         <input type="text" id="direccion" placeholder="Dirección exacta" required>
 
         <label>Teléfono</label>
         <input type="tel" id="telefono" placeholder="Número de contacto" required>
+
     </div>
 
     <div class="section-divider"></div>
 
-    <div id="formulario-auditoria" class="hidden">
-        <label for="estado_visita">📋 Estado de la Visita</label>
-        <select id="estado_visita" onchange="gestionarEstados()" required>
-            <option value="">Seleccione un estado...</option>
-            <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
-            <option value="NO-EFECTIVA">❌ No Efectiva</option>
+    <label for="estado_visita">📋 Estado de la Visita</label>
+    <select id="estado_visita" onchange="gestionarEstados()" required>
+        <option value="">Seleccione un estado...</option>
+        <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
+        <option value="NO-EFECTIVA">❌ No Efectiva</option>
+    </select>
+
+    <div id="bloque-efectiva" class="hidden">
+        <label for="respuesta_ia">¿Qué opción eligió en WhatsApp?</label>
+        <select id="respuesta_ia">
+            <option value="">Seleccione la respuesta...</option>
+            <option value="Atención en WhatsApp">A. Atención en WhatsApp</option>
+            <option value="Crear fotos y videos">B. Crear fotos y videos</option>
+            <option value="Organizar finanzas">C. Organizar finanzas</option>
+        </select>
+    </div>
+
+    <div id="bloque-pendiente" class="hidden">
+        <label for="motivo_pendiente">¿Motivo de la no efectividad?</label>
+        <select id="motivo_pendiente">
+            <option value="">Seleccione el motivo...</option>
+
+            <!--<option disabled>▬▬"𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲"▬▬</option>-->
+
+            <optgroup label="▬𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲▬">
+                <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
+                <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
+                <option value="CERRADO PERMANENTE">Cerrado Por Extorsión</option>
+                <option value="CERRADO PERMANENTE">Otro Negocio en el Lugar</option>
+            </optgroup>
+
+           <!-- <option disabled>▬▬"𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀"▬▬</option>-->
+            <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀▬">
+                <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
+                <option value="NO PERMITEN CELULARES">Políticas no permiten celular</option>
+            </optgroup>
+
+            <!--<option disabled>▬▬"𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼"▬▬</option>-->
+
+            <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼▬">
+                <option value="OCUPADO">Ocupado (Atendiendo clientes)</option>
+                <option value="EL ENCARGADO NO ESTA">No esta el responsable y el se encarga de todo</option>
+                <option value="NO ATENDIERON">Nadie salió a atender</option>
+                <option value="RECHAZO">No le interesa, rechazó la información</option>
+                <option value="REPORTA EXTORSION">No quiso atender, reporto extorsión</option>
+                <option value="CERRADO HORARIO">Cerrado por horario</option>
+                <option value="REPROGRAMADO">Ocupado - reprogramó visita</option>
+            </optgroup>  
         </select>
 
-        <div id="bloque-efectiva" class="hidden">
-            <label for="respuesta_ia">¿Qué opción eligió en WhatsApp?</label>
-            <select id="respuesta_ia">
-                <option value="">Seleccione la respuesta...</option>
-                <option value="A">A. Responder mensajes / WhatsApp</option>
-                <option value="B">B. Crear fotos / publicidad</option>
-                <option value="C">C. Organizar cuentas / inventarios</option>
-                <option value="D">D. Todavía no la uso (Curiosidad)</option>
-            </select>
-        </div>
+        <label for="observaciones">📝 Observaciones (Opcional)</label>
+        <textarea id="observaciones" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
 
-        <div id="bloque-pendiente" class="hidden">
-            <label for="motivo_pendiente">¿Motivo de la no efectividad?</label>
-            <select id="motivo_pendiente">
-                <option value="">Seleccione el motivo...</option>
-                <optgroup label="▬𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲▬">
-                    <option value="NO EXISTE">Cerrado No Existe</option>
-                    <option value="TRASLADO">Cerrado Se Trasladó</option>
-                    <option value="EXTORSION">Cerrado Por Extorsión</option>
-                    <option value="OTRO NEGOCIO">Otro Negocio en el Lugar</option>
-                </optgroup>
-                <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀▬">
-                    <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
-                    <option value="NO PERMITEN CELULARES">Políticas no permiten celular</option>
-                </optgroup>
-                <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼▬">
-                    <option value="OCUPADO">Ocupado (Atendiendo clientes)</option>
-                    <option value="EL ENCARGADO NO ESTA">No esta el responsable</option>
-                    <option value="NO ATENDIERON">Nadie salió a atender</option>
-                    <option value="RECHAZO">No le interesa, rechazó la información</option>
-                    <option value="CERRADO HORARIO">Cerrado por horario</option>
-                    <option value="REPROGRAMADO">Ocupado - reprogramó visita</option>
-                </optgroup>  
-            </select>
-
-            <label for="observaciones">📝 Observaciones (Opcional)</label>
-            <textarea id="observaciones" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
-
-            <label for="intento">Número de Intento</label>
-            <select id="intento">
-                <option value="1">Intento 1</option>
-                <option value="2">Intento 2</option>
-            </select>
-        </div>
-
-        <button type="button" class="btn" onclick="enviarDatos()">📤 Enviar Registro</button>
+        <label for="intento">Número de Intento</label>
+        <select id="intento">
+            <option value="1">Intento 1</option>
+            <option value="2">Intento 2</option>
+        </select>
     </div>
+
+    <button type="button" class="btn" onclick="enviarDatos()">📤 Enviar Registro</button>
 </div>
 
 <script>
+    // Función para evitar que escriban letras, puntos, guiones o la letra 'e'
     function validarNIT(input) {
         input.value = input.value.replace(/[^0-9]/g, '');
     }
 
     const tg = window.Telegram.WebApp;
-    tg.expand(); 
+    tg.expand(); // Expande la Mini App a pantalla completa
 
+    let baseDatos = {};
     let tipoRegistroActual = "";
-    let listaSucursales = []; // Aquí guardaremos la respuesta de la API
-    let matriculaSeleccionada = ""; 
 
-    // IMPORTANTE: URL DE TU API. 
-    // Por ahora apunta a localhost para tus pruebas. 
-    // Luego la cambiaremos por https://api.tudominio.com/...
-    // "http://localhost:8000/api/v1/buscar_nit/"
-    const API_URL = "https://api.goump.com/api/v1/buscar_nit/";
+    // Cargar la base de datos al iniciar
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => baseDatos = data)
+        .catch(error => console.error("Error cargando data.json. Si estás probando localmente, puede fallar por CORS.", error));
 
-    async function buscarNIT() {
+    function buscarNIT() {
         const nit = document.getElementById("nit").value.trim();
-        if (!nit) { tg.showAlert("Por favor, ingrese un NIT o Cédula."); return; }
-
-        const btn = document.getElementById("btn-buscar");
-        btn.innerText = "Buscando...";
-        btn.disabled = true;
-
-        // Ocultar bloques por defecto
-        document.getElementById("badge-container").classList.add("hidden");
-        document.getElementById("bloque-sucursales").classList.add("hidden");
-        document.getElementById("datos-negocio").classList.add("hidden");
-        document.getElementById("formulario-auditoria").classList.add("hidden");
-        document.getElementById("alerta-historial").classList.add("hidden");
-
-        try {
-            const response = await fetch(API_URL + nit);
-            
-            if (response.status === 404) {
-                // NEGOCIO NUEVO
-                prepararNegocioNuevo();
-            } else if (response.ok) {
-                // NEGOCIO EN BASE DE DATOS
-                const data = await response.json();
-                prepararNegocioBase(data.sucursales);
-            } else {
-                tg.showAlert("Ocurrió un error consultando la base de datos.");
-            }
-        } catch (error) {
-            tg.showAlert("No se pudo conectar con el servidor. Revise su conexión o contacte soporte.");
-            console.error(error);
-        } finally {
-            btn.innerText = "Buscar Local";
-            btn.disabled = false;
-        }
-    }
-
-    function prepararNegocioNuevo() {
-        tipoRegistroActual = "NUEVO";
-        matriculaSeleccionada = "NUEVO"; // Identificador para el bot
-
-        const badgeTipo = document.getElementById("badge-tipo");
-        badgeTipo.className = "badge badge-nuevo";
-        badgeTipo.innerText = "🔵 Negocio Nuevo (Por favor diligencie los datos)";
-        document.getElementById("badge-container").classList.remove("hidden");
-
-        document.getElementById("nombre_negocio").value = "";
-        document.getElementById("direccion").value = "";
-        document.getElementById("telefono").value = "";
-        
-        document.getElementById("nombre_negocio").readOnly = false;
-        document.getElementById("direccion").readOnly = false;
-        
-        document.getElementById("datos-negocio").classList.remove("hidden");
-        document.getElementById("formulario-auditoria").classList.remove("hidden");
-    }
-
-    function prepararNegocioBase(sucursales) {
-        tipoRegistroActual = "BASE";
-        listaSucursales = sucursales;
-
-        const badgeTipo = document.getElementById("badge-tipo");
-        badgeTipo.className = "badge badge-base";
-        badgeTipo.innerText = "✔ Negocio en Base de Datos";
-        document.getElementById("badge-container").classList.remove("hidden");
-
-        const selector = document.getElementById("selector_sucursal");
-        selector.innerHTML = '<option value="">Seleccione la sede que está visitando...</option>';
-
-        // Poblar el menú desplegable con semáforos
-        sucursales.forEach(suc => {
-            let icono = "🟢"; // PENDIENTE
-            let disableAttr = "";
-            let textoAdicional = "";
-
-            if (suc.estado_auditoria === "EFECTIVA") {
-                icono = "🔴"; // BLOQUEADO
-                disableAttr = "disabled";
-                textoAdicional = " (Ya encuestado)";
-            } else if (suc.estado_auditoria === "NO-EFECTIVA") {
-                icono = "🟡"; // REINTENTO
-                textoAdicional = " (Reintento)";
-            }
-
-            const opcion = `<option value="${suc.matricula}" ${disableAttr}>
-                ${icono} ${suc.nombre_comercial} - ${suc.direccion} ${textoAdicional}
-            </option>`;
-            selector.innerHTML += opcion;
-        });
-
-        document.getElementById("bloque-sucursales").classList.remove("hidden");
-
-        // Si solo hay una sucursal, la auto-seleccionamos
-        if (sucursales.length === 1) {
-            selector.selectedIndex = 1;
-            seleccionarSucursal(); 
-        }
-    }
-
-    function seleccionarSucursal() {
-        const selector = document.getElementById("selector_sucursal");
-        matriculaSeleccionada = selector.value;
-        const alertaHistorial = document.getElementById("alerta-historial");
-
-        if (!matriculaSeleccionada) {
-            document.getElementById("datos-negocio").classList.add("hidden");
-            document.getElementById("formulario-auditoria").classList.add("hidden");
-            alertaHistorial.classList.add("hidden");
+        if (!nit) {
+            tg.showAlert("Por favor, ingrese un NIT o Cédula.");
             return;
         }
 
-        // Buscar los datos de la sucursal seleccionada
-        const sucursal = listaSucursales.find(s => s.matricula === matriculaSeleccionada);
+        const datos = baseDatos[nit];
+        const badgeContainer = document.getElementById("badge-container");
+        const badgeTipo = document.getElementById("badge-tipo");
+        const divDatos = document.getElementById("datos-negocio");
 
-        document.getElementById("nombre_negocio").value = sucursal.nombre_comercial || "";
-        document.getElementById("direccion").value = sucursal.direccion || "";
-        document.getElementById("telefono").value = sucursal.telefono || "";
+        divDatos.classList.remove("hidden");
+        badgeContainer.classList.remove("hidden");
 
-        // Bloquear campos para evitar ediciones accidentales
-        document.getElementById("nombre_negocio").readOnly = true;
-        document.getElementById("direccion").readOnly = true;
+        if (datos) {
+            // Es un negocio registrado
+            tipoRegistroActual = "BASE";
+            badgeTipo.className = "badge badge-base";
+            badgeTipo.innerText = "✔ Negocio en Base de Datos";
 
-        // Mostrar alerta si hay historial previo (El superpoder del Intento 2)
-        if (sucursal.ultima_observacion) {
-            alertaHistorial.innerHTML = `<b>ℹ️ Nota de visita anterior:</b> <br> "${sucursal.ultima_observacion}"`;
-            alertaHistorial.classList.remove("hidden");
-            document.getElementById("intento").value = "2"; // Autoseleccionar intento 2
+            document.getElementById("nombre_negocio").value = datos.nombre_negocio || "";
+            document.getElementById("direccion").value = datos.direccion || "";
+            document.getElementById("telefono").value = datos.telefono || "";
+
+            // Opcional: Bloquear campos para que no los editen accidentalmente
+            document.getElementById("nombre_negocio").readOnly = true;
+            document.getElementById("direccion").readOnly = true;
         } else {
-            alertaHistorial.classList.add("hidden");
-            document.getElementById("intento").value = "1";
-        }
+            // Es un negocio nuevo
+            tipoRegistroActual = "NUEVO";
+            badgeTipo.className = "badge badge-nuevo";
+            badgeTipo.innerText = "🔵 Negocio Nuevo (Por favor diligencie los datos)";
 
-        document.getElementById("datos-negocio").classList.remove("hidden");
-        document.getElementById("formulario-auditoria").classList.remove("hidden");
+            // Limpiar y habilitar campos
+            document.getElementById("nombre_negocio").value = "";
+            document.getElementById("direccion").value = "";
+            document.getElementById("telefono").value = "";
+            
+            document.getElementById("nombre_negocio").readOnly = false;
+            document.getElementById("direccion").readOnly = false;
+        }
     }
 
     function gestionarEstados() {
         const estado = document.getElementById("estado_visita").value;
+        
+        // Ocultar todos primero
         document.getElementById("bloque-efectiva").classList.add("hidden");
         document.getElementById("bloque-pendiente").classList.add("hidden");
 
+        // Mostrar según selección
         if (estado === "EFECTIVA") {
             document.getElementById("bloque-efectiva").classList.remove("hidden");
         } else if (estado === "NO-EFECTIVA") {
@@ -297,20 +272,29 @@
         const nit = document.getElementById("nit").value.trim();
         const estado = document.getElementById("estado_visita").value;
 
+        // Validaciones básicas
         if (!ruta || !nit || !estado || !tipoRegistroActual) {
-            tg.showAlert("Por favor complete todos los campos obligatorios.");
+            tg.showAlert("Por favor complete la Ruta, el NIT, realice la búsqueda y seleccione un Estado de Visita.");
             return;
         }
 
-        // EL PAYLOAD AHORA INCLUYE LA MATRICULA
+        let nombre = document.getElementById("nombre_negocio").value;
+        let direccion = document.getElementById("direccion").value;
+        let telefono = document.getElementById("telefono").value;
+
+        if(!nombre || !direccion) {
+            tg.showAlert("Debe llenar al menos el Nombre del Negocio y la Dirección.");
+            return;
+        }
+
+        // Construir el objeto a enviar a Python
         let payload = {
             ruta: ruta,
             nit: nit,
-            matricula: matriculaSeleccionada, // <--- DATO CLAVE NUEVO
             tipo_registro: tipoRegistroActual,
-            nombre_negocio: document.getElementById("nombre_negocio").value,
-            direccion: document.getElementById("direccion").value,
-            telefono: document.getElementById("telefono").value,
+            nombre_negocio: nombre,
+            direccion: direccion,
+            telefono: telefono,
             estado_visita: estado,
             motivo: "",
             observaciones: document.getElementById("observaciones").value.trim(),
@@ -318,6 +302,7 @@
             respuesta_ia: ""
         };
 
+        // Extraer datos específicos según el estado
         if (estado === "EFECTIVA") {
             const resp = document.getElementById("respuesta_ia").value;
             if (!resp) { tg.showAlert("Seleccione la respuesta de WhatsApp."); return; }
@@ -326,16 +311,36 @@
         } else if (estado === "NO-EFECTIVA") {
             const selectMotivo = document.getElementById("motivo_pendiente");
             const motivoValue = selectMotivo.value;
-            if (!motivoValue) { tg.showAlert("Seleccione el motivo."); return; }
+            const intento = document.getElementById("intento").value;
             
+            if (!motivoValue) { 
+                tg.showAlert("Seleccione el motivo de la no efectividad."); 
+                return; 
+            }
+
+            // 1. Capturamos el texto visible de la opción elegida (Ej: "Cerrado No Existe")
             const textoMotivo = selectMotivo.options[selectMotivo.selectedIndex].text;
-            const obsManual = document.getElementById("observaciones").value.trim();
             
-            payload.motivo = motivoValue; 
-            payload.observaciones = obsManual === "" ? textoMotivo : textoMotivo + " - " + obsManual;
-            payload.intento = document.getElementById("intento").value;
+            // 2. Capturamos lo que el encuestador escribió a mano
+            const obsManual = document.getElementById("observaciones").value.trim();
+
+            // 3. Lógica para concatenar sin dejar guiones feos sueltos
+            let observacionFinal = "";
+            if (obsManual === "") {
+                // Si no escribió nada, la observación es solo el texto del motivo
+                observacionFinal = textoMotivo;
+            } else {
+                // Si escribió algo, unimos ambos con el guion
+                observacionFinal = textoMotivo + " - " + obsManual;
+            }
+
+            // 4. Inyectamos los datos pulidos al payload
+            payload.motivo = motivoValue; // Guarda la categoría macro para el Excel
+            payload.observaciones = observacionFinal; // Guarda el detalle concatenado
+            payload.intento = intento;
         }
 
+        // Enviar datos al bot de Telegram y cerrar la app
         tg.sendData(JSON.stringify(payload));
     }
 </script>
