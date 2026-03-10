@@ -6,260 +6,480 @@
     <title>Encuesta Cámara de Comercio</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+        :root {
+            --bg: var(--tg-theme-bg-color, #f0f2f5);
+            --card: var(--tg-theme-secondary-bg-color, #ffffff);
+            --text: var(--tg-theme-text-color, #1a1d23);
+            --subtle: #6b7280;
+            --border: #e5e7eb;
+            --blue: #1d4ed8;
+            --blue-light: #eff6ff;
+            --green: #15803d;
+            --green-light: #f0fdf4;
+            --orange: #c2410c;
+            --orange-light: #fff7ed;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #f4f4f9);
-            color: var(--tg-theme-text-color, #333);
-            margin: 0;
-            padding: 15px;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 12px;
+            min-height: 100vh;
         }
+
         .container {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 400px;
+            max-width: 420px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        h2 {
-            text-align: center;
-            color: #0056b3;
-            margin-top: 0;
+
+        /* ── HEADER ── */
+        .header {
+            background: var(--blue);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            color: white;
         }
+        .header h2 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+        .header p {
+            font-size: 12px;
+            opacity: 0.75;
+            margin-top: 3px;
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--subtle);
+            margin-bottom: 12px;
+        }
+
+        /* ── FORM ELEMENTS ── */
         label {
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
             display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin-bottom: 6px;
         }
-        input, select {
+
+        input, select, textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
+            padding: 10px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
             font-size: 14px;
-            background-color: var(--tg-theme-bg-color, #fff);
-            color: var(--tg-theme-text-color, #000);
+            background: var(--bg);
+            color: var(--text);
+            transition: border-color 0.15s;
+            outline: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--blue);
         }
         input[readonly] {
-            background-color: #e9ecef;
-            color: #495057;
+            background: var(--border);
+            color: var(--subtle);
+            cursor: default;
         }
+
+        .field { margin-bottom: 12px; }
+        .field:last-child { margin-bottom: 0; }
+
+        /* ── SEARCH ROW ── */
+        .search-row {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        .search-row .field { flex: 1; margin-bottom: 0; }
+
+        /* ── BUTTONS ── */
         .btn {
-            background-color: #0056b3;
-            color: white;
-            padding: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
             border: none;
-            border-radius: 5px;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            margin-top: 20px;
+            padding: 11px 16px;
+            transition: opacity 0.15s, transform 0.1s;
+            white-space: nowrap;
         }
-        .btn-search {
-            background-color: #28a745;
-            margin-top: 10px;
+        .btn:active { transform: scale(0.97); opacity: 0.85; }
+        .btn-search { background: #16a34a; color: white; }
+        .btn-primary { background: var(--blue); color: white; width: 100%; padding: 13px; font-size: 15px; border-radius: var(--radius); }
+
+        /* ── LOCAL LIST (selector de sucursales) ── */
+        .locales-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        .hidden {
-            display: none;
+
+        .local-card {
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+            background: var(--bg);
         }
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 15px;
+        .local-card:hover { border-color: var(--blue); background: var(--blue-light); }
+        .local-card.selected {
+            border-color: var(--blue);
+            background: var(--blue-light);
+        }
+        .local-card .local-nombre {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .local-card .local-dir {
             font-size: 12px;
-            font-weight: bold;
-            margin-top: 10px;
-            text-align: center;
-            width: 100%;
-            box-sizing: border-box;
+            color: var(--subtle);
+            margin-top: 3px;
+            font-family: 'DM Mono', monospace;
         }
-        .badge-base { background-color: #d4edda; color: #155724; }
-        .badge-nuevo { background-color: #cce5ff; color: #004085; }
-        .section-divider {
-            border-top: 2px dashed #ccc;
-            margin: 20px 0;
+        .local-card .local-mat {
+            font-size: 11px;
+            color: var(--blue);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* ── BADGE ── */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .badge-base { background: var(--green-light); color: var(--green); }
+        .badge-nuevo { background: var(--blue-light); color: var(--blue); }
+
+        /* ── HIDDEN ── */
+        .hidden { display: none !important; }
+
+        /* ── DIVIDER ── */
+        .divider {
+            height: 1px;
+            background: var(--border);
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <h2>📊 Plataforma de registro para actividad CCB</h2>
 
-    <label for="ruta">📍 Ruta Asignada</label>
-    <select id="ruta" required>
-        <option value="">Seleccione su ruta...</option>
-        <option value="Ruta 1">Ruta 1</option>
-        <option value="Ruta 2">Ruta 2</option>
-        <option value="Ruta 3">Ruta 3</option>
-        <option value="Ruta 4">Ruta 4</option>
-        <option value="Ruta 5">Ruta 5</option>
-        <option value="Ruta 6">Ruta 6</option>
-        <option value="Ruta 7">Ruta 7</option>
-        <option value="Ruta 8">Ruta 8</option>
-    </select>
-
-    <div class="section-divider"></div>
-
-    <label for="nit">🔍 NIT del negocio o Cédula</label>
-    <input type="number" id="nit" placeholder="Ej: 900123456" oninput="validarNIT(this)" required>
-    <button type="button" class="btn btn-search" onclick="buscarNIT()">Buscar Local</button>
-
-    <div id="badge-container" class="hidden">
-        <span id="badge-tipo" class="badge"></span>
+    <!-- HEADER -->
+    <div class="header">
+        <h2>📊 Plataforma de Registro CCB</h2>
+        <p>Cámara de Comercio de Barranquilla</p>
     </div>
 
-    <div id="datos-negocio" class="hidden">
-        <label>Razón social</label>
-        <input type="text" id="nombre_negocio" placeholder="Nombre comercial" required>
-
-        <label>Dirección </label>
-        <input type="text" id="direccion" placeholder="Dirección exacta" required>
-
-        <label>Teléfono</label>
-        <input type="tel" id="telefono" placeholder="Número de contacto" required>
-
+    <!-- RUTA -->
+    <div class="card">
+        <div class="card-title">📍 Asignación</div>
+        <div class="field">
+            <label for="ruta">Ruta Asignada</label>
+            <select id="ruta" required>
+                <option value="">Seleccione su ruta...</option>
+                <option value="Ruta 1">Ruta 1</option>
+                <option value="Ruta 2">Ruta 2</option>
+                <option value="Ruta 3">Ruta 3</option>
+                <option value="Ruta 4">Ruta 4</option>
+                <option value="Ruta 5">Ruta 5</option>
+                <option value="Ruta 6">Ruta 6</option>
+                <option value="Ruta 7">Ruta 7</option>
+                <option value="Ruta 8">Ruta 8</option>
+            </select>
+        </div>
     </div>
 
-    <div class="section-divider"></div>
-
-    <label for="estado_visita">📋 Estado de la Visita</label>
-    <select id="estado_visita" onchange="gestionarEstados()" required>
-        <option value="">Seleccione un estado...</option>
-        <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
-        <option value="NO-EFECTIVA">❌ No Efectiva</option>
-    </select>
-
-    <div id="bloque-efectiva" class="hidden">
-        <label for="respuesta_ia">¿Qué opción eligió en WhatsApp?</label>
-        <select id="respuesta_ia">
-            <option value="">Seleccione la respuesta...</option>
-            <option value="Atención en WhatsApp">A. Atención en WhatsApp</option>
-            <option value="Crear fotos y videos">B. Crear fotos y videos</option>
-            <option value="Organizar finanzas">C. Organizar finanzas</option>
-        </select>
+    <!-- BÚSQUEDA POR NIT -->
+    <div class="card">
+        <div class="card-title">🔍 Búsqueda</div>
+        <div class="search-row">
+            <div class="field">
+                <label for="nit">NIT del negocio o Cédula</label>
+                <input type="number" id="nit" placeholder="Ej: 900123456" oninput="validarNIT(this)">
+            </div>
+            <button type="button" class="btn btn-search" onclick="buscarNIT()">Buscar</button>
+        </div>
     </div>
 
-    <div id="bloque-pendiente" class="hidden">
-        <label for="motivo_pendiente">¿Motivo de la no efectividad?</label>
-        <select id="motivo_pendiente">
-            <option value="">Seleccione el motivo...</option>
-
-            <!--<option disabled>▬▬"𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲"▬▬</option>-->
-
-            <optgroup label="▬𝗡𝗲𝗴𝗼𝗰𝗶𝗼 𝗖𝗲𝗿𝗿𝗮𝗱𝗼 / 𝗜𝗻𝗲𝘅𝗶𝘀𝘁𝗲𝗻𝘁𝗲▬">
-                <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
-                <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
-                <option value="CERRADO PERMANENTE">Cerrado Por Extorsión</option>
-                <option value="CERRADO PERMANENTE">Otro Negocio en el Lugar</option>
-            </optgroup>
-
-           <!-- <option disabled>▬▬"𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀"▬▬</option>-->
-            <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗨𝗯𝗶𝗰𝗮𝗰𝗶𝗼́𝗻 𝗼 𝗣𝗼𝗹𝗶́𝘁𝗶𝗰𝗮𝘀▬">
-                <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
-                <option value="NO PERMITEN CELULARES">Políticas no permiten celular</option>
-            </optgroup>
-
-            <!--<option disabled>▬▬"𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼"▬▬</option>-->
-
-            <optgroup label="▬𝗣𝗿𝗼𝗯𝗹𝗲𝗺𝗮𝘀 𝗱𝗲 𝗔𝘁𝗲𝗻𝗰𝗶𝗼́𝗻 / 𝗖𝗼𝗻𝘁𝗮𝗰𝘁𝗼▬">
-                <option value="OCUPADO">Ocupado (Atendiendo clientes)</option>
-                <option value="EL ENCARGADO NO ESTA">No esta el responsable y el se encarga de todo</option>
-                <option value="NO ATENDIERON">Nadie salió a atender</option>
-                <option value="RECHAZO">No le interesa, rechazó la información</option>
-                <option value="REPORTA EXTORSION">No quiso atender, reporto extorsión</option>
-                <option value="CERRADO HORARIO">Cerrado por horario</option>
-                <option value="REPROGRAMADO">Ocupado - reprogramó visita</option>
-            </optgroup>  
-        </select>
-
-        <label for="observaciones">📝 Observaciones (Opcional)</label>
-        <textarea id="observaciones" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
-
-        <label for="intento">Número de Intento</label>
-        <select id="intento">
-            <option value="1">Intento 1</option>
-            <option value="2">Intento 2</option>
-        </select>
+    <!-- SELECTOR DE LOCALES (cuando hay múltiples) -->
+    <div class="card hidden" id="card-locales">
+        <div class="card-title" id="locales-titulo">🏢 Locales encontrados</div>
+        <div class="locales-list" id="locales-list"></div>
     </div>
 
-    <button type="button" class="btn" onclick="enviarDatos()">📤 Enviar Registro</button>
+    <!-- DATOS DEL LOCAL SELECCIONADO -->
+    <div class="card hidden" id="card-datos">
+        <div id="badge-container"></div>
+        <div class="card-title">🏪 Datos del Local</div>
+
+        <div class="field">
+            <label>Razón Social</label>
+            <input type="text" id="nombre_negocio" placeholder="Nombre comercial" required>
+        </div>
+        <div class="field">
+            <label>Dirección</label>
+            <input type="text" id="direccion" placeholder="Dirección exacta" required>
+        </div>
+        <div class="field">
+            <label>Teléfono</label>
+            <input type="tel" id="telefono" placeholder="Número de contacto">
+        </div>
+    </div>
+
+    <!-- ESTADO DE VISITA -->
+    <div class="card hidden" id="card-estado">
+        <div class="card-title">📋 Estado de la Visita</div>
+
+        <div class="field">
+            <label for="estado_visita">Estado</label>
+            <select id="estado_visita" onchange="gestionarEstados()" required>
+                <option value="">Seleccione un estado...</option>
+                <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
+                <option value="NO-EFECTIVA">❌ No Efectiva</option>
+            </select>
+        </div>
+
+        <!-- Bloque Efectiva -->
+        <div id="bloque-efectiva" class="hidden">
+            <div class="divider" style="margin: 12px 0;"></div>
+            <div class="field">
+                <label for="respuesta_ia">¿Qué opción eligió en WhatsApp?</label>
+                <select id="respuesta_ia">
+                    <option value="">Seleccione la respuesta...</option>
+                    <option value="Atención en WhatsApp">A. Atención en WhatsApp</option>
+                    <option value="Crear fotos y videos">B. Crear fotos y videos</option>
+                    <option value="Organizar finanzas">C. Organizar finanzas</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bloque No Efectiva -->
+        <div id="bloque-pendiente" class="hidden">
+            <div class="divider" style="margin: 12px 0;"></div>
+            <div class="field">
+                <label for="motivo_pendiente">Motivo de la no efectividad</label>
+                <select id="motivo_pendiente">
+                    <option value="">Seleccione el motivo...</option>
+                    <optgroup label="▬ Negocio Cerrado / Inexistente ▬">
+                        <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
+                        <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
+                        <option value="CERRADO PERMANENTE">Cerrado Por Extorsión</option>
+                        <option value="CERRADO PERMANENTE">Otro Negocio en el Lugar</option>
+                    </optgroup>
+                    <optgroup label="▬ Problemas de Ubicación o Políticas ▬">
+                        <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
+                        <option value="NO PERMITEN CELULARES">Políticas no permiten celular</option>
+                    </optgroup>
+                    <optgroup label="▬ Problemas de Atención / Contacto ▬">
+                        <option value="OCUPADO">Ocupado (Atendiendo clientes)</option>
+                        <option value="EL ENCARGADO NO ESTA">No está el responsable</option>
+                        <option value="NO ATENDIERON">Nadie salió a atender</option>
+                        <option value="RECHAZO">No le interesa, rechazó la información</option>
+                        <option value="REPORTA EXTORSION">No quiso atender, reportó extorsión</option>
+                        <option value="CERRADO HORARIO">Cerrado por horario</option>
+                        <option value="REPROGRAMADO">Ocupado - reprogramó visita</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="observaciones">📝 Observaciones (Opcional)</label>
+                <textarea id="observaciones" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
+            </div>
+
+            <div class="field">
+                <label for="intento">Número de Intento</label>
+                <select id="intento">
+                    <option value="1">Intento 1</option>
+                    <option value="2">Intento 2</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN ENVIAR -->
+    <button type="button" class="btn btn-primary hidden" id="btn-enviar" onclick="enviarDatos()">
+        📤 Enviar Registro
+    </button>
+
 </div>
 
 <script>
-    // Función para evitar que escriban letras, puntos, guiones o la letra 'e'
     function validarNIT(input) {
         input.value = input.value.replace(/[^0-9]/g, '');
     }
 
     const tg = window.Telegram.WebApp;
-    tg.expand(); // Expande la Mini App a pantalla completa
+    tg.expand();
 
-    let baseDatos = {};
+    let baseDatos = { locales: {}, nit_index: {} };
     let tipoRegistroActual = "";
+    let localSeleccionado = null; // matrícula del local activo
 
-    // Cargar la base de datos al iniciar
     fetch('data.json')
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => baseDatos = data)
-        .catch(error => console.error("Error cargando data.json. Si estás probando localmente, puede fallar por CORS.", error));
+        .catch(e => console.error("Error cargando data.json:", e));
 
     function buscarNIT() {
         const nit = document.getElementById("nit").value.trim();
-        if (!nit) {
-            tg.showAlert("Por favor, ingrese un NIT o Cédula.");
-            return;
-        }
+        if (!nit) { tg.showAlert("Por favor, ingrese un NIT o Cédula."); return; }
 
-        const datos = baseDatos[nit];
-        const badgeContainer = document.getElementById("badge-container");
-        const badgeTipo = document.getElementById("badge-tipo");
-        const divDatos = document.getElementById("datos-negocio");
+        // Resetear estado anterior
+        localSeleccionado = null;
+        tipoRegistroActual = "";
+        ocultarSeccionesDatos();
 
-        divDatos.classList.remove("hidden");
-        badgeContainer.classList.remove("hidden");
+        const matriculas = baseDatos.nit_index[nit];
 
-        if (datos) {
-            // Es un negocio registrado
-            tipoRegistroActual = "BASE";
-            badgeTipo.className = "badge badge-base";
-            badgeTipo.innerText = "✔ Negocio en Base de Datos";
-
-            document.getElementById("nombre_negocio").value = datos.nombre_negocio || "";
-            document.getElementById("direccion").value = datos.direccion || "";
-            document.getElementById("telefono").value = datos.telefono || "";
-
-            // Opcional: Bloquear campos para que no los editen accidentalmente
-            document.getElementById("nombre_negocio").readOnly = true;
-            document.getElementById("direccion").readOnly = true;
+        if (!matriculas || matriculas.length === 0) {
+            // NIT no encontrado → negocio nuevo
+            mostrarLocalNuevo(nit);
+        } else if (matriculas.length === 1) {
+            // Un solo local → mostrar directamente
+            seleccionarLocal(matriculas[0], true);
         } else {
-            // Es un negocio nuevo
-            tipoRegistroActual = "NUEVO";
-            badgeTipo.className = "badge badge-nuevo";
-            badgeTipo.innerText = "🔵 Negocio Nuevo (Por favor diligencie los datos)";
-
-            // Limpiar y habilitar campos
-            document.getElementById("nombre_negocio").value = "";
-            document.getElementById("direccion").value = "";
-            document.getElementById("telefono").value = "";
-            
-            document.getElementById("nombre_negocio").readOnly = false;
-            document.getElementById("direccion").readOnly = false;
+            // Múltiples locales → mostrar lista para elegir
+            mostrarListaLocales(matriculas, nit);
         }
+    }
+
+    function mostrarListaLocales(matriculas, nit) {
+        const card = document.getElementById("card-locales");
+        const lista = document.getElementById("locales-list");
+        const titulo = document.getElementById("locales-titulo");
+
+        titulo.textContent = `🏢 ${matriculas.length} locales encontrados para NIT ${nit}`;
+        lista.innerHTML = "";
+
+        matriculas.forEach(mat => {
+            const local = baseDatos.locales[mat];
+            if (!local) return;
+
+            const div = document.createElement("div");
+            div.className = "local-card";
+            div.dataset.matricula = mat;
+            div.innerHTML = `
+                <div class="local-nombre">${local.nombre_negocio}</div>
+                <div class="local-dir">${local.direccion}</div>
+                <div class="local-mat">Matrícula: ${mat}</div>
+            `;
+            div.addEventListener("click", () => {
+                // Deseleccionar todos
+                document.querySelectorAll(".local-card").forEach(c => c.classList.remove("selected"));
+                div.classList.add("selected");
+                seleccionarLocal(mat, false);
+            });
+            lista.appendChild(div);
+        });
+
+        card.classList.remove("hidden");
+    }
+
+    function seleccionarLocal(matricula, ocultarListaCard) {
+        const local = baseDatos.locales[matricula];
+        if (!local) return;
+
+        localSeleccionado = matricula;
+        tipoRegistroActual = "BASE";
+
+        // Badge
+        const badgeContainer = document.getElementById("badge-container");
+        badgeContainer.innerHTML = `<span class="badge badge-base">✔ Negocio en Base de Datos</span>`;
+
+        // Rellenar campos
+        const nombre = document.getElementById("nombre_negocio");
+        const dir = document.getElementById("direccion");
+        const tel = document.getElementById("telefono");
+
+        nombre.value = local.nombre_negocio || "";
+        dir.value = local.direccion || "";
+        tel.value = local.telefono || "";
+
+        nombre.readOnly = true;
+        dir.readOnly = true;
+
+        // Mostrar secciones
+        document.getElementById("card-datos").classList.remove("hidden");
+        document.getElementById("card-estado").classList.remove("hidden");
+        document.getElementById("btn-enviar").classList.remove("hidden");
+
+        if (ocultarListaCard) {
+            document.getElementById("card-locales").classList.add("hidden");
+        }
+    }
+
+    function mostrarLocalNuevo() {
+        tipoRegistroActual = "NUEVO";
+        localSeleccionado = null;
+
+        const badgeContainer = document.getElementById("badge-container");
+        badgeContainer.innerHTML = `<span class="badge badge-nuevo">🔵 Negocio Nuevo — Diligencie los datos</span>`;
+
+        const nombre = document.getElementById("nombre_negocio");
+        const dir = document.getElementById("direccion");
+        const tel = document.getElementById("telefono");
+
+        nombre.value = ""; dir.value = ""; tel.value = "";
+        nombre.readOnly = false;
+        dir.readOnly = false;
+
+        document.getElementById("card-locales").classList.add("hidden");
+        document.getElementById("card-datos").classList.remove("hidden");
+        document.getElementById("card-estado").classList.remove("hidden");
+        document.getElementById("btn-enviar").classList.remove("hidden");
+    }
+
+    function ocultarSeccionesDatos() {
+        document.getElementById("card-datos").classList.add("hidden");
+        document.getElementById("card-estado").classList.add("hidden");
+        document.getElementById("card-locales").classList.add("hidden");
+        document.getElementById("btn-enviar").classList.add("hidden");
+        document.getElementById("bloque-efectiva").classList.add("hidden");
+        document.getElementById("bloque-pendiente").classList.add("hidden");
+        document.getElementById("badge-container").innerHTML = "";
+        document.getElementById("estado_visita").value = "";
     }
 
     function gestionarEstados() {
         const estado = document.getElementById("estado_visita").value;
-        
-        // Ocultar todos primero
         document.getElementById("bloque-efectiva").classList.add("hidden");
         document.getElementById("bloque-pendiente").classList.add("hidden");
-
-        // Mostrar según selección
         if (estado === "EFECTIVA") {
             document.getElementById("bloque-efectiva").classList.remove("hidden");
         } else if (estado === "NO-EFECTIVA") {
@@ -272,37 +492,32 @@
         const nit = document.getElementById("nit").value.trim();
         const estado = document.getElementById("estado_visita").value;
 
-        // Validaciones básicas
         if (!ruta || !nit || !estado || !tipoRegistroActual) {
             tg.showAlert("Por favor complete la Ruta, el NIT, realice la búsqueda y seleccione un Estado de Visita.");
             return;
         }
 
-        let nombre = document.getElementById("nombre_negocio").value;
-        let direccion = document.getElementById("direccion").value;
-        let telefono = document.getElementById("telefono").value;
+        const nombre = document.getElementById("nombre_negocio").value;
+        const direccion = document.getElementById("direccion").value;
+        const telefono = document.getElementById("telefono").value;
 
-        if(!nombre || !direccion) {
+        if (!nombre || !direccion) {
             tg.showAlert("Debe llenar al menos el Nombre del Negocio y la Dirección.");
             return;
         }
 
-        // Construir el objeto a enviar a Python
         let payload = {
-            ruta: ruta,
-            nit: nit,
+            ruta, nit,
             tipo_registro: tipoRegistroActual,
             nombre_negocio: nombre,
-            direccion: direccion,
-            telefono: telefono,
+            direccion, telefono,
             estado_visita: estado,
             motivo: "",
-            observaciones: document.getElementById("observaciones").value.trim(),
+            observaciones: document.getElementById("observaciones")?.value.trim() || "",
             intento: "1",
             respuesta_ia: ""
         };
 
-        // Extraer datos específicos según el estado
         if (estado === "EFECTIVA") {
             const resp = document.getElementById("respuesta_ia").value;
             if (!resp) { tg.showAlert("Seleccione la respuesta de WhatsApp."); return; }
@@ -311,39 +526,17 @@
         } else if (estado === "NO-EFECTIVA") {
             const selectMotivo = document.getElementById("motivo_pendiente");
             const motivoValue = selectMotivo.value;
-            const intento = document.getElementById("intento").value;
-            
-            if (!motivoValue) { 
-                tg.showAlert("Seleccione el motivo de la no efectividad."); 
-                return; 
-            }
+            if (!motivoValue) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
 
-            // 1. Capturamos el texto visible de la opción elegida (Ej: "Cerrado No Existe")
             const textoMotivo = selectMotivo.options[selectMotivo.selectedIndex].text;
-            
-            // 2. Capturamos lo que el encuestador escribió a mano
             const obsManual = document.getElementById("observaciones").value.trim();
-
-            // 3. Lógica para concatenar sin dejar guiones feos sueltos
-            let observacionFinal = "";
-            if (obsManual === "") {
-                // Si no escribió nada, la observación es solo el texto del motivo
-                observacionFinal = textoMotivo;
-            } else {
-                // Si escribió algo, unimos ambos con el guion
-                observacionFinal = textoMotivo + " - " + obsManual;
-            }
-
-            // 4. Inyectamos los datos pulidos al payload
-            payload.motivo = motivoValue; // Guarda la categoría macro para el Excel
-            payload.observaciones = observacionFinal; // Guarda el detalle concatenado
-            payload.intento = intento;
+            payload.motivo = motivoValue;
+            payload.observaciones = obsManual ? `${textoMotivo} - ${obsManual}` : textoMotivo;
+            payload.intento = document.getElementById("intento").value;
         }
 
-        // Enviar datos al bot de Telegram y cerrar la app
         tg.sendData(JSON.stringify(payload));
     }
 </script>
-
 </body>
 </html>
