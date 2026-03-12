@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Encuesta Cámara de Comercio</title>
+    <title>Renovación Matrícula CCB</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
@@ -40,6 +40,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            padding-bottom: 20px;
         }
 
         /* ── HEADER ── */
@@ -49,16 +50,8 @@
             padding: 16px 18px;
             color: white;
         }
-        .header h2 {
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-        }
-        .header p {
-            font-size: 12px;
-            opacity: 0.75;
-            margin-top: 3px;
-        }
+        .header h2 { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
+        .header p  { font-size: 12px; opacity: 0.75; margin-top: 3px; }
 
         /* ── CARD ── */
         .card {
@@ -67,7 +60,6 @@
             padding: 16px;
             border: 1px solid var(--border);
         }
-
         .card-title {
             font-size: 11px;
             font-weight: 600;
@@ -77,7 +69,7 @@
             margin-bottom: 12px;
         }
 
-        /* ── FORM ELEMENTS ── */
+        /* ── FORM ── */
         label {
             font-size: 13px;
             font-weight: 600;
@@ -85,7 +77,6 @@
             display: block;
             margin-bottom: 6px;
         }
-
         input, select, textarea {
             width: 100%;
             padding: 10px 12px;
@@ -98,24 +89,14 @@
             transition: border-color 0.15s;
             outline: none;
         }
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--blue);
-        }
-        input[readonly] {
-            background: var(--border);
-            color: var(--subtle);
-            cursor: default;
-        }
+        input:focus, select:focus, textarea:focus { border-color: var(--blue); }
+        input[readonly] { background: var(--border); color: var(--subtle); cursor: default; }
 
         .field { margin-bottom: 12px; }
         .field:last-child { margin-bottom: 0; }
 
         /* ── SEARCH ROW ── */
-        .search-row {
-            display: flex;
-            gap: 8px;
-            align-items: flex-end;
-        }
+        .search-row { display: flex; gap: 8px; align-items: flex-end; }
         .search-row .field { flex: 1; margin-bottom: 0; }
 
         /* ── BUTTONS ── */
@@ -131,16 +112,46 @@
             white-space: nowrap;
         }
         .btn:active { transform: scale(0.97); opacity: 0.85; }
-        .btn-search { background: #16a34a; color: white; }
+        .btn-search  { background: #16a34a; color: white; }
         .btn-primary { background: var(--blue); color: white; width: 100%; padding: 13px; font-size: 15px; border-radius: var(--radius); }
 
-        /* ── LOCAL LIST (selector de sucursales) ── */
-        .locales-list {
+        /* ── OPCIONES DE FLUJO (botones grandes) ── */
+        .opcion-group {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+        .opcion-btn {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .opcion-btn:hover   { border-color: var(--blue); background: var(--blue-light); }
+        .opcion-btn.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+        .opcion-btn.selected-green { border-color: var(--green); background: var(--green-light); color: var(--green); }
+        .opcion-btn.selected-orange { border-color: var(--orange); background: var(--orange-light); color: var(--orange); }
+        .opcion-btn .opcion-sub {
+            font-size: 12px;
+            font-weight: 400;
+            color: var(--subtle);
+            display: block;
+            margin-top: 2px;
+        }
+        .opcion-btn.selected .opcion-sub,
+        .opcion-btn.selected-green .opcion-sub,
+        .opcion-btn.selected-orange .opcion-sub { color: inherit; opacity: 0.7; }
 
+        /* ── LOCAL LIST ── */
+        .locales-list { display: flex; flex-direction: column; gap: 8px; }
         .local-card {
             border: 1.5px solid var(--border);
             border-radius: var(--radius-sm);
@@ -149,28 +160,11 @@
             transition: border-color 0.15s, background 0.15s;
             background: var(--bg);
         }
-        .local-card:hover { border-color: var(--blue); background: var(--blue-light); }
-        .local-card.selected {
-            border-color: var(--blue);
-            background: var(--blue-light);
-        }
-        .local-card .local-nombre {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text);
-        }
-        .local-card .local-dir {
-            font-size: 12px;
-            color: var(--subtle);
-            margin-top: 3px;
-            font-family: 'DM Mono', monospace;
-        }
-        .local-card .local-mat {
-            font-size: 11px;
-            color: var(--blue);
-            font-weight: 600;
-            margin-top: 4px;
-        }
+        .local-card:hover   { border-color: var(--blue); background: var(--blue-light); }
+        .local-card.selected { border-color: var(--blue); background: var(--blue-light); }
+        .local-card .local-nombre { font-size: 13px; font-weight: 700; color: var(--text); }
+        .local-card .local-dir    { font-size: 12px; color: var(--subtle); margin-top: 3px; font-family: 'DM Mono', monospace; }
+        .local-card .local-mat    { font-size: 11px; color: var(--blue); font-weight: 600; margin-top: 4px; }
 
         /* ── BADGE ── */
         .badge {
@@ -183,17 +177,14 @@
             font-weight: 600;
             margin-bottom: 12px;
         }
-        .badge-base { background: var(--green-light); color: var(--green); }
-        .badge-nuevo { background: var(--blue-light); color: var(--blue); }
+        .badge-base  { background: var(--green-light); color: var(--green); }
+        .badge-nuevo { background: var(--blue-light);  color: var(--blue);  }
+
+        /* ── DIVIDER ── */
+        .divider { height: 1px; background: var(--border); margin: 12px 0; }
 
         /* ── HIDDEN ── */
         .hidden { display: none !important; }
-
-        /* ── DIVIDER ── */
-        .divider {
-            height: 1px;
-            background: var(--border);
-        }
     </style>
 </head>
 <body>
@@ -201,7 +192,7 @@
 
     <!-- HEADER -->
     <div class="header">
-        <h2>📊 Plataforma de Registro CCB</h2>
+        <h2>🏛️ Renovación Matrícula Mercantil</h2>
         <p>Cámara de Comercio de Barranquilla</p>
     </div>
 
@@ -236,17 +227,16 @@
         </div>
     </div>
 
-    <!-- SELECTOR DE LOCALES (cuando hay múltiples) -->
+    <!-- SELECTOR DE LOCALES -->
     <div class="card hidden" id="card-locales">
         <div class="card-title" id="locales-titulo">🏢 Locales encontrados</div>
         <div class="locales-list" id="locales-list"></div>
     </div>
 
-    <!-- DATOS DEL LOCAL SELECCIONADO -->
+    <!-- DATOS DEL LOCAL -->
     <div class="card hidden" id="card-datos">
         <div id="badge-container"></div>
         <div class="card-title">🏪 Datos del Local</div>
-
         <div class="field">
             <label>Razón Social</label>
             <input type="text" id="nombre_negocio" placeholder="Nombre comercial" required>
@@ -261,75 +251,91 @@
         </div>
     </div>
 
-    <!-- ESTADO DE VISITA -->
-    <div class="card hidden" id="card-estado">
-        <div class="card-title">📋 Estado de la Visita</div>
+    <!-- PASO 1: ¿SE PUDO CONTACTAR? -->
+    <div class="card hidden" id="card-contacto">
+        <div class="card-title">👤 Paso 1 — Contacto con la empresa</div>
+        <div class="opcion-group">
+            <button type="button" class="opcion-btn" id="btn-contacto-si" onclick="seleccionarContacto('SI')">
+                ✅ Sí se pudo contactar
+                <span class="opcion-sub">El encargado está presente y atendió</span>
+            </button>
+            <button type="button" class="opcion-btn" id="btn-contacto-no" onclick="seleccionarContacto('NO')">
+                ❌ No se pudo contactar
+                <span class="opcion-sub">Cerrado, ocupado u otro motivo</span>
+            </button>
+        </div>
+    </div>
 
+    <!-- BLOQUE NO-EFECTIVA (motivos) -->
+    <div class="card hidden" id="card-no-efectiva">
+        <div class="card-title">📋 Motivo de No Efectividad</div>
         <div class="field">
-            <label for="estado_visita">Estado</label>
-            <select id="estado_visita" onchange="gestionarEstados()" required>
-                <option value="">Seleccione un estado...</option>
-                <option value="EFECTIVA">✅ Efectiva (Encuesta realizada)</option>
-                <option value="NO-EFECTIVA">❌ No Efectiva</option>
+            <label for="motivo_pendiente">Motivo</label>
+            <select id="motivo_pendiente">
+                <option value="">Seleccione el motivo...</option>
+                <optgroup label="▬ Negocio Cerrado / Inexistente ▬">
+                    <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
+                    <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
+                    <option value="CERRADO PERMANENTE">Otro Negocio en el Lugar</option>
+                </optgroup>
+                <optgroup label="▬ Problemas de Ubicación o Políticas ▬">
+                    <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
+                </optgroup>
+                <optgroup label="▬ Problemas de Atención / Contacto ▬">
+                    <option value="EL ENCARGADO NO ESTA">No está el responsable</option>
+                    <option value="NO ATENDIERON">Nadie salió a atender</option>
+                    <option value="REPORTA EXTORSION">No quiso atender, reportó extorsión</option>
+                    <option value="REPROGRAMADO">Ocupado o Cerrado por horario - *reprogramar visita*</option>
+                </optgroup>
             </select>
         </div>
-
-        <!-- Bloque Efectiva -->
-        <div id="bloque-efectiva" class="hidden">
-            <div class="divider" style="margin: 12px 0;"></div>
-            <div class="field">
-                <label for="respuesta_ia">¿Qué opción eligió en WhatsApp?</label>
-                <select id="respuesta_ia">
-                    <option value="">Seleccione la respuesta...</option>
-                    <option value="Atención en WhatsApp">A. Atención en WhatsApp</option>
-                    <option value="Crear fotos y videos">B. Crear fotos y videos</option>
-                    <option value="Organizar finanzas">C. Organizar finanzas</option>
-                </select>
-            </div>
+        <div class="field">
+            <label for="observaciones_ne">📝 Observaciones (Opcional)</label>
+            <textarea id="observaciones_ne" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
         </div>
-
-        <!-- Bloque No Efectiva -->
-        <div id="bloque-pendiente" class="hidden">
-            <div class="divider" style="margin: 12px 0;"></div>
-            <div class="field">
-                <label for="motivo_pendiente">Motivo de la no efectividad</label>
-                <select id="motivo_pendiente">
-                    <option value="">Seleccione el motivo...</option>
-                    <optgroup label="▬ Negocio Cerrado / Inexistente ▬">
-                        <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
-                        <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
-                        <option value="CERRADO PERMANENTE">Cerrado Por Extorsión</option>
-                        <option value="CERRADO PERMANENTE">Otro Negocio en el Lugar</option>
-                    </optgroup>
-                    <optgroup label="▬ Problemas de Ubicación o Políticas ▬">
-                        <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
-                        <option value="NO PERMITEN CELULARES">Políticas no permiten celular</option>
-                    </optgroup>
-                    <optgroup label="▬ Problemas de Atención / Contacto ▬">
-                        <option value="OCUPADO">Ocupado (Atendiendo clientes)</option>
-                        <option value="EL ENCARGADO NO ESTA">No está el responsable</option>
-                        <option value="NO ATENDIERON">Nadie salió a atender</option>
-                        <option value="RECHAZO">No le interesa, rechazó la información</option>
-                        <option value="REPORTA EXTORSION">No quiso atender, reportó extorsión</option>
-                        <option value="CERRADO HORARIO">Cerrado por horario</option>
-                        <option value="REPROGRAMADO">Ocupado - reprogramó visita</option>
-                    </optgroup>
-                </select>
-            </div>
-
-            <div class="field">
-                <label for="observaciones">📝 Observaciones (Opcional)</label>
-                <textarea id="observaciones" rows="3" placeholder="Ej: Me dijeron que pasara después de las 3 PM..."></textarea>
-            </div>
-
-            <div class="field">
-                <label for="intento">Número de Intento</label>
-                <select id="intento">
-                    <option value="1">Intento 1</option>
-                    <option value="2">Intento 2</option>
-                </select>
-            </div>
+        <div class="field">
+            <label for="intento">Número de Intento</label>
+            <select id="intento">
+                <option value="1">Intento 1</option>
+                <option value="2">Intento 2</option>
+            </select>
         </div>
+    </div>
+
+    <!-- PASO 2: ¿YA RENOVÓ? -->
+    <div class="card hidden" id="card-renovo">
+        <div class="card-title">🔄 Paso 2 — Estado de la renovación</div>
+        <div class="opcion-group">
+            <button type="button" class="opcion-btn" id="btn-renovo-si" onclick="seleccionarRenovo('SI')">
+                ✅ Ya renovó la matrícula
+                <span class="opcion-sub">La empresa indica que ya realizó la renovación</span>
+            </button>
+            <button type="button" class="opcion-btn" id="btn-renovo-no" onclick="seleccionarRenovo('NO')">
+                ⏳ No ha renovado
+                <span class="opcion-sub">La empresa indica que aún no ha renovado</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- PASO 3: ¿QUIERE LA GUÍA? (solo si no ha renovado) -->
+    <div class="card hidden" id="card-guia">
+        <div class="card-title">📱 Paso 3 — Oferta de guía</div>
+        <div class="opcion-group">
+            <button type="button" class="opcion-btn" id="btn-guia-si" onclick="seleccionarGuia('SI')">
+                📲 Sí quiere la guía - Chatbot de WhatsApp
+                <span class="opcion-sub">Se le mostrará el chatbot de WhatsApp</span>
+            </button>
+            <button type="button" class="opcion-btn" id="btn-guia-no" onclick="seleccionarGuia('NO')">
+                📄 No quiere la guía - Se deja volante
+                <span class="opcion-sub">Se deja volante con información</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- RESUMEN INSTRUCCIÓN FOTOS -->
+    <div class="card hidden" id="card-instruccion">
+        <div class="card-title">📸 Evidencia requerida</div>
+        <div id="instruccion-texto" style="font-size:14px; line-height:1.6; color: var(--text);"></div>
     </div>
 
     <!-- BOTÓN ENVIAR -->
@@ -349,39 +355,44 @@
 
     let baseDatos = { locales: {}, nit_index: {} };
     let tipoRegistroActual = "";
-    let localSeleccionado = null; // matrícula del local activo
+    let localSeleccionado   = null;
+    let contactoActual      = null; // 'SI' | 'NO'
+    let renovoActual        = null; // 'SI' | 'NO'
+    let guiaActual          = null; // 'SI' | 'NO'
 
     fetch('data.json')
         .then(r => r.json())
         .then(data => baseDatos = data)
         .catch(e => console.error("Error cargando data.json:", e));
 
+    // ─────────────────────────────────────────
+    // BÚSQUEDA NIT
+    // ─────────────────────────────────────────
     function buscarNIT() {
         const nit = document.getElementById("nit").value.trim();
         if (!nit) { tg.showAlert("Por favor, ingrese un NIT o Cédula."); return; }
 
-        // Resetear estado anterior
         localSeleccionado = null;
         tipoRegistroActual = "";
-        ocultarSeccionesDatos();
+        contactoActual = null;
+        renovoActual   = null;
+        guiaActual     = null;
+        resetearFlujo();
 
         const matriculas = baseDatos.nit_index[nit];
 
         if (!matriculas || matriculas.length === 0) {
-            // NIT no encontrado → negocio nuevo
-            mostrarLocalNuevo(nit);
+            mostrarLocalNuevo();
         } else if (matriculas.length === 1) {
-            // Un solo local → mostrar directamente
             seleccionarLocal(matriculas[0], true);
         } else {
-            // Múltiples locales → mostrar lista para elegir
             mostrarListaLocales(matriculas, nit);
         }
     }
 
     function mostrarListaLocales(matriculas, nit) {
-        const card = document.getElementById("card-locales");
-        const lista = document.getElementById("locales-list");
+        const card   = document.getElementById("card-locales");
+        const lista  = document.getElementById("locales-list");
         const titulo = document.getElementById("locales-titulo");
 
         titulo.textContent = `🏢 ${matriculas.length} locales encontrados para NIT ${nit}`;
@@ -390,17 +401,14 @@
         matriculas.forEach(mat => {
             const local = baseDatos.locales[mat];
             if (!local) return;
-
             const div = document.createElement("div");
             div.className = "local-card";
-            div.dataset.matricula = mat;
             div.innerHTML = `
                 <div class="local-nombre">${local.nombre_negocio}</div>
                 <div class="local-dir">${local.direccion}</div>
                 <div class="local-mat">Matrícula: ${mat}</div>
             `;
             div.addEventListener("click", () => {
-                // Deseleccionar todos
                 document.querySelectorAll(".local-card").forEach(c => c.classList.remove("selected"));
                 div.classList.add("selected");
                 seleccionarLocal(mat, false);
@@ -415,125 +423,223 @@
         const local = baseDatos.locales[matricula];
         if (!local) return;
 
-        localSeleccionado = matricula;
+        localSeleccionado  = matricula;
         tipoRegistroActual = "BASE";
 
-        // Badge
-        const badgeContainer = document.getElementById("badge-container");
-        badgeContainer.innerHTML = `<span class="badge badge-base">✔ Negocio en Base de Datos</span>`;
+        document.getElementById("badge-container").innerHTML =
+            `<span class="badge badge-base">✔ Negocio en Base de Datos</span>`;
 
-        // Rellenar campos
-        const nombre = document.getElementById("nombre_negocio");
-        const dir = document.getElementById("direccion");
-        const tel = document.getElementById("telefono");
+        document.getElementById("nombre_negocio").value = local.nombre_negocio || "";
+        document.getElementById("direccion").value      = local.direccion || "";
+        document.getElementById("telefono").value       = local.telefono || "";
+        document.getElementById("nombre_negocio").readOnly = true;
+        document.getElementById("direccion").readOnly      = true;
 
-        nombre.value = local.nombre_negocio || "";
-        dir.value = local.direccion || "";
-        tel.value = local.telefono || "";
-
-        nombre.readOnly = true;
-        dir.readOnly = true;
-
-        // Mostrar secciones
         document.getElementById("card-datos").classList.remove("hidden");
-        document.getElementById("card-estado").classList.remove("hidden");
-        document.getElementById("btn-enviar").classList.remove("hidden");
+        document.getElementById("card-contacto").classList.remove("hidden");
 
-        if (ocultarListaCard) {
-            document.getElementById("card-locales").classList.add("hidden");
-        }
+        if (ocultarListaCard) document.getElementById("card-locales").classList.add("hidden");
     }
 
     function mostrarLocalNuevo() {
         tipoRegistroActual = "NUEVO";
-        localSeleccionado = null;
+        localSeleccionado  = null;
 
-        const badgeContainer = document.getElementById("badge-container");
-        badgeContainer.innerHTML = `<span class="badge badge-nuevo">🔵 Negocio Nuevo — Diligencie los datos</span>`;
+        document.getElementById("badge-container").innerHTML =
+            `<span class="badge badge-nuevo">🔵 Negocio Nuevo — Diligencie los datos</span>`;
 
-        const nombre = document.getElementById("nombre_negocio");
-        const dir = document.getElementById("direccion");
-        const tel = document.getElementById("telefono");
-
-        nombre.value = ""; dir.value = ""; tel.value = "";
-        nombre.readOnly = false;
-        dir.readOnly = false;
+        document.getElementById("nombre_negocio").value    = "";
+        document.getElementById("direccion").value         = "";
+        document.getElementById("telefono").value          = "";
+        document.getElementById("nombre_negocio").readOnly = false;
+        document.getElementById("direccion").readOnly      = false;
 
         document.getElementById("card-locales").classList.add("hidden");
         document.getElementById("card-datos").classList.remove("hidden");
-        document.getElementById("card-estado").classList.remove("hidden");
+        document.getElementById("card-contacto").classList.remove("hidden");
+    }
+
+    // ─────────────────────────────────────────
+    // PASO 1 — CONTACTO
+    // ─────────────────────────────────────────
+    function seleccionarContacto(valor) {
+        contactoActual = valor;
+        renovoActual   = null;
+        guiaActual     = null;
+
+        // Estilos botones
+        document.getElementById("btn-contacto-si").className = "opcion-btn" + (valor === "SI" ? " selected-green" : "");
+        document.getElementById("btn-contacto-no").className = "opcion-btn" + (valor === "NO" ? " selected-orange" : "");
+
+        // Ocultar bloques siguientes
+        document.getElementById("card-no-efectiva").classList.add("hidden");
+        document.getElementById("card-renovo").classList.add("hidden");
+        document.getElementById("card-guia").classList.add("hidden");
+        document.getElementById("card-instruccion").classList.add("hidden");
+        document.getElementById("btn-enviar").classList.add("hidden");
+
+        if (valor === "NO") {
+            document.getElementById("motivo_pendiente").value = "";
+            document.getElementById("observaciones_ne").value = "";
+            document.getElementById("card-no-efectiva").classList.remove("hidden");
+            mostrarInstruccion("NO-EFECTIVA");
+            document.getElementById("btn-enviar").classList.remove("hidden");
+        } else {
+            document.getElementById("card-renovo").classList.remove("hidden");
+        }
+    }
+
+    // ─────────────────────────────────────────
+    // PASO 2 — ¿YA RENOVÓ?
+    // ─────────────────────────────────────────
+    function seleccionarRenovo(valor) {
+        renovoActual = valor;
+        guiaActual   = null;
+
+        document.getElementById("btn-renovo-si").className = "opcion-btn" + (valor === "SI" ? " selected-green" : "");
+        document.getElementById("btn-renovo-no").className = "opcion-btn" + (valor === "NO" ? " selected" : "");
+
+        document.getElementById("card-guia").classList.add("hidden");
+        document.getElementById("card-instruccion").classList.add("hidden");
+        document.getElementById("btn-enviar").classList.add("hidden");
+
+        if (valor === "SI") {
+            mostrarInstruccion("YA_RENOVO");
+            document.getElementById("btn-enviar").classList.remove("hidden");
+        } else {
+            document.getElementById("card-guia").classList.remove("hidden");
+        }
+    }
+
+    // ─────────────────────────────────────────
+    // PASO 3 — ¿QUIERE GUÍA?
+    // ─────────────────────────────────────────
+    function seleccionarGuia(valor) {
+        guiaActual = valor;
+
+        document.getElementById("btn-guia-si").className = "opcion-btn" + (valor === "SI" ? " selected-green" : "");
+        document.getElementById("btn-guia-no").className = "opcion-btn" + (valor === "NO" ? " selected" : "");
+
+        document.getElementById("card-instruccion").classList.add("hidden");
+        document.getElementById("btn-enviar").classList.add("hidden");
+
+        const estado = valor === "SI" ? "NO_RENOVO_CON_GUIA" : "NO_RENOVO_SIN_GUIA";
+        mostrarInstruccion(estado);
         document.getElementById("btn-enviar").classList.remove("hidden");
     }
 
-    function ocultarSeccionesDatos() {
-        document.getElementById("card-datos").classList.add("hidden");
-        document.getElementById("card-estado").classList.add("hidden");
-        document.getElementById("card-locales").classList.add("hidden");
-        document.getElementById("btn-enviar").classList.add("hidden");
-        document.getElementById("bloque-efectiva").classList.add("hidden");
-        document.getElementById("bloque-pendiente").classList.add("hidden");
+    // ─────────────────────────────────────────
+    // INSTRUCCIÓN DE FOTOS
+    // ─────────────────────────────────────────
+    const instrucciones = {
+        "YA_RENOVO": `
+            <strong>📸 Foto requerida:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br><br>
+            <em style="color:var(--subtle)">Envíala cuando el bot te la solicite.</em>
+        `,
+        "NO_RENOVO_CON_GUIA": `
+            <strong>📸 Fotos requeridas:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br>
+            2️⃣ Foto del <strong>celular del cliente</strong> con el chatbot de WA (GABY CCB) abierto.<br><br>
+            <em style="color:var(--subtle)">El bot te las pedirá en orden.</em>
+        `,
+        "NO_RENOVO_SIN_GUIA": `
+            <strong>📸 Fotos requeridas:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br>
+            2️⃣ Foto del <strong>volante</strong> ubicado en repisa o mesa del negocio.<br><br>
+            <em style="color:var(--subtle)">El bot te las pedirá en orden.</em>
+        `,
+        "NO-EFECTIVA": `
+            <strong>📸 Foto requerida:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br><br>
+            <em style="color:var(--subtle)">Envíala cuando el bot te la solicite.</em>
+        `
+    };
+
+    function mostrarInstruccion(estado) {
+        const card = document.getElementById("card-instruccion");
+        document.getElementById("instruccion-texto").innerHTML = instrucciones[estado] || "";
+        card.classList.remove("hidden");
+    }
+
+    // ─────────────────────────────────────────
+    // RESET
+    // ─────────────────────────────────────────
+    function resetearFlujo() {
+        const ids = ["card-datos","card-contacto","card-no-efectiva","card-renovo",
+                     "card-guia","card-instruccion","card-locales","btn-enviar"];
+        ids.forEach(id => document.getElementById(id).classList.add("hidden"));
         document.getElementById("badge-container").innerHTML = "";
-        document.getElementById("estado_visita").value = "";
+        document.getElementById("btn-contacto-si").className = "opcion-btn";
+        document.getElementById("btn-contacto-no").className = "opcion-btn";
+        document.getElementById("btn-renovo-si").className   = "opcion-btn";
+        document.getElementById("btn-renovo-no").className   = "opcion-btn";
+        document.getElementById("btn-guia-si").className     = "opcion-btn";
+        document.getElementById("btn-guia-no").className     = "opcion-btn";
     }
 
-    function gestionarEstados() {
-        const estado = document.getElementById("estado_visita").value;
-        document.getElementById("bloque-efectiva").classList.add("hidden");
-        document.getElementById("bloque-pendiente").classList.add("hidden");
-        if (estado === "EFECTIVA") {
-            document.getElementById("bloque-efectiva").classList.remove("hidden");
-        } else if (estado === "NO-EFECTIVA") {
-            document.getElementById("bloque-pendiente").classList.remove("hidden");
-        }
-    }
-
+    // ─────────────────────────────────────────
+    // ENVÍO
+    // ─────────────────────────────────────────
     function enviarDatos() {
         const ruta = document.getElementById("ruta").value;
-        const nit = document.getElementById("nit").value.trim();
-        const estado = document.getElementById("estado_visita").value;
+        const nit  = document.getElementById("nit").value.trim();
 
-        if (!ruta || !nit || !estado || !tipoRegistroActual) {
-            tg.showAlert("Por favor complete la Ruta, el NIT, realice la búsqueda y seleccione un Estado de Visita.");
-            return;
-        }
+        if (!ruta)  { tg.showAlert("Seleccione una Ruta."); return; }
+        if (!nit)   { tg.showAlert("Ingrese un NIT."); return; }
+        if (!tipoRegistroActual) { tg.showAlert("Realice la búsqueda del NIT primero."); return; }
+        if (!contactoActual)     { tg.showAlert("Indique si se pudo contactar al encargado."); return; }
 
-        const nombre = document.getElementById("nombre_negocio").value;
-        const direccion = document.getElementById("direccion").value;
-        const telefono = document.getElementById("telefono").value;
+        const nombre   = document.getElementById("nombre_negocio").value.trim();
+        const direccion= document.getElementById("direccion").value.trim();
+        const telefono = document.getElementById("telefono").value.trim();
 
         if (!nombre || !direccion) {
-            tg.showAlert("Debe llenar al menos el Nombre del Negocio y la Dirección.");
+            tg.showAlert("Debe completar al menos el Nombre del Negocio y la Dirección.");
             return;
         }
 
-        let payload = {
+        // Determinar estado_visita
+        let estado_visita = "";
+        let motivo = "";
+        let observaciones = "";
+        let intento = "1";
+
+        if (contactoActual === "NO") {
+            const selectMotivo = document.getElementById("motivo_pendiente");
+            motivo = selectMotivo.value;
+            if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
+            const textoMotivo = selectMotivo.options[selectMotivo.selectedIndex].text;
+            const obsManual   = document.getElementById("observaciones_ne").value.trim();
+            observaciones = obsManual ? `${textoMotivo} - ${obsManual}` : textoMotivo;
+            intento       = document.getElementById("intento").value;
+            estado_visita = "NO-EFECTIVA";
+
+        } else if (renovoActual === "SI") {
+            estado_visita = "YA_RENOVO";
+
+        } else if (guiaActual === "SI") {
+            estado_visita = "NO_RENOVO_CON_GUIA";
+
+        } else if (guiaActual === "NO") {
+            estado_visita = "NO_RENOVO_SIN_GUIA";
+
+        } else {
+            tg.showAlert("Complete todos los pasos del formulario.");
+            return;
+        }
+
+        const payload = {
             ruta, nit,
             tipo_registro: tipoRegistroActual,
             nombre_negocio: nombre,
             direccion, telefono,
-            estado_visita: estado,
-            motivo: "",
-            observaciones: document.getElementById("observaciones")?.value.trim() || "",
-            intento: "1",
-            respuesta_ia: ""
+            estado_visita,
+            motivo,
+            observaciones,
+            intento,
+            resultado_gestion: estado_visita
         };
-
-        if (estado === "EFECTIVA") {
-            const resp = document.getElementById("respuesta_ia").value;
-            if (!resp) { tg.showAlert("Seleccione la respuesta de WhatsApp."); return; }
-            payload.respuesta_ia = resp;
-
-        } else if (estado === "NO-EFECTIVA") {
-            const selectMotivo = document.getElementById("motivo_pendiente");
-            const motivoValue = selectMotivo.value;
-            if (!motivoValue) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
-
-            const textoMotivo = selectMotivo.options[selectMotivo.selectedIndex].text;
-            const obsManual = document.getElementById("observaciones").value.trim();
-            payload.motivo = motivoValue;
-            payload.observaciones = obsManual ? `${textoMotivo} - ${obsManual}` : textoMotivo;
-            payload.intento = document.getElementById("intento").value;
-        }
 
         tg.sendData(JSON.stringify(payload));
     }
