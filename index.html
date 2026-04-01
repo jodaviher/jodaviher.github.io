@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0c" />
+  <title>TipsterAI Pro</title>
+
+  <!-- Telegram Mini App SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- ── HEADER ──────────────────────────────────────────── -->
+    <header class="app-header">
+      <div class="app-logo">
+        <div class="app-logo-icon">⚡</div>
+        <div class="app-logo-text">TIPSTER<span>AI</span></div>
+      </div>
+      <div class="header-badge">PRO</div>
+    </header>
+
+    <!-- ══════════════════════════════════════════════════════
+         PANTALLA 1: SELECCIÓN DE LIGA
+         ══════════════════════════════════════════════════════ -->
+    <section id="screen-leagues" class="screen active">
+
+      <div class="section-title">ELIGE LA LIGA</div>
+      <div class="section-subtitle">Selecciona la competición a analizar</div>
+
+      <!-- Grid de ligas (se renderiza desde data_ligas.js) -->
+      <div id="leagues-grid" class="leagues-grid"></div>
+
+      <!-- Botón para cargar partidos -->
+      <div class="btn-group">
+        <button
+          id="btn-upcoming"
+          class="btn-primary"
+          disabled
+        >
+          ⚽ Ver próximos partidos
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         PANTALLA 2: LISTA DE PARTIDOS
+         ══════════════════════════════════════════════════════ -->
+    <section id="screen-fixtures" class="screen">
+
+      <div class="section-title" id="fixtures-league-name">PARTIDOS</div>
+      <div class="section-subtitle">Toca un partido para seleccionarlo</div>
+
+      <!-- Lista de partidos agrupados por fecha -->
+      <div id="fixtures-list"></div>
+
+      <!-- Panel de confirmación (se inyecta al seleccionar) -->
+      <div id="selection-panel"></div>
+
+      <!-- Botón volver -->
+      <div class="btn-group">
+        <button id="btn-back-leagues" class="btn-secondary">
+          ← Cambiar liga
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         PANTALLA 3: CARGANDO ANÁLISIS
+         ══════════════════════════════════════════════════════ -->
+    <section id="screen-loading" class="screen">
+      <!-- Se inyecta dinámicamente por UI.showLoadingScreen() -->
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         PANTALLA 4: ANÁLISIS ENVIADO
+         ══════════════════════════════════════════════════════ -->
+    <section id="screen-result" class="screen">
+      <!-- Se inyecta dinámicamente por UI.showSuccessScreen() -->
+    </section>
+
+  </div><!-- /#app -->
+
+  <!-- ── Scripts (orden importa) ─────────────────────────── -->
+  <script src="assets/js/data_ligas.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>
