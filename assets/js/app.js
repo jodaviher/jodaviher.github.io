@@ -31,9 +31,9 @@ function initTelegramWebApp() {
     tg.expand();
 
     // Aplicar colores del tema de Telegram si están disponibles
-    if (tg.colorScheme === "light") {
-      document.documentElement.style.setProperty("--bg-base", "#f5f5f5");
-    }
+    //if (tg.colorScheme === "light") {
+    //  document.documentElement.style.setProperty("--bg-base", "#f5f5f5");
+    //}
   }
 }
 
