@@ -10,7 +10,7 @@
 /* ── Variables ─────────────────────────────────────────────── */
 :root {
   --bg-base:        #0a0a0c;
-  --bg-card:        #111116;
+  --bg-card:        #F5F5F5; /* #467a73b4 #3C4142 F5F5F5 b9c5ba6b*/
   --bg-card-hover:  #17171f;
   --bg-glass:       rgba(255,255,255,0.04);
   --border:         rgba(255,255,255,0.08);
@@ -23,7 +23,7 @@
   --amber:          #fbbf24;
   --red:            #f87171;
 
-  --text-primary:   #f0f0f0;
+  --text-primary:   #625D5D; /* #f0f0f0 888899 0f0f0f*/
   --text-secondary: #888899;
   --text-muted:     #444455;
 
