@@ -4,7 +4,7 @@
 //  La URL base apunta a api.goump.com (subdominio EC2).
 // ============================================================
 
-const API_BASE_URL = "https://api.goump.com";
+const API_BASE_URL = "https://rheoscopic-justina-feebly.ngrok-free.dev";   //"https://api.goump.com"
 
 const Api = {
 
@@ -16,7 +16,8 @@ const Api = {
     const url = `${API_BASE_URL}/fixtures/upcoming/${leagueId}?next_n=${nextN}`;
     const response = await fetch(url, {
       method:  "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+               "ngrok-skip-browser-warning": "true" },
     });
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
@@ -32,7 +33,8 @@ const Api = {
   async analyzeMatch(fixtureId, leagueId) {
     const response = await fetch(`${API_BASE_URL}/analysis/match`, {
       method:  "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",
+               "ngrok-skip-browser-warning": "true" },
       body: JSON.stringify({
         fixture_id: fixtureId,
         league_id:  leagueId,
