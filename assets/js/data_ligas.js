@@ -266,7 +266,7 @@ const LIGAS = [
     id: 13,
     nombre: "Copa Libertadores",
     pais: "Sudamérica",
-    temporada: 2025,
+    temporada: 2026,
     logo: `${CDN_BASE_LEAGUES}/13.png`,
     equipos: [
       // Igual que Champions: equipos representativos por temporada.
@@ -283,7 +283,7 @@ const LIGAS = [
      id: 11,
     nombre: "Copa Sudamericana",
     pais: "Sudamérica",
-    temporada: 2025,
+    temporada: 2026,
     logo: `${CDN_BASE_LEAGUES}/11.png`,
     equipos: [
       // Igual que Champions: equipos representativos por temporada.
