@@ -259,6 +259,40 @@ const LIGAS = [
       { id: 171, nombre: "Mainz" },
     ],
   },
+  // ----------------------------------------------------------
+  //  COPA LIBERTADORES - Sudamérica
+  // ----------------------------------------------------------
+  {
+    id: 13,
+    nombre: "Copa Libertadores",
+    pais: "Sudamérica",
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/13.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+      { id: 1573, nombre: "Junior" },
+      { id: 1575, nombre: "Atlético Nacional" },
+      { id: 1576, nombre: "América de Cali" },
+    ],
+  },
+  // ----------------------------------------------------------
+  //  COPA SUDAMERICANA - Sudamérica
+  // ----------------------------------------------------------
+  {
+     id: 11,
+    nombre: "Copa Sudamericana",
+    pais: "Sudamérica",
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/11.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+      { id: 1573, nombre: "Junior" },
+      { id: 1575, nombre: "Atlético Nacional" },
+      { id: 1576, nombre: "América de Cali" },
+    ],
+  },
 ];
 
 // ============================================================
