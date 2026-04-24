@@ -191,6 +191,7 @@ async function loadFixturesByContinent(continente) {
       if (!data.success || !data.grupos) return;
 
       const nombreLiga = ligasDelContinente[index].nombre;
+      const idLiga     = ligasDelContinente[index].id;
 
       // Agregar nombre de liga a cada partido y mezclar en grupos por fecha
       Object.entries(data.grupos).forEach(([fechaKey, grupo]) => {
@@ -204,6 +205,7 @@ async function loadFixturesByContinent(continente) {
         const partidosConLiga = grupo.partidos.map((p) => ({
           ...p,
           liga_nombre: nombreLiga,
+          league_id:   p.league_id || idLiga,
         }));
         gruposConsolidados[fechaKey].partidos.push(...partidosConLiga);
       });
