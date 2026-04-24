@@ -1,281 +1,388 @@
 // ============================================================
 //  TipsterAI Pro - Lógica Principal de la Mini App
-//  Orquesta la navegación entre pantallas y los eventos
-//  de usuario. Conecta UI con API.
-//
-//  Flujo de pantallas:
-//    screen-leagues → screen-fixtures → [loading] → screen-success
+//  Flujo: Continentes → Ligas → Partidos → Análisis
 // ============================================================
 
-// Estado global de la aplicación
 const AppState = {
-  selectedLeague:  null,  // { id, nombre }
-  selectedFixture: null,  // { fixture_id, local, visitante }
-  isLoading:       false,
+  selectedContinent: null,  // string: "Europa", "Sudamérica", etc.
+  selectedLeague:    null,  // { id, nombre, continente }
+  selectedFixture:   null,  // { fixture_id, local, visitante }
+  isLoading:         false,
 };
 
-// ── Inicializar la app al cargar el DOM ──────────────────────
+// ── Inicializar al cargar el DOM ─────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   initTelegramWebApp();
-  initLeaguesScreen();
+  initContinentsScreen();
   checkBackendStatus();
 });
 
-// ----------------------------------------------------------
-//  TELEGRAM MINI APP: inicializar SDK
-// ----------------------------------------------------------
+// ── Telegram Mini App SDK ────────────────────────────────────
 function initTelegramWebApp() {
   if (window.Telegram?.WebApp) {
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
+<<<<<<< HEAD
 
     // Aplicar colores del tema de Telegram si están disponibles
     //if (tg.colorScheme === "light") {
     //  document.documentElement.style.setProperty("--bg-base", "#f5f5f5");
     //}
+=======
+>>>>>>> 5210440 (Se agregan nuevas ligas, ahora es anio de temporada es tomado del data_ligas)
   }
 }
 
-// ----------------------------------------------------------
-//  HEALTH CHECK: verificar que el backend responde
-// ----------------------------------------------------------
+// ── Health check ─────────────────────────────────────────────
 async function checkBackendStatus() {
   try {
     await Api.getStatus();
   } catch {
-    // Backend no disponible, mostrar aviso suave
-    // No bloqueamos la app, el error aparecerá al intentar cargar partidos
-    console.warn("[App] Backend no disponible en este momento");
+    console.warn("[App] Backend no disponible");
   }
 }
 
-// ----------------------------------------------------------
-//  PANTALLA 1: LIGAS
-// ----------------------------------------------------------
-function initLeaguesScreen() {
-  // Renderizar grid de ligas desde data_ligas.js
-  UI.renderLeagues("leagues-grid");
+// ============================================================
+//  PANTALLA 1: CONTINENTES
+// ============================================================
+function initContinentsScreen() {
+  UI.renderContinents("continents-grid");
 
-  // Evento: click en una liga
-  document.getElementById("leagues-grid")?.addEventListener("click", (e) => {
-    const card = e.target.closest(".league-card");
-    if (!card) return;
+  document.getElementById("continents-grid")
+    ?.addEventListener("click", (e) => {
+      const card = e.target.closest(".continent-card");
+      if (!card) return;
 
-    const leagueId     = parseInt(card.dataset.leagueId);
-    const leagueNombre = card.dataset.leagueNombre;
+      AppState.selectedContinent = card.dataset.continent;
+      AppState.selectedLeague    = null;
+      AppState.selectedFixture   = null;
 
-    AppState.selectedLeague  = { id: leagueId, nombre: leagueNombre };
-    AppState.selectedFixture = null;
-
-    UI.selectLeague(leagueId);
-
-    // Habilitar botón de próximos partidos
-    const btn = document.getElementById("btn-upcoming");
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = `⚽ Ver partidos de ${leagueNombre}`;
-    }
-  });
-
-  // Evento: teclado en cards de liga
-  document.getElementById("leagues-grid")?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.target.closest(".league-card")?.click();
-    }
-  });
-
-  // Evento: botón VER PRÓXIMOS PARTIDOS
-  document.getElementById("btn-upcoming")?.addEventListener("click", async () => {
-    if (!AppState.selectedLeague) return;
-    await loadFixtures(AppState.selectedLeague.id);
-  });
+      initLeaguesScreen(AppState.selectedContinent);
+      UI.showScreen("screen-leagues");
+    });
 }
 
-// ----------------------------------------------------------
-//  CARGAR PARTIDOS: transición a pantalla 2
-// ----------------------------------------------------------
-async function loadFixtures(leagueId) {
+// ============================================================
+//  PANTALLA 2: LIGAS DEL CONTINENTE
+// ============================================================
+function initLeaguesScreen(continente) {
+  const ligasDelContinente = LIGAS.filter(
+    (l) => l.continente === continente
+  );
+
+  // Título
+  const titleEl = document.getElementById("leagues-continent-name");
+  if (titleEl) titleEl.textContent = continente;
+
+  // Renderizar grid de ligas filtradas
+  UI.renderLeagues("leagues-grid", ligasDelContinente);
+
+  // Limpiar listeners anteriores clonando el contenedor
+  const grid = document.getElementById("leagues-grid");
+  const newGrid = grid.cloneNode(true);
+  grid.parentNode.replaceChild(newGrid, grid);
+
+  // Evento: seleccionar liga
+  document.getElementById("leagues-grid")
+    ?.addEventListener("click", (e) => {
+      const card = e.target.closest(".league-card");
+      if (!card) return;
+
+      const leagueId     = parseInt(card.dataset.leagueId);
+      const leagueNombre = card.dataset.leagueNombre;
+
+      const ligaData = LIGAS.find((l) => l.id === leagueId);
+      AppState.selectedLeague = {
+        id:         leagueId,
+        nombre:     leagueNombre,
+        continente: continente,
+        temporada:  ligaData?.temporada || null,
+      };
+
+      UI.selectLeague(leagueId);
+
+      // Habilitar botón de liga específica
+      const btnLiga = document.getElementById("btn-upcoming-league");
+      if (btnLiga) {
+        btnLiga.disabled    = false;
+        btnLiga.textContent = `⚽ Partidos de ${leagueNombre}`;
+      }
+    });
+
+  // Evento: ver partidos de la liga seleccionada
+  document.getElementById("btn-upcoming-league")
+    ?.addEventListener("click", async () => {
+      if (!AppState.selectedLeague) return;
+      await loadFixturesByLeague(AppState.selectedLeague.id);
+    });
+
+  // Evento: ver todos los partidos del continente
+  document.getElementById("btn-upcoming-continent")
+    ?.addEventListener("click", async () => {
+      await loadFixturesByContinent(continente);
+    });
+
+  // Evento: botón volver a continentes
+  document.getElementById("btn-back-continents")
+    ?.addEventListener("click", () => {
+      AppState.selectedLeague  = null;
+      AppState.selectedFixture = null;
+      UI.showScreen("screen-continents");
+    });
+}
+
+// ============================================================
+//  CARGAR PARTIDOS: por liga específica
+// ============================================================
+async function loadFixturesByLeague(leagueId) {
   if (AppState.isLoading) return;
   AppState.isLoading = true;
 
-  UI.setButtonState("btn-upcoming", false, "Cargando...");
+  const btnLiga = document.getElementById("btn-upcoming-league");
+  UI.setButtonState("btn-upcoming-league", false, "Cargando...");
 
   try {
-    const data = await Api.getUpcomingFixtures(leagueId, 10);
+    const season = AppState.selectedLeague?.temporada || null;
+    const data = await Api.getUpcomingFixtures(leagueId, 10, season);
 
     if (!data.success || !data.grupos) {
       UI.showToast("No hay partidos disponibles para esta liga.");
       return;
     }
 
-    // Guardar datos y navegar a pantalla de partidos
-    AppState.fixturesData = data;
-    initFixturesScreen(data);
+    initFixturesScreen(data, "liga");
     UI.showScreen("screen-fixtures");
 
   } catch (err) {
-    console.error("[App] Error cargando partidos:", err);
     UI.showToast(err.message || "Error conectando con el servidor.");
   } finally {
     AppState.isLoading = false;
     UI.setButtonState(
-      "btn-upcoming",
+      "btn-upcoming-league",
       !!AppState.selectedLeague,
       AppState.selectedLeague
-        ? `⚽ Ver partidos de ${AppState.selectedLeague.nombre}`
-        : "⚽ Ver próximos partidos"
+        ? `⚽ Partidos de ${AppState.selectedLeague.nombre}`
+        : "⚽ Ver partidos de la liga"
     );
   }
 }
 
-// ----------------------------------------------------------
-//  PANTALLA 2: PARTIDOS
-// ----------------------------------------------------------
-function initFixturesScreen(data) {
-  // Actualizar título con nombre de la liga
-  const titleEl = document.getElementById("fixtures-league-name");
-  if (titleEl) titleEl.textContent = data.league_nombre || "";
+// ============================================================
+//  CARGAR PARTIDOS: todos los del continente en paralelo
+// ============================================================
+async function loadFixturesByContinent(continente) {
+  if (AppState.isLoading) return;
+  AppState.isLoading = true;
 
-  // Renderizar partidos agrupados por fecha
-  UI.renderFixtures("fixtures-list", data.grupos);
+  UI.setButtonState("btn-upcoming-continent", false, "Cargando...");
 
-  // Limpiar selección previa
-  AppState.selectedFixture = null;
-  UI.hideSelectionPanel("selection-panel");
+  try {
+    const ligasDelContinente = LIGAS.filter(
+      (l) => l.continente === continente
+    );
 
-  // Evento: click en un partido
-  document.getElementById("fixtures-list")?.addEventListener("click", (e) => {
-    const card = e.target.closest(".fixture-card");
-    if (!card) return;
+    // Consultar todas las ligas en paralelo
+    const resultados = await Promise.allSettled(
+      ligasDelContinente.map((liga) =>
+        Api.getUpcomingFixtures(liga.id, 10, liga.temporada || null)
+          .then((data) => ({ ...data, league_id: liga.id }))
+      )
+    );
 
-    const fixtureId  = parseInt(card.dataset.fixtureId);
-    const local      = card.dataset.local;
-    const visitante  = card.dataset.visitante;
+    // Consolidar partidos de todas las ligas en un solo objeto
+    const gruposConsolidados = {};
 
-    // Si ya estaba seleccionado, deseleccionar
-    if (AppState.selectedFixture?.fixture_id === fixtureId) {
-      AppState.selectedFixture = null;
-      UI.selectFixture(null);
-      UI.hideSelectionPanel("selection-panel");
+    resultados.forEach((resultado, index) => {
+      if (resultado.status !== "fulfilled") return;
+      const data = resultado.value;
+      if (!data.success || !data.grupos) return;
+
+      const nombreLiga = ligasDelContinente[index].nombre;
+
+      // Agregar nombre de liga a cada partido y mezclar en grupos por fecha
+      Object.entries(data.grupos).forEach(([fechaKey, grupo]) => {
+        if (!gruposConsolidados[fechaKey]) {
+          gruposConsolidados[fechaKey] = {
+            label:    grupo.label,
+            partidos: [],
+          };
+        }
+        // Agregar nombre de liga a cada partido
+        const partidosConLiga = grupo.partidos.map((p) => ({
+          ...p,
+          liga_nombre: nombreLiga,
+        }));
+        gruposConsolidados[fechaKey].partidos.push(...partidosConLiga);
+      });
+    });
+
+    if (Object.keys(gruposConsolidados).length === 0) {
+      UI.showToast("No hay partidos próximos en este continente.");
       return;
     }
 
-    AppState.selectedFixture = { fixture_id: fixtureId, local, visitante };
-    UI.selectFixture(fixtureId);
-    UI.showSelectionPanel("selection-panel", { local, visitante });
+    const dataConsolidada = {
+      success:        true,
+      league_nombre:  continente,
+      total:          Object.values(gruposConsolidados)
+                        .reduce((acc, g) => acc + g.partidos.length, 0),
+      grupos:         gruposConsolidados,
+      es_continente:  true,
+    };
 
-    // Registrar eventos del panel recién renderizado
-    bindSelectionPanelEvents();
+    initFixturesScreen(dataConsolidada, "continente");
+    UI.showScreen("screen-fixtures");
 
-    // Scroll suave al panel
-    setTimeout(() => {
-      document.getElementById("selection-panel")?.scrollIntoView({
-        behavior: "smooth",
-        block:    "nearest",
-      });
-    }, 100);
-  });
-
-  // Evento: teclado en cards de partido
-  document.getElementById("fixtures-list")?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.target.closest(".fixture-card")?.click();
-    }
-  });
-
-  // Evento: botón VOLVER
-  document.getElementById("btn-back-leagues")?.addEventListener("click", () => {
-    AppState.selectedFixture = null;
-    UI.hideSelectionPanel("selection-panel");
-    UI.showScreen("screen-leagues");
-  });
-}
-
-// ----------------------------------------------------------
-//  EVENTOS DEL PANEL DE CONFIRMACIÓN
-// ----------------------------------------------------------
-function bindSelectionPanelEvents() {
-  // Botón ANALIZAR
-  document.getElementById("btn-analyze")?.addEventListener("click", async () => {
-    if (!AppState.selectedFixture || !AppState.selectedLeague) return;
-    await runAnalysis();
-  });
-
-  // Botón CANCELAR
-  document.getElementById("btn-deselect")?.addEventListener("click", () => {
-    AppState.selectedFixture = null;
-    document.querySelectorAll(".fixture-card").forEach((c) =>
-      c.classList.remove("selected")
+  } catch (err) {
+    UI.showToast(err.message || "Error cargando partidos del continente.");
+  } finally {
+    AppState.isLoading = false;
+    UI.setButtonState(
+      "btn-upcoming-continent",
+      true,
+      `🌍 Todos los partidos de ${continente}`
     );
-    UI.hideSelectionPanel("selection-panel");
-  });
+  }
 }
 
-// ----------------------------------------------------------
-//  ANÁLISIS: pipeline completo
-// ----------------------------------------------------------
+// ============================================================
+//  PANTALLA 3: PARTIDOS
+// ============================================================
+function initFixturesScreen(data, origen) {
+  const titleEl = document.getElementById("fixtures-league-name");
+  if (titleEl) titleEl.textContent = data.league_nombre || "";
+
+  // Subtítulo según origen
+  const subtitleEl = document.getElementById("fixtures-subtitle");
+  if (subtitleEl) {
+    subtitleEl.textContent = origen === "continente"
+      ? "Todos los próximos partidos del continente"
+      : "Toca un partido para seleccionarlo";
+  }
+
+  UI.renderFixtures("fixtures-list", data.grupos, data.es_continente);
+
+  AppState.selectedFixture = null;
+  UI.hideSelectionPanel("selection-panel");
+
+  // Limpiar listeners clonando el contenedor
+  const list = document.getElementById("fixtures-list");
+  const newList = list.cloneNode(true);
+  list.parentNode.replaceChild(newList, list);
+
+  // Evento: seleccionar partido
+  document.getElementById("fixtures-list")
+    ?.addEventListener("click", (e) => {
+      const card = e.target.closest(".fixture-card");
+      if (!card) return;
+
+      const fixtureId  = parseInt(card.dataset.fixtureId);
+      const local      = card.dataset.local;
+      const visitante  = card.dataset.visitante;
+      const leagueId   = parseInt(card.dataset.leagueId);
+
+      if (AppState.selectedFixture?.fixture_id === fixtureId) {
+        AppState.selectedFixture = null;
+        UI.selectFixture(null);
+        UI.hideSelectionPanel("selection-panel");
+        return;
+      }
+
+      AppState.selectedFixture = {
+        fixture_id: fixtureId,
+        local,
+        visitante,
+        league_id: leagueId,
+      };
+
+      UI.selectFixture(fixtureId);
+      UI.showSelectionPanel("selection-panel", { local, visitante });
+      bindSelectionPanelEvents();
+
+      setTimeout(() => {
+        document.getElementById("selection-panel")?.scrollIntoView({
+          behavior: "smooth",
+          block:    "nearest",
+        });
+      }, 100);
+    });
+
+  // Evento: volver a ligas
+  const btnBack = document.getElementById("btn-back-leagues");
+  const newBtnBack = btnBack?.cloneNode(true);
+  if (btnBack && newBtnBack) {
+    btnBack.parentNode.replaceChild(newBtnBack, btnBack);
+    newBtnBack.addEventListener("click", () => {
+      AppState.selectedFixture = null;
+      UI.hideSelectionPanel("selection-panel");
+      UI.showScreen("screen-leagues");
+    });
+  }
+}
+
+// ============================================================
+//  PANEL DE CONFIRMACIÓN
+// ============================================================
+function bindSelectionPanelEvents() {
+  document.getElementById("btn-analyze")
+    ?.addEventListener("click", async () => {
+      if (!AppState.selectedFixture) return;
+      await runAnalysis();
+    });
+
+  document.getElementById("btn-deselect")
+    ?.addEventListener("click", () => {
+      AppState.selectedFixture = null;
+      document.querySelectorAll(".fixture-card")
+        .forEach((c) => c.classList.remove("selected"));
+      UI.hideSelectionPanel("selection-panel");
+    });
+}
+
+// ============================================================
+//  ANÁLISIS
+// ============================================================
 async function runAnalysis() {
   if (AppState.isLoading) return;
-  if (!AppState.selectedFixture || !AppState.selectedLeague) return;
+  if (!AppState.selectedFixture) return;
 
   AppState.isLoading = true;
 
-  const { fixture_id, local, visitante } = AppState.selectedFixture;
-  const leagueId = AppState.selectedLeague.id;
+  const { fixture_id, local, visitante, league_id } = AppState.selectedFixture;
 
-  // Mostrar pantalla de carga con pasos animados
   UI.showScreen("screen-loading");
   UI.showLoadingScreen("screen-loading");
 
   try {
-    const result = await Api.analyzeMatch(fixture_id, leagueId);
+    const ligaData = LIGAS.find((l) => l.id === league_id);
+    const season   = ligaData?.temporada || null;
+    const result   = await Api.analyzeMatch(fixture_id, league_id, season);
 
-    if (!result.success) {
-      throw new Error(result.error || "Error en el análisis");
-    }
+    if (!result.success) throw new Error(result.error || "Error en el análisis");
 
-    // Mostrar pantalla de éxito
     UI.showScreen("screen-result");
     UI.showSuccessScreen("screen-result", { local, visitante });
 
-    // Registrar evento del botón NUEVO ANÁLISIS
-    document.getElementById("btn-new-analysis")?.addEventListener("click", () => {
-      resetApp();
-    });
+    document.getElementById("btn-new-analysis")
+      ?.addEventListener("click", () => resetApp());
 
   } catch (err) {
-    console.error("[App] Error en análisis:", err);
-
-    // Volver a la pantalla de partidos con el toast de error
     UI.showScreen("screen-fixtures");
-    UI.showToast(err.message || "Error generando el análisis. Intenta de nuevo.");
-
+    UI.showToast(err.message || "Error generando el análisis.");
   } finally {
     AppState.isLoading = false;
   }
 }
 
-// ----------------------------------------------------------
-//  RESET: volver al inicio para nuevo análisis
-// ----------------------------------------------------------
+// ============================================================
+//  RESET
+// ============================================================
 function resetApp() {
-  AppState.selectedLeague  = null;
-  AppState.selectedFixture = null;
-  AppState.isLoading       = false;
-  AppState.fixturesData    = null;
+  AppState.selectedContinent = null;
+  AppState.selectedLeague    = null;
+  AppState.selectedFixture   = null;
+  AppState.isLoading         = false;
 
-  // Limpiar selecciones visuales
-  document.querySelectorAll(".league-card").forEach((c) =>
-    c.classList.remove("selected")
-  );
-
-  // Resetear botón de ligas
-  const btn = document.getElementById("btn-upcoming");
-  if (btn) {
-    btn.disabled    = true;
-    btn.textContent = "⚽ Ver próximos partidos";
-  }
-
-  UI.showScreen("screen-leagues");
+  UI.showScreen("screen-continents");
 }

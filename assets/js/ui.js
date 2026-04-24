@@ -18,13 +18,51 @@ const UI = {
   },
 
   // ----------------------------------------------------------
-  //  RENDERIZAR GRID DE LIGAS
+  //  RENDERIZAR GRID DE CONTINENTES
   // ----------------------------------------------------------
-  renderLeagues(containerId) {
+  renderContinents(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    container.innerHTML = LIGAS.map((liga) => `
+    // Extraer continentes únicos del array LIGAS
+    const continentes = [...new Set(LIGAS.map((l) => l.continente))];
+
+    const iconos = {
+      "Europa": "🌍",
+      "Sudamérica": "🌎",
+      "Norteamérica": "🌎",
+      "Otras Ligas": "🌏",
+    };
+
+    // Contar ligas por continente
+    const conteo = {};
+    LIGAS.forEach((l) => {
+      conteo[l.continente] = (conteo[l.continente] || 0) + 1;
+    });
+
+    container.innerHTML = continentes.map((continente) => `
+    <div
+      class="continent-card"
+      data-continent="${continente}"
+      role="button"
+      tabindex="0"
+      aria-label="Ver ligas de ${continente}"
+    >
+      <div class="continent-icon">${iconos[continente] || "⚽"}</div>
+      <div class="continent-name">${continente}</div>
+      <div class="continent-count">${conteo[continente]} ligas</div>
+    </div>
+  `).join("");
+  },
+
+  // ----------------------------------------------------------
+  //  RENDERIZAR GRID DE LIGAS
+  // ----------------------------------------------------------
+  renderLeagues(containerId, ligas = LIGAS) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = ligas.map((liga) => `
       <div
         class="league-card"
         data-league-id="${liga.id}"
@@ -64,7 +102,7 @@ const UI = {
   // ----------------------------------------------------------
   //  RENDERIZAR LISTA DE PARTIDOS AGRUPADOS POR FECHA
   // ----------------------------------------------------------
-  renderFixtures(containerId, grupos) {
+  renderFixtures(containerId, grupos, esContinente = false) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -92,15 +130,18 @@ const UI = {
     container.innerHTML = ordenados.map(([key, grupo]) => `
       <div class="date-group">
         <div class="date-label">${grupo.label}</div>
-        ${grupo.partidos.map((p) => this._fixtureCardHTML(p)).join("")}
+        ${grupo.partidos.map((p) => this._fixtureCardHTML(p, esContinente)).join("")}
       </div>
     `).join("");
   },
 
   // ── HTML de una card de partido ──────────────────────────
-  _fixtureCardHTML(partido) {
+  _fixtureCardHTML(partido, mostrarLiga = false) {
     const localLogo     = partido.local?.logo     || "";
     const visitanteLogo = partido.visitante?.logo || "";
+    const ligaBadge = partido.liga_nombre
+      ? `<span class="fixture-liga-badge">${partido.liga_nombre}</span>`
+      : "";
     const arbitro       = partido.arbitro !== "No confirmado"
       ? `<span class="fixture-meta-item">🟨 ${partido.arbitro}</span>`
       : "";
@@ -112,6 +153,7 @@ const UI = {
       <div
         class="fixture-card"
         data-fixture-id="${partido.fixture_id}"
+        data-league-id="${partido.league_id || ''}"
         data-local="${partido.local?.nombre || ''}"
         data-visitante="${partido.visitante?.nombre || ''}"
         role="button"
@@ -157,6 +199,7 @@ const UI = {
         <!-- Meta: árbitro y estadio -->
         ${(arbitro || estadio) ? `
           <div class="fixture-meta">
+            ${ligaBadge}
             ${estadio}
             ${arbitro && estadio ? '<div class="fixture-meta-dot"></div>' : ""}
             ${arbitro}

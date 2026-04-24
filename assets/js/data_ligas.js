@@ -19,6 +19,7 @@ const LIGAS = [
     id: 39,
     nombre: "Premier League",
     pais: "Inglaterra",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/39.png`,
     equipos: [
@@ -52,6 +53,7 @@ const LIGAS = [
     id: 140,
     nombre: "La Liga",
     pais: "España",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/140.png`,
     equipos: [
@@ -85,6 +87,7 @@ const LIGAS = [
     id: 135,
     nombre: "Serie A",
     pais: "Italia",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/135.png`,
     equipos: [
@@ -118,6 +121,7 @@ const LIGAS = [
     id: 78,
     nombre: "Bundesliga",
     pais: "Alemania",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/78.png`,
     equipos: [
@@ -151,6 +155,7 @@ const LIGAS = [
     id: 61,
     nombre: "Ligue 1",
     pais: "Francia",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/61.png`,
     equipos: [
@@ -184,6 +189,7 @@ const LIGAS = [
     id: 2,
     nombre: "Champions League",
     pais: "Europa",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/2.png`,
     equipos: [
@@ -232,6 +238,7 @@ const LIGAS = [
     id: 3,
     nombre: "Europa League",
     pais: "Europa",
+    continente: "Europa",
     temporada: 2025,
     logo: `${CDN_BASE_LEAGUES}/3.png`,
     equipos: [
@@ -257,6 +264,806 @@ const LIGAS = [
       { id: 172, nombre: "VfL Wolfsburg" },
       { id: 169, nombre: "Augsburg" },
       { id: 171, nombre: "Mainz" },
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  LIGA PROFESIONAL ARGENTINA
+  // ----------------------------------------------------------
+  {
+    id: 128,
+    nombre: "Liga Profesional Argentina",
+    pais: "Argentina",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/128.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  COPA DE LA LIGA PROFESIONAL ARGENTINA
+  // ----------------------------------------------------------
+  {
+    id: 130,
+    nombre: "Copa Argentina",
+    pais: "Argentina",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/130.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  AUSTRIA SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 219,
+    nombre: "2. Liga",
+    pais: "Austria",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/219.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  AUSTRIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 218,
+    nombre: "Bundesliga",
+    pais: "Austria",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/218.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  BELGICA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 144,
+    nombre: "Jupiler Pro League",
+    pais: "Belgica",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/144.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  BOLIVIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 344,
+    nombre: "Primera División",
+    pais: "Bolivia",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/344.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  BRASIL PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 71,
+    nombre: "Serie A",
+    pais: "Brasil",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/71.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  BRASIL SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 72,
+    nombre: "Serie B",
+    pais: "Brasil",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/72.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  BRASIL COPA
+  // ----------------------------------------------------------
+  {
+    id: 73,
+    nombre: "Copa Do Brasil",
+    pais: "Brasil",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/73.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  BULGARIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 172,
+    nombre: "First League",
+    pais: "Bulgaria",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/172.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  CHILE PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 265,
+    nombre: "Primera División",
+    pais: "Chile",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/265.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  CHINA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 169,
+    nombre: "Super League",
+    pais: "China",
+    continente: "Otras Ligas",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/169.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  CROACIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 210,
+    nombre: "HNL",
+    pais: "Croacia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/210.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  REPUBLICA CHECA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 345,
+    nombre: "Czech Liga",
+    pais: "Republica Checa",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/345.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  DINAMARCA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 119,
+    nombre: "Superliga",
+    pais: "Dinamarca",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/119.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ECUADOR PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 242,
+    nombre: "Liga Pro",
+    pais: "Ecuador",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/242.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  EGIPTO PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 233,
+    nombre: "Premier League",
+    pais: "Egipto",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/233.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  INGLATERRA SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 41,
+    nombre: "League One",
+    pais: "Inglaterra",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/41.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  INGLATERRA TERCERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 42,
+    nombre: "League Two",
+    pais: "Inglaterra",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/42.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  FRANCIA SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 62,
+    nombre: "Ligue 2",
+    pais: "Francia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/62.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  GRECIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 197,
+    nombre: "Super League 1",
+    pais: "Grecia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/197.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  HUNGRIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 271,
+    nombre: "NB I",
+    pais: "Hungria",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/271.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  INDIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 323,
+    nombre: "Indian Super League",
+    pais: "India",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/323.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  IRLANDA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 357,
+    nombre: "Premier Division",
+    pais: "Irlanda",
+    continente: "Otras Ligas",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/357.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ISRAEL PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 383,
+    nombre: "Ligat Ha'al",
+    pais: "Israel",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/383.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ITALIA SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 136,
+    nombre: "Serie B",
+    pais: "Italia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/136.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  JAPON PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 98,
+    nombre: "J1 League",
+    pais: "Japon",
+    continente: "Otras Ligas",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/98.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  MEXICO PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 262,
+    nombre: "Liga MX",
+    pais: "Mexico",
+    continente: "América",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/262.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  PAISES BAJOS PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 88,
+    nombre: "Eredivisie",
+    pais: "Paises Bajos",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/88.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  PAISES BAJOS SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 89,
+    nombre: "Eerste Divisie",
+    pais: "Paises Bajos",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/89.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  NORUEGA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 103,
+    nombre: "Eliteserien",
+    pais: "Noruega",
+    continente: "Otras Ligas",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/103.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  PARAGUAY PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 250,
+    nombre: "Division Profesional",
+    pais: "Paraguay",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/250.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  PERU PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 281,
+    nombre: "Primera División",
+    pais: "Peru",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/281.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  POLONIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 106,
+    nombre: "Ekstraklasa",
+    pais: "Polonia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/106.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  PORTUGAL PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 94,
+    nombre: "Primeira Liga",
+    pais: "Portugal",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/94.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  PORTUGAL SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 95,
+    nombre: "Segunda Liga",
+    pais: "Portugal",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/95.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  QATAR PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 305,
+    nombre: "Stars League",
+    pais: "Qatar",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/305.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ROMANIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 283,
+    nombre: "Liga I",
+    pais: "Romania",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/283.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ESCOCIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 179,
+    nombre: "Premiership",
+    pais: "Escocia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/179.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  SERBIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 286,
+    nombre: "Super Liga",
+    pais: "Serbia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/286.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ESLOVAQUIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 332,
+    nombre: "Super Liga",
+    pais: "Eslovaquia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/332.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  SUDAFRICA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 288,
+    nombre: "Premier Soccer League",
+    pais: "Sudafrica",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/288.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  ESPAÑA SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 141,
+    nombre: "Segunda División",
+    pais: "España",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/141.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  SUECIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 113,
+    nombre: "Allsvenskan",
+    pais: "Suecia",
+    continente: "Otras Ligas",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/113.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  SUIZA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 207,
+    nombre: "Super League",
+    pais: "Suiza",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/207.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  TAILANDIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 296,
+    nombre: "Thai League 1",
+    pais: "Tailandia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/296.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  TURQUIA SEGUNDA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 204,
+    nombre: "1. Lig",
+    pais: "Turquia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/204.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  TURQUIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 203,
+    nombre: "Süper Lig",
+    pais: "Turquia",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/203.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  USA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 253,
+    nombre: "Major League Soccer",
+    pais: "USA",
+    continente: "América",  
+    temporada: 2026,
+    logo: `${CDN_BASE_LEAGUES}/253.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
+    ],
+  },
+
+  // ----------------------------------------------------------
+  //  UCRANIA PRIMERA DIVISION
+  // ----------------------------------------------------------
+  {
+    id: 333,
+    nombre: "Premier League",
+    pais: "Ucrania",
+    continente: "Otras Ligas",  
+    temporada: 2025,
+    logo: `${CDN_BASE_LEAGUES}/333.png`,
+    equipos: [
+      // Igual que Champions: equipos representativos por temporada.
+      // Se complementan dinámicamente.
     ],
   },
 ];
