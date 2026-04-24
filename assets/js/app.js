@@ -23,14 +23,6 @@ function initTelegramWebApp() {
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
-<<<<<<< HEAD
-
-    // Aplicar colores del tema de Telegram si están disponibles
-    //if (tg.colorScheme === "light") {
-    //  document.documentElement.style.setProperty("--bg-base", "#f5f5f5");
-    //}
-=======
->>>>>>> 5210440 (Se agregan nuevas ligas, ahora es anio de temporada es tomado del data_ligas)
   }
 }
 
