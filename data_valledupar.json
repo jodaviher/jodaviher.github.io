@@ -1,0 +1,170 @@
+[
+  {
+    "id": 0,
+    "acordeonero": "Cesar Tarazona",
+    "locales": [
+      "Bohemia licores",
+      "El sabor callejero",
+      "Estadero La Pega Pega",
+      "Fiesta Licores Valledupar",
+      "Fuente De Soda La Gloria",
+      "Granero El Americano",
+      "Granero Y Estadero La Cuarta",
+      "La Bendicion Gracias A Dios",
+      "Los Dos Arbolitos",
+      "Provisiones Andrea",
+      "Provisiones sabanero",
+      "Tienda Los Canarios",
+      "Tienda Pa La Yuca",
+      "Tienda Parque Novalito",
+      "Tienda Yorleidis"
+    ]
+  },
+  {
+    "id": 1,
+    "acordeonero": "Daniel Julio",
+    "locales": [
+      "Estanco Bar Jhonny Walker",
+      "Frutas Y Verduras San Fernando",
+      "La Bodega",
+      "La Imperial",
+      "Market Bga",
+      "Mataecaña",
+      "Miselañas Juan Jose",
+      "PROVISIONES REAL 4TA",
+      "Provisiones Donde Sandy",
+      "Provisiones Duque",
+      "Provisiones El Cacha De La 4ta",
+      "Provisiones Las 4 J",
+      "Super Tienda La Nueva Parada",
+      "Tienda La Nacional 2",
+      "Tienda Los Hermanos Hernandez Ur"
+    ]
+  },
+  {
+    "id": 2,
+    "acordeonero": "Daniel Zuleta",
+    "locales": [
+      "Aura Liquor Store",
+      "Billares Charles De La 23",
+      "El Diomedista Numero No 1",
+      "El Mercadito",
+      "Estanco Bar Los Brasiles",
+      "Granero El Campesino",
+      "Mas Economia",
+      "Merk Max",
+      "Provisiones El Obrero",
+      "Provisiones Los Bucaros",
+      "Provisiones Venecia",
+      "Salon Rumbero",
+      "Tienda Los Bucaros A.b",
+      "Tienda Shalom",
+      "nacional de la novena"
+    ]
+  },
+  {
+    "id": 3,
+    "acordeonero": "Edier Vanegas",
+    "locales": [
+      "Cancha cucuta",
+      "Consulado Zapatoca",
+      "El Tiendon",
+      "Estanco La Bumanguesa",
+      "Estanco alegriatricolor",
+      "Granero La 14 Com",
+      "La Barra Licorera Bar",
+      "Maria del mar",
+      "Mercadito Maracana",
+      "Miscelanea Mubber",
+      "Provisiones Eusse",
+      "Provisiones Los Pelao",
+      "Provisiones Los Reyes",
+      "Variedades Kamila",
+      "tienda trinfo de giron"
+    ]
+  },
+  {
+    "id": 4,
+    "acordeonero": "Jorge Solano",
+    "locales": [
+      "Alegres del valle",
+      "Distrae Frontera",
+      "El Nacional",
+      "Los Corazones",
+      "Merca Marque",
+      "Provisiones Alquis",
+      "Provisiones Badillo - CV",
+      "Provisiones Los Capos",
+      "Provisiones Los Uvitos",
+      "Sabor Y Cerveza",
+      "Supertienda La Gran Esquina",
+      "Supertienda Y Expendio Los Tres",
+      "Tienda Donde Lula - CV",
+      "Tienda El Parquecito",
+      "Tienda la nacional de la 9"
+    ]
+  },
+  {
+    "id": 5,
+    "acordeonero": "Kaleth Mendoza",
+    "locales": [
+      "Abastos La Gran Via",
+      "Billares Dubai",
+      "Estanco Bar Tayrona",
+      "Estanco Huguez Licores",
+      "Estanco La 12 Licores",
+      "Estanco Y Proviciones Donde Pach",
+      "Granero Dangond",
+      "Los Dos Mangos",
+      "Panaderia Y Miscelanea Surtipan",
+      "Patio restobar el peluo",
+      "Provisiones La 14",
+      "Provisiones La Granja",
+      "Super Tienda Vale Menos",
+      "Taberna Light",
+      "Tienda Maria Alejandra"
+    ]
+  },
+  {
+    "id": 6,
+    "acordeonero": "Leonardo villa",
+    "locales": [
+      "Billares El Cacha",
+      "Boulevard Licores",
+      "Bumpers Disco Bar",
+      "Disco Bar El Viejo Rafa",
+      "Estasdero Budweiser",
+      "Jairo Lobo",
+      "Jesus Es Mi Amigo",
+      "La Esquina De Kike",
+      "La Piedra Negra",
+      "La Revolucion",
+      "Minimarket 2x3",
+      "Provisiones La Buena Fe - CV",
+      "Tienda El Rey Isazza",
+      "Vamos pa #TBT",
+      "Venecia licores DiscoBar"
+    ]
+  },
+  {
+    "id": 7,
+    "acordeonero": "Sergio Morales",
+    "locales": [
+      "Billares La Nueva Parada",
+      "Campo De Tejo Costeñita",
+      "El Javi de la 11",
+      "Estanco El Rodeo",
+      "La Victoria",
+      "Provisiones La Tusa",
+      "Provisiones La Union",
+      "Provisiones h y l s.a.s",
+      "Tienda Callejon De La Estrella",
+      "Tienda La Cañaguatera",
+      "Tienda La Surtidora",
+      "Tienda casa linda",
+      "Tienda el cacha",
+      "Tienda la 41",
+      "club de billares la alemana"
+    ]
+  }
+]
