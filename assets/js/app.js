@@ -23,14 +23,6 @@ function initTelegramWebApp() {
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
-<<<<<<< HEAD
-
-    // Aplicar colores del tema de Telegram si están disponibles
-    //if (tg.colorScheme === "light") {
-    //  document.documentElement.style.setProperty("--bg-base", "#f5f5f5");
-    //}
-=======
->>>>>>> 5210440 (Se agregan nuevas ligas, ahora es anio de temporada es tomado del data_ligas)
   }
 }
 
@@ -199,6 +191,7 @@ async function loadFixturesByContinent(continente) {
       if (!data.success || !data.grupos) return;
 
       const nombreLiga = ligasDelContinente[index].nombre;
+      const idLiga     = ligasDelContinente[index].id;
 
       // Agregar nombre de liga a cada partido y mezclar en grupos por fecha
       Object.entries(data.grupos).forEach(([fechaKey, grupo]) => {
@@ -212,6 +205,7 @@ async function loadFixturesByContinent(continente) {
         const partidosConLiga = grupo.partidos.map((p) => ({
           ...p,
           liga_nombre: nombreLiga,
+          league_id:   p.league_id || idLiga,
         }));
         gruposConsolidados[fechaKey].partidos.push(...partidosConLiga);
       });

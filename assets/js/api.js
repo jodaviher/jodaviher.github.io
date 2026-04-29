@@ -4,11 +4,7 @@
 //  La URL base apunta a api.goump.com (subdominio EC2).
 // ============================================================
 
-<<<<<<< HEAD
-const API_BASE_URL = "https://rheoscopic-justina-feebly.ngrok-free.dev";   //"https://api.goump.com"
-=======
 const API_BASE_URL ="https://rheoscopic-justina-feebly.ngrok-free.dev";   //"https://api.goump.com"
->>>>>>> 5210440 (Se agregan nuevas ligas, ahora es anio de temporada es tomado del data_ligas)
 
 const Api = {
 
@@ -22,12 +18,8 @@ const Api = {
     const response = await fetch(url, {
       method:  "GET",
       headers: { "Content-Type": "application/json",
-<<<<<<< HEAD
-               "ngrok-skip-browser-warning": "true" },
-=======
         "ngrok-skip-browser-warning": "true"
        },
->>>>>>> 5210440 (Se agregan nuevas ligas, ahora es anio de temporada es tomado del data_ligas)
     });
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
@@ -44,12 +36,8 @@ const Api = {
     const response = await fetch(`${API_BASE_URL}/analysis/match`, {
       method:  "POST",
       headers: { "Content-Type": "application/json",
-<<<<<<< HEAD
-               "ngrok-skip-browser-warning": "true" },
-=======
         "ngrok-skip-browser-warning": "true"
        },
->>>>>>> 5210440 (Se agregan nuevas ligas, ahora es anio de temporada es tomado del data_ligas)
       body: JSON.stringify({
         fixture_id: fixtureId,
         league_id:  leagueId,
