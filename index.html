@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Actividad Festival Vallenato</title>
+    <title>Actividad - Festival Vallenato</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body { 
@@ -87,7 +87,7 @@
 <body>
 
 <div class="container">
-    <h2>Actividad Festival Vallenato</h2>
+    <h2>Actividad - Festival Vallenato</h2>
 
     <label for="acordeonero">👤 1. Acordeonero (Candidato)</label>
     <select id="acordeonero" required>
@@ -107,13 +107,23 @@
         <option value="PESAJE">⚖️ 3. Pesaje (Tapas válidas)</option>
     </select>
 
+    <!-- Paso 4: Pesaje (Condicional) -->
     <div id="bloque-pesaje" class="hidden">
-        <label for="peso">⚖️ Ingrese el Peso de las Tapas Válidas</label>
-        <input type="number" id="peso" placeholder="Ej: 4.5" step="0.01" min="0">
-        <span class="info-text">* Ingrese el peso en KILOGRAMOS usando punto para decimales.</span>
+        <label>⚖️ Tipo de medida:</label>
+        <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+            <label style="margin-top: 0; font-weight: normal;">
+                <input type="radio" name="tipo_medida" value="Kg" checked> Kilogramos
+            </label>
+            <label style="margin-top: 0; font-weight: normal;">
+                <input type="radio" name="tipo_medida" value="Unidades"> Unidades
+            </label>
+        </div>
+        
+        <label for="valor">🔢 Ingrese el valor (0 si no hay tapas válidas):</label>
+        <input type="number" id="valor" placeholder="Ej: 4.5 o 12" step="any" min="0">
         
         <div class="badge">
-            ℹ️ <b>Nota:</b> El cálculo total de tapas se realizará automáticamente en la base de datos de Excel.
+            ℹ️ <b>Nota:</b> Si pesa en Kg, el total se calculará automático. Si elige Unidades, se guardará el número exacto.
         </div>
     </div>
 
@@ -209,31 +219,33 @@
         const acordeonero = selectAcordeonero.value;
         const negocio = selectNegocio.value;
         const etapa = selectEtapa.value;
-        let peso = 0;
+        let valor = 0;
+        let tipoMedida = "N/A";
 
-        // Validaciones
         if (!acordeonero || !negocio || !etapa) {
             tg.showAlert("Por favor complete todos los campos obligatorios.");
             return;
         }
 
         if (etapa === "PESAJE") {
-            peso = inputPeso.value.trim();
-            if (!peso || isNaN(peso) || parseFloat(peso) <= 0) {
-                tg.showAlert("Por favor ingrese un peso válido en kilogramos.");
+            valor = document.getElementById('valor').value.trim();
+            tipoMedida = document.querySelector('input[name="tipo_medida"]:checked').value;
+            
+            // CORRECCIÓN: Permitimos el 0, pero bloqueamos valores negativos o vacíos
+            if (valor === "" || isNaN(valor) || parseFloat(valor) < 0) {
+                tg.showAlert("Por favor ingrese un valor válido (puede ser 0).");
                 return;
             }
         }
 
-        // Construir el paquete de datos
         const payload = {
             acordeonero: acordeonero,
             negocio: negocio,
             etapa: etapa,
-            peso_kg: etapa === "PESAJE" ? parseFloat(peso) : 0 // Si no es pesaje, enviamos 0
+            valor: etapa === "PESAJE" ? parseFloat(valor) : 0,
+            tipo_medida: etapa === "PESAJE" ? tipoMedida : "N/A"
         };
 
-        // Enviar a Telegram y cerrar
         tg.sendData(JSON.stringify(payload));
     });
 
