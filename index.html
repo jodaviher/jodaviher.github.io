@@ -119,8 +119,8 @@
             </label>
         </div>
         
-        <label for="valor">🔢 Ingrese el valor :</label>
-        <input type="number" id="valor" placeholder="Ej: 4.5 para kilos o 12 para unidades" step="any" min="0">
+        <label for="valor">🔢 Ingrese el valor (0 si no hay tapas válidas):</label>
+        <input type="number" id="valor" placeholder="Ej: 4.5 o 12" step="any" min="0">
         
         <div class="badge">
             ℹ️ <b>Nota:</b> Si pesa en Kg, el total se calculará automático. Si elige Unidades, se guardará el número exacto.
@@ -141,7 +141,7 @@
     const selectNegocio = document.getElementById('negocio');
     const selectEtapa = document.getElementById('etapa');
     const bloquePesaje = document.getElementById('bloque-pesaje');
-    const inputPeso = document.getElementById('peso');
+    const inputPeso = document.getElementById('valor');
     const btnEnviar = document.getElementById('btn-enviar');
 
     // 1. Cargar el JSON al iniciar
@@ -202,10 +202,12 @@
         
         if (etapa === "PESAJE") {
             bloquePesaje.classList.remove('hidden');
-            inputPeso.value = ""; // Limpiar el input por si acaso
+            inputValor.value = "";  // Limpiar el input por si acaso
         } else {
             bloquePesaje.classList.add('hidden');
         }
+    
+    // Mostrar el botón de enviar si hay una etapa seleccionada
 
         if (etapa !== "") {
             btnEnviar.classList.remove('hidden');
