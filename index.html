@@ -141,7 +141,7 @@
     const selectNegocio = document.getElementById('negocio');
     const selectEtapa = document.getElementById('etapa');
     const bloquePesaje = document.getElementById('bloque-pesaje');
-    const inputPeso = document.getElementById('valor');
+    const inputValor = document.getElementById('valor');
     const btnEnviar = document.getElementById('btn-enviar');
 
     // 1. Cargar el JSON al iniciar
@@ -202,7 +202,7 @@
         
         if (etapa === "PESAJE") {
             bloquePesaje.classList.remove('hidden');
-            inputValor.value = "";  // Limpiar el input por si acaso
+            inputValor.value = ""; // <-- CORREGIDO: Limpiamos la variable correcta
         } else {
             bloquePesaje.classList.add('hidden');
         }
