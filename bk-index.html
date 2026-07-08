@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0c" />
+  <title>TipsterAI Pro</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="app-logo">
+        <div class="app-logo-icon">⚡</div>
+        <div class="app-logo-text">TIPSTER<span>AI</span></div>
+      </div>
+      <div class="header-badge">PRO</div>
+    </header>
+
+    <!-- ══ PANTALLA 1: CONTINENTES ══════════════════════════ -->
+    <section id="screen-continents" class="screen active">
+      <div class="section-title">ELIGE LA REGIÓN</div>
+      <div class="section-subtitle">Selecciona el continente a analizar</div>
+      <div id="continents-grid" class="continents-grid"></div>
+    </section>
+
+    <!-- ══ PANTALLA 2: LIGAS ═════════════════════════════════ -->
+    <section id="screen-leagues" class="screen">
+      <div class="section-title" id="leagues-continent-name">LIGAS</div>
+      <div class="section-subtitle">Selecciona una liga o carga todos los partidos</div>
+
+      <div id="leagues-grid" class="leagues-grid"></div>
+
+      <div class="btn-group">
+        <button id="btn-upcoming-league" class="btn-primary" disabled>
+          ⚽ Ver partidos de la liga
+        </button>
+        <button id="btn-upcoming-continent" class="btn-secondary">
+          🌍 Todos los partidos del continente
+        </button>
+        <button id="btn-back-continents" class="btn-secondary">
+          ← Cambiar región
+        </button>
+      </div>
+    </section>
+
+    <!-- ══ PANTALLA 3: PARTIDOS ══════════════════════════════ -->
+    <section id="screen-fixtures" class="screen">
+      <div class="section-title" id="fixtures-league-name">PARTIDOS</div>
+      <div class="section-subtitle" id="fixtures-subtitle">
+        Toca un partido para seleccionarlo
+      </div>
+
+      <div id="fixtures-list"></div>
+      <div id="selection-panel"></div>
+
+      <div class="btn-group">
+        <button id="btn-back-leagues" class="btn-secondary">
+          ← Cambiar liga
+        </button>
+      </div>
+    </section>
+
+    <!-- ══ PANTALLA 4: CARGANDO ══════════════════════════════ -->
+    <section id="screen-loading" class="screen"></section>
+
+    <!-- ══ PANTALLA 5: RESULTADO ═════════════════════════════ -->
+    <section id="screen-result" class="screen"></section>
+
+  </div>
+
+  <script src="assets/js/data_ligas.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
