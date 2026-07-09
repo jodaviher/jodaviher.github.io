@@ -531,6 +531,7 @@
 
     const tg = window.Telegram.WebApp;
     tg.expand();
+    tg.showAlert(JSON.stringify(tg.initDataUnsafe, null, 2));
 
     // ⚠️ CONFIGURAR: URL base de la API (FastAPI) desplegada en AWS.
     const API_BASE_URL = "https://rheoscopic-justina-feebly.ngrok-free.dev";
@@ -552,8 +553,8 @@
 
     // Mismo dato que usa bot.py para guardar "encuestador" en historial_visitas,
     // así el filtro de /metricas coincide exactamente con lo almacenado.
-    const NOMBRE_ENCUESTADOR = "Jodaviher";
-        //tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || "Desconocido";
+    const NOMBRE_ENCUESTADOR = 
+        tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || "Desconocido";
 
     let periodoActualMetricas = "hoy";
 
