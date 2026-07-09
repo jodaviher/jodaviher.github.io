@@ -572,8 +572,6 @@
 
             if (!sucursales || sucursales.length === 0) {
                 mostrarLocalNuevo();
-            } else if (sucursales.length === 1) {
-                seleccionarLocal(sucursales[0], true);
             } else {
                 mostrarListaLocales(sucursales, nit);
             }
@@ -584,7 +582,9 @@
             const lista = document.getElementById("locales-list");
             const titulo = document.getElementById("locales-titulo");
 
-            titulo.textContent = `🏢 ${sucursales.length} locales encontrados para NIT ${nit}`;
+            titulo.textContent = sucursales.length === 1
+                ? `🏢 1 local encontrado para NIT ${nit}`
+                : `🏢 ${sucursales.length} locales encontrados para NIT ${nit}`;
             lista.innerHTML = "";
 
             sucursales.forEach(suc => {
