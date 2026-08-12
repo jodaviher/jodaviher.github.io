@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Renovación Matrícula CCB</title>
+    <title>Plataforma de Reporte, Operación y Análisis</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
@@ -87,6 +87,31 @@
         .menu-texto { font-size: 15px; font-weight: 700; color: var(--text); }
         .menu-sub { font-size: 12px; font-weight: 400; color: var(--subtle); display: block; margin-top: 2px; }
 
+        /* ── INDICADOR DE ACTIVIDAD ── */
+        .actividad-actual {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--blue-light);
+            border: 1px solid var(--blue);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue);
+        }
+        .btn-cambiar-actividad {
+            background: none;
+            border: none;
+            color: var(--blue);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0;
+        }
+
         /* ── TABS DE PERIODO (Mi Avance) ── */
         .tabs-periodo {
             display: flex;
@@ -148,6 +173,128 @@
             font-size: 13px;
             color: var(--subtle);
             padding: 20px 0;
+        }
+
+        /* ── AVANCE DEL EQUIPO ── */
+        .clave-row { display: flex; gap: 8px; align-items: flex-end; }
+        .clave-row .field { flex: 1; margin-bottom: 0; }
+
+        .cobertura-numero { font-size: 28px; font-weight: 700; color: var(--text); }
+        .cobertura-sub { font-size: 12px; color: var(--subtle); margin-top: 2px; }
+        .cobertura-bar-fondo {
+            background: var(--bg);
+            border-radius: 6px;
+            height: 14px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .cobertura-bar-fill {
+            height: 100%;
+            background: var(--blue);
+            border-radius: 6px;
+            transition: width 0.4s ease;
+        }
+
+        .ranking-item { border-bottom: 1px solid var(--border); }
+        .ranking-item:last-child { border-bottom: none; }
+        .ranking-fila {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        .ranking-puesto {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--subtle);
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .ranking-info { flex: 1; min-width: 0; }
+        .ranking-nombre { font-size: 13px; font-weight: 700; color: var(--text); }
+        .ranking-detalle { font-size: 11px; color: var(--subtle); margin-top: 2px; }
+        .ranking-total { font-size: 16px; font-weight: 700; color: var(--blue); flex-shrink: 0; }
+        .ranking-caret {
+            font-size: 10px;
+            color: var(--subtle);
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        .ranking-caret.abierto { transform: rotate(180deg); }
+        .ranking-expand { padding: 0 0 12px 30px; }
+
+        /* ── MI RUTA ── */
+        .ruta-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+        }
+        .ruta-card:last-child { margin-bottom: 0; }
+        .ruta-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .ruta-card-nit {
+            font-size: 11px;
+            font-family: 'DM Mono', monospace;
+            color: var(--subtle);
+            font-weight: 600;
+        }
+        .ruta-card-tipo {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--subtle);
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+        .ruta-card-nombre { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+        .ruta-card-direccion { font-size: 12px; color: var(--subtle); margin-bottom: 6px; }
+        .ruta-card-footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--subtle);
+        }
+        .ruta-card-estado { font-weight: 700; }
+
+        .btn-cargar-mas {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--blue);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .btn-cargar-mas:active { opacity: 0.7; }
+
+        /* ── RITMO DEL EQUIPO ── */
+        .ritmo-nombre-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+        }
+        .ritmo-nombre { font-size: 14px; font-weight: 700; color: var(--text); }
+        .ritmo-total { font-size: 12px; color: var(--subtle); }
+        .ritmo-promedio { font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 10px; }
+        .ritmo-promedio.sin-datos { color: var(--subtle); font-weight: 400; }
+
+        /* ── TITULOS CENTRADOS ── */
+        .titulo-centrado {
+            text-align: center;
         }
 
         /* ── HEADER ── */
@@ -325,12 +472,39 @@
 
     <!-- HEADER -->
     <div class="header">
-        <h2>🏛️ Renovación Matrícula Mercantil</h2>
-        <p>Cámara de Comercio de Barranquilla</p>
+        <h4 class="titulo-centrado">🧭 P.R.O.A</h4>
+        <h2 class="titulo-centrado">Plataforma de Reporte, Operación y Análisis.</h2>
+        <p class="titulo-centrado">Cámara de Comercio de Barranquilla</p>
+    </div>
+
+    <!-- PANTALLA: SELECCIÓN DE ACTIVIDAD -->
+    <div class="pantalla" id="pantalla-actividad">
+        <div class="menu-grid">
+            <button type="button" class="menu-btn" onclick="elegirActividad('RENOVACION')">
+                <span class="menu-icono">🏛️</span>
+                <span>
+                    <span class="menu-texto">Actividad 1: Renovación</span>
+                    <!-- ⚠️ CONFIGURAR: fecha real de la actividad -->
+                    <span class="menu-sub">22 – 23 de julio de 2026</span>
+                </span>
+            </button>
+            <button type="button" class="menu-btn" onclick="elegirActividad('YA_RENOVADO')">
+                <span class="menu-icono">🤝</span>
+                <span>
+                    <span class="menu-texto">Actividad 2: Más cerca de ti</span>
+                    <!-- ⚠️ CONFIGURAR: fecha real de la actividad -->
+                    <span class="menu-sub">A partir del 24 de julio de 2026</span>
+                </span>
+            </button>
+        </div>
     </div>
 
     <!-- PANTALLA: MENÚ PRINCIPAL -->
-    <div class="pantalla" id="pantalla-home">
+    <div class="pantalla hidden" id="pantalla-home">
+        <div class="actividad-actual">
+            <span class="actividad-indicador" id="home-actividad-label"></span>
+            <button type="button" class="btn-cambiar-actividad" onclick="mostrarPantalla('actividad')">Cambiar</button>
+        </div>
         <div class="menu-grid">
             <button type="button" class="menu-btn" onclick="mostrarPantalla('registrar')">
                 <span class="menu-icono">📋</span>
@@ -346,12 +520,51 @@
                     <span class="menu-sub">Cuántas visitas llevas y cómo van resultando</span>
                 </span>
             </button>
+            <button type="button" class="menu-btn" onclick="mostrarPantalla('mi-ruta')">
+                <span class="menu-icono">🗂️</span>
+                <span>
+                    <span class="menu-texto">Mi Ruta</span>
+                    <span class="menu-sub">Listado de lo que has gestionado</span>
+                </span>
+            </button>
+            <button type="button" class="menu-btn" onclick="mostrarPantalla('pendientes')">
+                <span class="menu-icono">📍</span>
+                <span>
+                    <span class="menu-texto">Mis Pendientes</span>
+                    <span class="menu-sub">Lo que te falta por visitar en tu ruta</span>
+                </span>
+            </button>
+            <h4 class="titulo-centrado">Coordinadores</h4>
+            <button type="button" class="menu-btn" onclick="mostrarPantalla('equipo')">
+                <span class="menu-icono">👥</span>
+                <span>
+                    <span class="menu-texto">Avance del Equipo</span>
+                    <span class="menu-sub">Vista de coordinación — requiere clave</span>
+                </span>
+            </button>
+            <button type="button" class="menu-btn" onclick="mostrarPantalla('ritmo')">
+                <span class="menu-icono">🏃</span>
+                <span>
+                    <span class="menu-texto">Ritmo del Equipo</span>
+                    <span class="menu-sub">Monitoreo en vivo — requiere clave</span>
+                </span>
+            </button>
+            <button type="button" class="menu-btn" onclick="mostrarPantalla('cobertura-rutas')">
+                <span class="menu-icono">🗺️</span>
+                <span>
+                    <span class="menu-texto">Cobertura de Rutas</span>
+                    <span class="menu-sub">Avance por ruta — requiere clave</span>
+                </span>
+            </button>
         </div>
     </div>
 
     <!-- PANTALLA: REGISTRAR VISITA -->
     <div class="pantalla hidden" id="pantalla-registrar">
     <button type="button" class="btn-volver" onclick="volverAHome()">⬅ Menú principal</button>
+    <div class="actividad-actual">
+        <span class="actividad-indicador" id="registrar-actividad-label"></span>
+    </div>
 
     <!-- RUTA -->
     <div class="card">
@@ -368,6 +581,7 @@
                 <option value="Ruta 6">Ruta 6</option>
                 <option value="Ruta 7">Ruta 7</option>
                 <option value="Ruta 8">Ruta 8</option>
+                <option value="Ruta 9">Ruta 9</option>
             </select>
         </div>
     </div>
@@ -438,17 +652,19 @@
             <select id="motivo_pendiente">
                 <option value="">Seleccione el motivo...</option>
                 <optgroup label="▬ Negocio Cerrado / Inexistente ▬">
-                    <option value="CERRADO PERMANENTE">Cerrado No Existe</option>
-                    <option value="CERRADO PERMANENTE">Cerrado Se Trasladó</option>
+                    <option value="CERRADO PERMANENTE">Negocio no esta en la direccion</option>
                     <option value="CERRADO PERMANENTE">Otro Negocio en el Lugar</option>
+                    <option value="CERRADO PERMANENTE">Cerrado, nadie atiende en el momento</option>
                 </optgroup>
                 <optgroup label="▬ Problemas de Ubicación o Políticas ▬">
                     <option value="DIRECCION ERRADA">Dirección Errada / Incompleta</option>
                 </optgroup>
                 <optgroup label="▬ Problemas de Atención / Contacto ▬">
+                    <option value="DIFICIL ACCESO">Dificil acceso</option>
+                    <option value="NO AUTORIZAN INGRESO">No autorizaron ingreso</option>
                     <option value="EL ENCARGADO NO ESTA">No está el responsable</option>
                     <option value="NO ATENDIERON">Nadie salió a atender</option>
-                    <option value="REPORTA EXTORSION">No quiso atender, reportó extorsión</option>
+                    <option value="REPORTA EXTORSION">reportó extorsión</option>
                     <option value="REPROGRAMADO">Ocupado o Cerrado por horario - *reprogramar visita*</option>
                 </optgroup>
             </select>
@@ -459,7 +675,7 @@
         </div>
     </div>
 
-    <!-- PASO 2: ¿YA RENOVÓ? -->
+    <!-- PASO 2 (RENOVACION): ¿YA RENOVÓ? -->
     <div class="card hidden" id="card-renovo">
         <div class="card-title">🔄 Paso 2 — Estado de la renovación</div>
         <div class="opcion-group">
@@ -470,6 +686,25 @@
             <button type="button" class="opcion-btn" id="btn-renovo-no" onclick="seleccionarRenovo('NO')">
                 ⏳ No ha renovado
                 <span class="opcion-sub">La empresa indica que aún no ha renovado</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- PASO 2 (YA_RENOVADO): ¿QUÉ ACTIVIDAD SE REALIZÓ? -->
+    <div class="card hidden" id="card-resultado-yarenovado">
+        <div class="card-title">🔄 Paso 2 — Actividad realizada</div>
+        <div class="opcion-group">
+            <button type="button" class="opcion-btn" id="btn-resultado-vitrinapp" onclick="seleccionarResultadoYaRenovado('VITRINAPP')">
+                🖼️ Vitrinapp
+                <span class="opcion-sub">Informe de vitrina generado y enviado</span>
+            </button>
+            <button type="button" class="opcion-btn" id="btn-resultado-diagnostico" onclick="seleccionarResultadoYaRenovado('DIAGNOSTICO_NEGOCIO')">
+                📋 Diagnóstico del Negocio
+                <span class="opcion-sub">Formulario de 5 preguntas completado</span>
+            </button>
+            <button type="button" class="opcion-btn" id="btn-resultado-contenido" onclick="seleccionarResultadoYaRenovado('CONSUMO_CONTENIDO')">
+                📱 Consumo de Contenido Digital
+                <span class="opcion-sub">Escaneó el QR y vio el contenido de WhatsApp</span>
             </button>
         </div>
     </div>
@@ -522,6 +757,157 @@
         </div>
     </div> <!-- /pantalla-metricas -->
 
+    <!-- PANTALLA: AVANCE DEL EQUIPO (coordinador) -->
+    <div class="pantalla hidden" id="pantalla-equipo">
+        <button type="button" class="btn-volver" onclick="volverAHome()">⬅ Menú principal</button>
+
+        <!-- Acceso -->
+        <div class="card" id="equipo-acceso">
+            <div class="card-title">🔒 Acceso de Coordinación</div>
+            <div class="clave-row">
+                <div class="field">
+                    <label for="equipo-clave">Clave</label>
+                    <input type="password" id="equipo-clave" placeholder="Clave de coordinador">
+                </div>
+                <button type="button" class="btn btn-search" onclick="entrarEquipo()">Entrar</button>
+            </div>
+        </div>
+
+        <!-- Contenido (oculto hasta validar la clave) -->
+        <div class="hidden" id="equipo-panel">
+            <div class="card">
+                <div class="card-title">👥 Avance del Equipo</div>
+                <div class="tabs-periodo">
+                    <button type="button" class="tab-periodo activo" id="tab-equipo-hoy" onclick="cambiarPeriodoEquipo('hoy')">Hoy</button>
+                    <button type="button" class="tab-periodo" id="tab-equipo-semana" onclick="cambiarPeriodoEquipo('semana')">Semana</button>
+                    <button type="button" class="tab-periodo" id="tab-equipo-total" onclick="cambiarPeriodoEquipo('total')">Total</button>
+                </div>
+            </div>
+
+            <div id="equipo-contenido">
+                <div class="card">
+                    <div class="aviso-vacio">Cargando...</div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /pantalla-equipo -->
+
+    <!-- PANTALLA: MI RUTA -->
+    <div class="pantalla hidden" id="pantalla-mi-ruta">
+        <button type="button" class="btn-volver" onclick="volverAHome()">⬅ Menú principal</button>
+
+        <div class="card">
+            <div class="card-title">🗂️ Mi Ruta</div>
+            <div class="tabs-periodo">
+                <button type="button" class="tab-periodo activo" id="tab-ruta-hoy" onclick="cambiarPeriodoMiRuta('hoy')">Hoy</button>
+                <button type="button" class="tab-periodo" id="tab-ruta-semana" onclick="cambiarPeriodoMiRuta('semana')">Semana</button>
+                <button type="button" class="tab-periodo" id="tab-ruta-total" onclick="cambiarPeriodoMiRuta('total')">Total</button>
+            </div>
+        </div>
+
+        <div id="mi-ruta-lista"></div>
+
+        <button type="button" class="btn-cargar-mas hidden" id="btn-cargar-mas-ruta" onclick="cargarMasMiRuta()">Cargar más</button>
+    </div> <!-- /pantalla-mi-ruta -->
+
+    <!-- PANTALLA: MIS PENDIENTES -->
+    <div class="pantalla hidden" id="pantalla-pendientes">
+        <button type="button" class="btn-volver" onclick="volverAHome()">⬅ Menú principal</button>
+
+        <div class="card">
+            <div class="card-title">📍 Mis Pendientes</div>
+            <div class="field">
+                <label for="pendientes-ruta-select">Mi ruta</label>
+                <select id="pendientes-ruta-select" onchange="cambiarRutaPendientes()">
+                    <option value="">Seleccione su ruta...</option>
+                    <option value="1">Ruta 1</option>
+                    <option value="2">Ruta 2</option>
+                    <option value="3">Ruta 3</option>
+                    <option value="4">Ruta 4</option>
+                    <option value="5">Ruta 5</option>
+                    <option value="6">Ruta 6</option>
+                    <option value="7">Ruta 7</option>
+                    <option value="8">Ruta 8</option>
+                    <option value="9">Ruta 9</option>
+                </select>
+            </div>
+            <div class="tabs-periodo">
+                <button type="button" class="tab-periodo activo" id="tab-pendientes-hoy" onclick="cambiarFechaPendientes('hoy')">Hoy</button>
+                <button type="button" class="tab-periodo" id="tab-pendientes-ayer" onclick="cambiarFechaPendientes('ayer')">Ayer</button>
+            </div>
+        </div>
+
+        <div id="pendientes-lista"></div>
+
+        <button type="button" class="btn-cargar-mas hidden" id="btn-cargar-mas-pendientes" onclick="cargarMasPendientes()">Cargar más</button>
+    </div> <!-- /pantalla-pendientes -->
+
+    <!-- PANTALLA: RITMO DEL EQUIPO (coordinador) -->
+    <div class="pantalla hidden" id="pantalla-ritmo">
+        <button type="button" class="btn-volver" onclick="volverAHome()">⬅ Menú principal</button>
+
+        <!-- Acceso (comparte la misma sesión de clave que Avance del Equipo) -->
+        <div class="card" id="ritmo-acceso">
+            <div class="card-title">🔒 Acceso de Coordinación</div>
+            <div class="clave-row">
+                <div class="field">
+                    <label for="ritmo-clave">Clave</label>
+                    <input type="password" id="ritmo-clave" placeholder="Clave de coordinador">
+                </div>
+                <button type="button" class="btn btn-search" onclick="entrarRitmo()">Entrar</button>
+            </div>
+        </div>
+
+        <!-- Contenido (oculto hasta validar la clave) -->
+        <div class="hidden" id="ritmo-panel">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="card-title" style="margin-bottom:0;">🏃 Ritmo del Equipo — Hoy</div>
+                    <button type="button" class="btn-volver" style="padding:0;" onclick="cargarRitmo()">🔄 Actualizar</button>
+                </div>
+            </div>
+
+            <div id="ritmo-contenido">
+                <div class="card">
+                    <div class="aviso-vacio">Cargando...</div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /pantalla-ritmo -->
+
+    <!-- PANTALLA: COBERTURA DE RUTAS (coordinador) -->
+    <div class="pantalla hidden" id="pantalla-cobertura-rutas">
+        <button type="button" class="btn-volver" onclick="volverAHome()">⬅ Menú principal</button>
+
+        <!-- Acceso (comparte la misma sesión de clave que el resto de pantallas de coordinador) -->
+        <div class="card" id="cobertura-rutas-acceso">
+            <div class="card-title">🔒 Acceso de Coordinación</div>
+            <div class="clave-row">
+                <div class="field">
+                    <label for="cobertura-rutas-clave">Clave</label>
+                    <input type="password" id="cobertura-rutas-clave" placeholder="Clave de coordinador">
+                </div>
+                <button type="button" class="btn btn-search" onclick="entrarCoberturaRutas()">Entrar</button>
+            </div>
+        </div>
+
+        <!-- Contenido (oculto hasta validar la clave) -->
+        <div class="hidden" id="cobertura-rutas-panel">
+            <div class="card">
+                <div class="card-title">🗺️ Cobertura de Rutas</div>
+                <div class="tabs-periodo">
+                    <button type="button" class="tab-periodo activo" id="tab-cobertura-hoy" onclick="cambiarFechaCoberturaRutas('hoy')">Hoy</button>
+                    <button type="button" class="tab-periodo" id="tab-cobertura-ayer" onclick="cambiarFechaCoberturaRutas('ayer')">Ayer</button>
+                </div>
+            </div>
+
+            <div id="cobertura-rutas-contenido">
+                <div class="card">
+                    <div class="aviso-vacio">Cargando...</div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /pantalla-cobertura-rutas -->
 </div>
 
 <script>
@@ -531,30 +917,65 @@
 
     const tg = window.Telegram.WebApp;
     tg.expand();
-    tg.showAlert(JSON.stringify(tg.initDataUnsafe, null, 2));
 
     // ⚠️ CONFIGURAR: URL base de la API (FastAPI) desplegada en AWS.
-    const API_BASE_URL = "https://rheoscopic-justina-feebly.ngrok-free.dev";
+    const API_BASE_URL = "https://rheoscopic-justina-feebly.ngrok-free.dev"
+    
+    //"https://api.goump.com";
 
-    // Estados de sucursales.estado_auditoria que la API puede devolver.
-    const LABEL_ESTADO_AUDITORIA = {
-        "YA_RENOVO":              "Ya renovó",
-        "INTERACCION_CHAT_WA":    "Hizo guía de WhatsApp",
-        "SE_DEJA_INFO_VOLANTE":   "Se dejó volante",
-        "NO_EFECTIVA_DEFINITIVA": "No efectiva definitiva",
+    // Info (etiqueta + color) por categoría — unifica lo que antes eran dos
+    // diccionarios separados (LABEL_ESTADO_AUDITORIA y CATEGORIA_COLOR), y
+    // ahora cubre las categorías de AMBAS actividades. NO_EFECTIVA_DEFINITIVA
+    // y REPROGRAMAR son compartidas; el resto es específico de cada actividad.
+    const CATEGORIA_INFO = {
+        // Actividad: RENOVACION
+        "YA_RENOVO":              { label: "Ya renovó",              color: "var(--green)" },
+        "INTERACCION_CHAT_WA":    { label: "Hizo guía de WhatsApp",   color: "var(--blue)" },
+        "SE_DEJA_INFO_VOLANTE":   { label: "Se dejó volante",         color: "var(--teal)" },
+        // Actividad: YA_RENOVADO
+        "VITRINAPP":              { label: "Vitrinapp",               color: "var(--green)" },
+        "DIAGNOSTICO_NEGOCIO":    { label: "Diagnóstico del Negocio", color: "var(--blue)" },
+        "CONSUMO_CONTENIDO":      { label: "Consumo de Contenido",    color: "var(--teal)" },
+        // Compartidas (rama "No se pudo contactar")
+        "NO_EFECTIVA_DEFINITIVA": { label: "No efectiva definitiva",  color: "var(--red)" },
+        "REPROGRAMAR":            { label: "Reprogramada",            color: "var(--orange)" },
     };
+
+    // Qué categorías cuentan como "contacto exitoso" en cada actividad —
+    // debe mantenerse igual a ESTADOS_POSITIVOS_POR_ACTIVIDAD en main.py/db.py.
+    const POSITIVOS_POR_ACTIVIDAD = {
+        "RENOVACION":  ["YA_RENOVO", "INTERACCION_CHAT_WA", "SE_DEJA_INFO_VOLANTE"],
+        "YA_RENOVADO": ["VITRINAPP", "DIAGNOSTICO_NEGOCIO", "CONSUMO_CONTENIDO"],
+    };
+
+    function contarExitosas(desglose) {
+        const positivos = POSITIVOS_POR_ACTIVIDAD[actividadActual] || [];
+        return desglose
+            .filter(c => positivos.includes(c.categoria))
+            .reduce((suma, c) => suma + c.cantidad, 0);
+    }
+
+    let actividadActual = null; // 'RENOVACION' | 'YA_RENOVADO' — se define al elegir en pantalla-actividad
+
+    function elegirActividad(actividad) {
+        actividadActual = actividad;
+        const etiqueta = actividad === "RENOVACION" ? "🏛️ Actividad: Renovación" : "🤝 Actividad: Más cerca de ti";
+        document.querySelectorAll(".actividad-indicador").forEach(el => el.textContent = etiqueta);
+        mostrarPantalla("home");
+    }
 
     let tipoRegistroActual   = "";
     let localSeleccionado    = null; // sucursal_id (PK numérico de Postgres), no la matrícula
     let sucursalActualData   = null; // objeto completo devuelto por la API (para bloqueo/reintento)
     let contactoActual       = null; // 'SI' | 'NO'
-    let renovoActual         = null; // 'SI' | 'NO'
-    let guiaActual           = null; // 'SI' | 'NO'
+    let renovoActual         = null; // 'SI' | 'NO' (actividad RENOVACION)
+    let guiaActual           = null; // 'SI' | 'NO' (actividad RENOVACION)
+    let resultadoYaRenovadoActual = null; // 'VITRINAPP' | 'DIAGNOSTICO_NEGOCIO' | 'CONSUMO_CONTENIDO' (actividad YA_RENOVADO)
 
     // Mismo dato que usa bot.py para guardar "encuestador" en historial_visitas,
     // así el filtro de /metricas coincide exactamente con lo almacenado.
-    const NOMBRE_ENCUESTADOR = 
-        tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || "Desconocido";
+    const NOMBRE_ENCUESTADOR =
+        new URLSearchParams(window.location.search).get("u") || "Desconocido";
 
     let periodoActualMetricas = "hoy";
 
@@ -568,6 +989,57 @@
         if (nombre === "metricas") {
             document.getElementById("metricas-encuestador").textContent = NOMBRE_ENCUESTADOR;
             cargarMetricas(periodoActualMetricas);
+        }
+
+        if (nombre === "equipo") {
+            document.getElementById("equipo-clave").value = "";
+            if (claveCoordinadorActual) {
+                // Ya se validó la clave antes en esta misma sesión: no se vuelve a pedir.
+                document.getElementById("equipo-acceso").classList.add("hidden");
+                document.getElementById("equipo-panel").classList.remove("hidden");
+                cargarEquipo(periodoActualEquipo);
+            } else {
+                document.getElementById("equipo-acceso").classList.remove("hidden");
+                document.getElementById("equipo-panel").classList.add("hidden");
+            }
+        }
+
+        if (nombre === "mi-ruta") {
+            cargarMiRuta(true);
+        }
+
+        if (nombre === "pendientes") {
+            if (rutaSeleccionadaPendientes) {
+                document.getElementById("pendientes-ruta-select").value = rutaSeleccionadaPendientes;
+                cargarPendientes(true);
+            } else {
+                document.getElementById("pendientes-lista").innerHTML =
+                    `<div class="card"><div class="aviso-vacio">Selecciona tu ruta para ver los pendientes.</div></div>`;
+            }
+        }
+
+        if (nombre === "ritmo") {
+        document.getElementById("ritmo-clave").value = "";
+        if (claveCoordinadorActual) {
+            document.getElementById("ritmo-acceso").classList.add("hidden");
+            document.getElementById("ritmo-panel").classList.remove("hidden");
+            cargarRitmo();
+        } else {
+            document.getElementById("ritmo-acceso").classList.remove("hidden");
+            document.getElementById("ritmo-panel").classList.add("hidden");
+        }
+        }
+
+        if (nombre === "cobertura-rutas") {
+            document.getElementById("cobertura-rutas-clave").value = "";
+            if (claveCoordinadorActual) {
+                document.getElementById("cobertura-rutas-acceso").classList.add("hidden");
+                document.getElementById("cobertura-rutas-panel").classList.remove("hidden");
+                cargarCoberturaRutas();
+            } else {
+                document.getElementById("cobertura-rutas-acceso").classList.remove("hidden");
+                document.getElementById("cobertura-rutas-panel").classList.add("hidden");
+            }
         }
     }
 
@@ -592,7 +1064,7 @@
         let m;
         try {
             const resp = await fetch(
-                `${API_BASE_URL}/metricas?encuestador=${encodeURIComponent(NOMBRE_ENCUESTADOR)}&periodo=${periodo}`,
+                `${API_BASE_URL}/metricas?encuestador=${encodeURIComponent(NOMBRE_ENCUESTADOR)}&actividad=${actividadActual}&periodo=${periodo}`,
                 { headers: { "ngrok-skip-browser-warning": "true" } }
             );
             if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -608,28 +1080,24 @@
             return;
         }
 
-        const categorias = [
-            { valor: m.ya_renovo, label: "✅ Ya renovó", color: "var(--green)" },
-            { valor: m.interaccion_chat_wa, label: "📲 Guía WhatsApp", color: "var(--blue)" },
-            { valor: m.se_deja_info_volante, label: "📄 Volante entregado", color: "var(--teal)" },
-            { valor: m.no_efectiva_definitiva, label: "❌ No efectiva", color: "var(--red)" },
-            { valor: m.reprogramar, label: "🟡 Pendiente reintento", color: "var(--orange)" },
-        ];
-        const maxValor = Math.max(...categorias.map(c => c.valor), 1);
+        const maxValor = Math.max(...m.desglose.map(c => c.cantidad), 1);
 
-        const barrasHtml = categorias
-            .filter(c => c.valor > 0)
-            .map(c => `
-                <div class="barra-item">
-                    <div class="barra-header">
-                        <span>${c.label}</span>
-                        <span>${c.valor}</span>
+        const barrasHtml = m.desglose
+            .filter(c => c.cantidad > 0)
+            .map(c => {
+                const info = CATEGORIA_INFO[c.categoria] || { label: c.categoria, color: "var(--subtle)" };
+                return `
+                    <div class="barra-item">
+                        <div class="barra-header">
+                            <span>${info.label}</span>
+                            <span>${c.cantidad}</span>
+                        </div>
+                        <div class="barra-fondo">
+                            <div class="barra-fill" style="width:${(c.cantidad / maxValor) * 100}%; background:${info.color};"></div>
+                        </div>
                     </div>
-                    <div class="barra-fondo">
-                        <div class="barra-fill" style="width:${(c.valor / maxValor) * 100}%; background:${c.color};"></div>
-                    </div>
-                </div>
-            `).join("");
+                `;
+            }).join("");
 
         const motivosHtml = m.motivos_no_efectiva.length
             ? `<div class="card">
@@ -654,6 +1122,593 @@
     }
 
     // ─────────────────────────────────────────
+    // AVANCE DEL EQUIPO (coordinador)
+    // ─────────────────────────────────────────
+    let claveCoordinadorActual = null; // se guarda en memoria solo mientras dure la sesión
+    let periodoActualEquipo = "hoy";
+
+    async function entrarEquipo() {
+        const clave = document.getElementById("equipo-clave").value.trim();
+        if (!clave) { tg.showAlert("Ingresa la clave de coordinador."); return; }
+
+        const m = await consultarEquipo(clave, periodoActualEquipo);
+        if (m === null) return; // ya se mostró la alerta correspondiente dentro de consultarEquipo
+
+        claveCoordinadorActual = clave;
+        document.getElementById("equipo-acceso").classList.add("hidden");
+        document.getElementById("equipo-panel").classList.remove("hidden");
+        renderEquipo(m);
+    }
+
+    function cambiarPeriodoEquipo(periodo) {
+        periodoActualEquipo = periodo;
+        document.querySelectorAll("#equipo-panel .tab-periodo").forEach(t => t.classList.remove("activo"));
+        document.getElementById(`tab-equipo-${periodo}`).classList.add("activo");
+        cargarEquipo(periodo);
+    }
+
+    async function cargarEquipo(periodo) {
+        const contenedor = document.getElementById("equipo-contenido");
+        contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Cargando...</div></div>`;
+
+        const m = await consultarEquipo(claveCoordinadorActual, periodo);
+        if (m === null) return;
+
+        renderEquipo(m);
+    }
+
+    // Hace el fetch y maneja errores comunes (clave inválida, conexión).
+    // Devuelve el JSON de la respuesta, o null si hubo un error ya notificado.
+    async function consultarEquipo(clave, periodo) {
+        try {
+            const resp = await fetch(`${API_BASE_URL}/metricas-equipo?actividad=${actividadActual}&periodo=${periodo}`, {
+                headers: {
+                    "X-Coordinador-Key": clave,
+                    "ngrok-skip-browser-warning": "true"
+                }
+            });
+
+            if (resp.status === 401) {
+                tg.showAlert("⚠️ Clave de coordinador incorrecta.");
+                // Si ya estábamos dentro y la sesión se invalidó, regresamos al formulario de acceso.
+                claveCoordinadorActual = null;
+                document.getElementById("equipo-panel").classList.add("hidden");
+                document.getElementById("equipo-acceso").classList.remove("hidden");
+                return null;
+            }
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+            return await resp.json();
+        } catch (e) {
+            console.error("Error consultando avance del equipo:", e);
+            tg.showAlert("⚠️ No se pudo cargar el avance del equipo. Verifica tu conexión.");
+            return null;
+        }
+    }
+
+    function renderEquipo(m) {
+        const contenedor = document.getElementById("equipo-contenido");
+
+        if (m.totales_equipo.total_gestionadas === 0) {
+            contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Aún no hay visitas registradas en este periodo.</div></div>`;
+            return;
+        }
+
+        // ── Cobertura de campaña (foto actual, no depende del periodo) ──
+        const cob = m.cobertura;
+        const coberturaHtml = `
+            <div class="card">
+                <div class="card-title">🗺️ Cobertura de la Campaña</div>
+                <div class="cobertura-numero">${cob.gestionadas} / ${cob.total_sucursales}</div>
+                <div class="cobertura-sub">${cob.porcentaje_avance}% de la base ya tiene un resultado registrado (${cob.pendientes} pendientes)</div>
+                <div class="cobertura-bar-fondo">
+                    <div class="cobertura-bar-fill" style="width:${cob.porcentaje_avance}%;"></div>
+                </div>
+            </div>
+        `;
+
+        // ── Totales del equipo ──
+        const t = m.totales_equipo;
+        const maxValor = Math.max(...t.desglose.map(c => c.cantidad), 1);
+        const barrasHtml = t.desglose
+            .filter(c => c.cantidad > 0)
+            .map(c => {
+                const info = CATEGORIA_INFO[c.categoria] || { label: c.categoria, color: "var(--subtle)" };
+                return `
+                    <div class="barra-item">
+                        <div class="barra-header"><span>${info.label}</span><span>${c.cantidad}</span></div>
+                        <div class="barra-fondo">
+                            <div class="barra-fill" style="width:${(c.cantidad / maxValor) * 100}%; background:${info.color};"></div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+        const totalesHtml = `
+            <div class="card">
+                <div class="metrica-total">
+                    <div class="numero">${t.total_gestionadas}</div>
+                    <div class="etiqueta">sucursales gestionadas por el equipo</div>
+                    <div class="metrica-tasa">${t.tasa_efectividad}% de efectividad</div>
+                </div>
+                ${barrasHtml}
+            </div>
+        `;
+
+        // ── Ranking por encuestador (ya viene ordenado desc por la API) ──
+        const rankingHtml = `
+            <div class="card">
+                <div class="card-title">🏅 Por Encuestador</div>
+                ${m.por_encuestador.map((r, i) => `
+                    <div class="ranking-item">
+                        <div class="ranking-fila" onclick="toggleEncuestador(${i})">
+                            <div class="ranking-puesto">${i + 1}</div>
+                            <div class="ranking-info">
+                                <div class="ranking-nombre">${r.encuestador}</div>
+                                <div class="ranking-detalle">${r.tasa_efectividad}% efectividad · ${contarExitosas(r.desglose)} exitosas</div>
+                            </div>
+                            <div class="ranking-total">${r.total_gestionadas}</div>
+                            <div class="ranking-caret" id="caret-${i}">▾</div>
+                        </div>
+                        <div class="ranking-expand hidden" id="expand-${i}">
+                            ${r.motivos_no_efectiva.length
+                                ? r.motivos_no_efectiva.map(mo => `
+                                    <div class="motivo-fila"><span>${mo.motivo}</span><span>${mo.cantidad}</span></div>
+                                `).join("")
+                                : `<div class="aviso-vacio">Sin no efectivas registradas en este periodo.</div>`}
+                        </div>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+
+        const motivosHtml = t.motivos_no_efectiva.length
+            ? `<div class="card">
+                   <div class="card-title">📋 Motivos de No Efectiva (equipo)</div>
+                   ${t.motivos_no_efectiva.map(mo => `
+                       <div class="motivo-fila"><span>${mo.motivo}</span><span>${mo.cantidad}</span></div>
+                   `).join("")}
+               </div>`
+            : "";
+
+        contenedor.innerHTML = coberturaHtml + totalesHtml + rankingHtml + motivosHtml;
+    }
+    // Acordeón de una sola fila abierta a la vez: al tocar un encuestador,
+    // se cierra cualquier otro que estuviera desplegado.
+    function toggleEncuestador(i) {
+        const panel = document.getElementById(`expand-${i}`);
+        const caret = document.getElementById(`caret-${i}`);
+        const yaAbierto = !panel.classList.contains("hidden");
+
+        document.querySelectorAll(".ranking-expand").forEach(p => p.classList.add("hidden"));
+        document.querySelectorAll(".ranking-caret").forEach(c => c.classList.remove("abierto"));
+
+        if (!yaAbierto) {
+            panel.classList.remove("hidden");
+            caret.classList.add("abierto");
+        }
+    }
+    // ─────────────────────────────────────────
+    // MI RUTA
+    // ─────────────────────────────────────────
+    let periodoActualMiRuta = "hoy";
+    let offsetMiRuta = 0;
+    const LIMITE_MI_RUTA = 25;
+
+    function cambiarPeriodoMiRuta(periodo) {
+        periodoActualMiRuta = periodo;
+        document.querySelectorAll("#pantalla-mi-ruta .tab-periodo").forEach(t => t.classList.remove("activo"));
+        document.getElementById(`tab-ruta-${periodo}`).classList.add("activo");
+        cargarMiRuta(true);
+    }
+
+    function cargarMasMiRuta() {
+        cargarMiRuta(false);
+    }
+
+    // reset=true: reinicia el offset y limpia la lista (cambio de tab o entrada a la pantalla).
+    // reset=false: agrega la siguiente página al final de la lista existente ("Cargar más").
+    async function cargarMiRuta(reset) {
+        const contenedor = document.getElementById("mi-ruta-lista");
+        const btnMas = document.getElementById("btn-cargar-mas-ruta");
+
+        if (reset) {
+            offsetMiRuta = 0;
+            contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Cargando...</div></div>`;
+            btnMas.classList.add("hidden");
+        }
+
+        let data;
+        try {
+            const resp = await fetch(
+                `${API_BASE_URL}/mi-ruta?encuestador=${encodeURIComponent(NOMBRE_ENCUESTADOR)}&actividad=${actividadActual}&periodo=${periodoActualMiRuta}&offset=${offsetMiRuta}&limite=${LIMITE_MI_RUTA}`,
+                { headers: { "ngrok-skip-browser-warning": "true" } }
+            );
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            data = await resp.json();
+        } catch (e) {
+            console.error("Error consultando Mi Ruta:", e);
+            contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">⚠️ No se pudo cargar tu ruta. Verifica tu conexión.</div></div>`;
+            btnMas.classList.add("hidden");
+            return;
+        }
+
+        if (reset) {
+            contenedor.innerHTML = "";
+            if (data.visitas.length === 0) {
+                contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Aún no registras visitas en este periodo.</div></div>`;
+            }
+        }
+
+        if (data.visitas.length > 0) {
+            contenedor.insertAdjacentHTML("beforeend", data.visitas.map(renderTarjetaRuta).join(""));
+        }
+
+        offsetMiRuta += data.visitas.length;
+        btnMas.classList.toggle("hidden", !data.hay_mas);
+    }
+
+    function renderTarjetaRuta(v) {
+        const info = CATEGORIA_INFO[v.categoria] || { label: v.categoria, color: "var(--subtle)" };
+        const color = info.color;
+        const label = info.label;
+        const fecha = new Date(v.fecha_hora).toLocaleString("es-CO", {
+            day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+        });
+        return `
+            <div class="ruta-card" style="border-left-color:${color};">
+                <div class="ruta-card-header">
+                    <span class="ruta-card-nit">${v.nit}</span>
+                    <span class="ruta-card-tipo">${v.tipo_registro}</span>
+                </div>
+                <div class="ruta-card-nombre">${v.nombre_comercial}</div>
+                <div class="ruta-card-direccion">${v.direccion}</div>
+                <div class="ruta-card-footer">
+                    <span>${v.ruta_asignada || "-"}</span>
+                    <span>·</span>
+                    <span class="ruta-card-estado" style="color:${color};">${label}</span>
+                    <span>·</span>
+                    <span>${fecha}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    // ─────────────────────────────────────────
+    // MIS PENDIENTES
+    // ─────────────────────────────────────────
+    let rutaSeleccionadaPendientes = "";   // se recuerda durante la sesión, igual que la actividad
+    let fechaActualPendientes = "hoy";
+    let offsetPendientes = 0;
+    let pendientesActuales = [];   // acumula lo cargado (todas las páginas), para referenciar por índice sin
+                                    // incrustar texto libre (ej. nombres con comillas) dentro de un onclick
+    const LIMITE_PENDIENTES = 25;
+
+    function cambiarRutaPendientes() {
+        rutaSeleccionadaPendientes = document.getElementById("pendientes-ruta-select").value;
+        if (rutaSeleccionadaPendientes) {
+            cargarPendientes(true);
+        } else {
+            document.getElementById("pendientes-lista").innerHTML =
+                `<div class="card"><div class="aviso-vacio">Selecciona tu ruta para ver los pendientes.</div></div>`;
+        }
+    }
+
+    function cambiarFechaPendientes(fecha) {
+        fechaActualPendientes = fecha;
+        document.querySelectorAll("#pantalla-pendientes .tab-periodo").forEach(t => t.classList.remove("activo"));
+        document.getElementById(`tab-pendientes-${fecha}`).classList.add("activo");
+        if (rutaSeleccionadaPendientes) cargarPendientes(true);
+    }
+
+    // reset=true: reinicia el offset y limpia la lista (cambio de ruta, tab, o entrada a la pantalla).
+    // reset=false: agrega la siguiente página al final ("Cargar más"), mismo patrón que Mi Ruta.
+    async function cargarPendientes(reset) {
+        const contenedor = document.getElementById("pendientes-lista");
+        const btnMas = document.getElementById("btn-cargar-mas-pendientes");
+
+        if (reset) {
+            offsetPendientes = 0;
+            pendientesActuales = [];
+            contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Cargando...</div></div>`;
+            btnMas.classList.add("hidden");
+        }
+
+        let data;
+        try {
+            const resp = await fetch(
+                `${API_BASE_URL}/pendientes-ruta?actividad=${actividadActual}&ruta=${rutaSeleccionadaPendientes}` +
+                `&fecha=${fechaActualPendientes}&offset=${offsetPendientes}&limite=${LIMITE_PENDIENTES}`,
+                { headers: { "ngrok-skip-browser-warning": "true" } }
+            );
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            data = await resp.json();
+        } catch (e) {
+            console.error("Error consultando pendientes:", e);
+            contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">⚠️ No se pudo cargar tus pendientes. Verifica tu conexión.</div></div>`;
+            btnMas.classList.add("hidden");
+            return;
+        }
+
+        if (reset) {
+            const fechaTexto = new Date(`${data.fecha}T00:00:00`).toLocaleDateString("es-CO", {
+                day: "2-digit", month: "long", year: "numeric"
+            });
+            const encabezado = `
+                <div class="card">
+                    <div class="cobertura-numero">Ruta ${data.ruta} — ${data.completadas} / ${data.total_ruta}</div>
+                    <div class="cobertura-sub">${data.porcentaje_avance}% completado · ${fechaTexto}</div>
+                    <div class="cobertura-bar-fondo">
+                        <div class="cobertura-bar-fill" style="width:${data.porcentaje_avance}%;"></div>
+                    </div>
+                </div>
+            `;
+            contenedor.innerHTML = data.pendientes.length === 0
+                ? encabezado + `<div class="card"><div class="aviso-vacio">🎉 No te queda nada pendiente en esta ruta.</div></div>`
+                : encabezado;
+        }
+
+        if (data.pendientes.length > 0) {
+            const indiceInicial = pendientesActuales.length;
+            contenedor.insertAdjacentHTML(
+                "beforeend",
+                data.pendientes.map((p, i) => renderTarjetaPendiente(p, indiceInicial + i)).join("")
+            );
+            pendientesActuales = pendientesActuales.concat(data.pendientes);
+        }
+
+        offsetPendientes += data.pendientes.length;
+        btnMas.classList.toggle("hidden", !data.hay_mas);
+    }
+
+    function cargarMasPendientes() {
+        cargarPendientes(false);
+    }
+
+    function renderTarjetaPendiente(p, indice) {
+        // Gris siempre (unifica con el resto de tarjetas de la app): un
+        // punto pendiente todavía no tiene ningún resultado, así que no le
+        // corresponde ningún color del semáforo de categorías. Solo el
+        // TEXTO del estado se resalta en naranja para REPROGRAMAR --
+        // mismo tono que ya usa esa categoría en el resto de la app --
+        // porque un reintento merece identificarse rápido sin romper el
+        // estilo unificado de la tarjeta.
+        const esReprogramado = p.estado_auditoria === "REPROGRAMAR";
+        const colorEstado = esReprogramado ? "var(--orange)" : "var(--subtle)";
+        const textoEstado = esReprogramado ? "Reprogramado (reintento)" : "Pendiente";
+
+        // Se referencia por ÍNDICE (no se incrusta el nombre/nit directo en
+        // el onclick) para no romper el botón si el nombre del negocio trae
+        // comillas u otros caracteres especiales (ej. "McDonald's").
+        return `
+            <div class="ruta-card" style="border-left-color:var(--border); cursor:pointer;" onclick="confirmarDiligenciarPendiente(${indice})">
+                <div class="ruta-card-nit">${p.nit}</div>
+                <div class="ruta-card-nombre">${p.nombre_comercial}</div>
+                <div class="ruta-card-direccion">${p.direccion}</div>
+                <div class="ruta-card-footer">
+                    <span class="ruta-card-estado" style="color:${colorEstado};">${textoEstado}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    // Al tocar una tarjeta de "Mis Pendientes": confirma con el diálogo
+    // nativo de Telegram y, si acepta, salta a "Registrar Visita" con el
+    // NIT y la ruta ya pre-llenados, disparando la búsqueda de una vez --
+    // así el encuestador no tiene que volver a escribir el NIT a mano.
+    function confirmarDiligenciarPendiente(indice) {
+        const p = pendientesActuales[indice];
+        if (!p) return;
+
+        tg.showConfirm(`¿Quieres diligenciar "${p.nombre_comercial}"?`, (confirmado) => {
+            if (!confirmado) return;
+
+            mostrarPantalla("registrar");
+            document.getElementById("nit").value = p.nit;
+            const rutaTexto = `Ruta ${rutaSeleccionadaPendientes}`;
+            const selectRuta = document.getElementById("ruta");
+            if ([...selectRuta.options].some(o => o.value === rutaTexto)) {
+                selectRuta.value = rutaTexto;
+            }
+            buscarNIT();
+        });
+    }
+
+    // ─────────────────────────────────────────
+    // RITMO DEL EQUIPO (coordinador)
+    // ─────────────────────────────────────────
+    async function entrarRitmo() {
+        const clave = document.getElementById("ritmo-clave").value.trim();
+        if (!clave) { tg.showAlert("Ingresa la clave de coordinador."); return; }
+
+        const data = await consultarRitmo(clave);
+        if (data === null) return;
+
+        claveCoordinadorActual = clave;
+        document.getElementById("ritmo-acceso").classList.add("hidden");
+        document.getElementById("ritmo-panel").classList.remove("hidden");
+        renderRitmo(data);
+    }
+
+    async function cargarRitmo() {
+        const contenedor = document.getElementById("ritmo-contenido");
+        contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Cargando...</div></div>`;
+
+        const data = await consultarRitmo(claveCoordinadorActual);
+        if (data === null) return;
+
+        renderRitmo(data);
+    }
+
+    // Mismo patrón que consultarEquipo(): maneja clave inválida y errores de conexión.
+    async function consultarRitmo(clave) {
+        try {
+            const resp = await fetch(`${API_BASE_URL}/ritmo-equipo?actividad=${actividadActual}`, {
+                headers: {
+                    "X-Coordinador-Key": clave,
+                    "ngrok-skip-browser-warning": "true"
+                }
+            });
+
+            if (resp.status === 401) {
+                tg.showAlert("⚠️ Clave de coordinador incorrecta.");
+                claveCoordinadorActual = null;
+                document.getElementById("ritmo-panel").classList.add("hidden");
+                document.getElementById("ritmo-acceso").classList.remove("hidden");
+                return null;
+            }
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+            return await resp.json();
+        } catch (e) {
+            console.error("Error consultando ritmo del equipo:", e);
+            tg.showAlert("⚠️ No se pudo cargar el ritmo del equipo. Verifica tu conexión.");
+            return null;
+        }
+    }
+
+    function renderRitmo(data) {
+        const contenedor = document.getElementById("ritmo-contenido");
+
+        if (data.encuestadores.length === 0) {
+            contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Aún no hay actividad registrada hoy.</div></div>`;
+            return;
+        }
+
+        contenedor.innerHTML = data.encuestadores.map(enc => `
+            <div class="card">
+                <div class="ritmo-nombre-row">
+                    <span class="ritmo-nombre">👤 ${enc.encuestador}</span>
+                    <span class="ritmo-total">${enc.total_visitas_hoy} hoy</span>
+                </div>
+                <div class="ritmo-promedio ${enc.promedio_minutos === null ? 'sin-datos' : ''}">
+                    ${enc.promedio_minutos !== null
+                        ? `⏱️ ${enc.promedio_minutos} min/sucursal en promedio`
+                        : `⏱️ Aún sin datos suficientes`}
+                </div>
+                ${enc.ultimas_visitas.map(renderTarjetaEvento).join("")}
+            </div>
+        `).join("");
+    }
+
+    function renderTarjetaEvento(v) {
+        const info = CATEGORIA_INFO[v.categoria] || { label: v.categoria, color: "var(--subtle)" };
+        const color = info.color;
+        const label = info.label;
+        const fecha = new Date(v.fecha_hora).toLocaleString("es-CO", {
+            hour: "2-digit", minute: "2-digit"
+        });
+        return `
+            <div class="ruta-card" style="border-left-color:${color};">
+                <div class="ruta-card-nit">${v.nit}</div>
+                <div class="ruta-card-nombre">${v.nombre_comercial}</div>
+                <div class="ruta-card-direccion">${v.direccion}</div>
+                <div class="ruta-card-footer">
+                    <span>${v.ruta_asignada || "-"}</span>
+                    <span>·</span>
+                    <span class="ruta-card-estado" style="color:${color};">${label}</span>
+                    <span>·</span>
+                    <span>${fecha}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    // ─────────────────────────────────────────
+    // COBERTURA DE RUTAS (coordinador)
+    // ─────────────────────────────────────────
+    let fechaActualCoberturaRutas = "hoy";
+
+    async function entrarCoberturaRutas() {
+        const clave = document.getElementById("cobertura-rutas-clave").value.trim();
+        if (!clave) { tg.showAlert("Ingresa la clave de coordinador."); return; }
+
+        const data = await consultarCoberturaRutas(clave, fechaActualCoberturaRutas);
+        if (data === null) return;
+
+        claveCoordinadorActual = clave;
+        document.getElementById("cobertura-rutas-acceso").classList.add("hidden");
+        document.getElementById("cobertura-rutas-panel").classList.remove("hidden");
+        renderCoberturaRutas(data);
+    }
+
+    function cambiarFechaCoberturaRutas(fecha) {
+        fechaActualCoberturaRutas = fecha;
+        document.querySelectorAll("#pantalla-cobertura-rutas .tab-periodo").forEach(t => t.classList.remove("activo"));
+        document.getElementById(`tab-cobertura-${fecha}`).classList.add("activo");
+        cargarCoberturaRutas();
+    }
+
+    async function cargarCoberturaRutas() {
+        const contenedor = document.getElementById("cobertura-rutas-contenido");
+        contenedor.innerHTML = `<div class="card"><div class="aviso-vacio">Cargando...</div></div>`;
+
+        const data = await consultarCoberturaRutas(claveCoordinadorActual, fechaActualCoberturaRutas);
+        if (data === null) return;
+
+        renderCoberturaRutas(data);
+    }
+
+    // Mismo patrón que consultarEquipo()/consultarRitmo(): maneja clave inválida y errores de conexión.
+    async function consultarCoberturaRutas(clave, fecha) {
+        try {
+            const resp = await fetch(
+                `${API_BASE_URL}/cobertura-rutas?actividad=${actividadActual}&fecha=${fecha}`,
+                {
+                    headers: {
+                        "X-Coordinador-Key": clave,
+                        "ngrok-skip-browser-warning": "true"
+                    }
+                }
+            );
+
+            if (resp.status === 401) {
+                tg.showAlert("⚠️ Clave de coordinador incorrecta.");
+                claveCoordinadorActual = null;
+                document.getElementById("cobertura-rutas-panel").classList.add("hidden");
+                document.getElementById("cobertura-rutas-acceso").classList.remove("hidden");
+                return null;
+            }
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+            return await resp.json();
+        } catch (e) {
+            console.error("Error consultando cobertura de rutas:", e);
+            tg.showAlert("⚠️ No se pudo cargar la cobertura de rutas. Verifica tu conexión.");
+            return null;
+        }
+    }
+
+    function renderCoberturaRutas(data) {
+        const contenedor = document.getElementById("cobertura-rutas-contenido");
+        const fechaTexto = new Date(`${data.fecha}T00:00:00`).toLocaleDateString("es-CO", {
+            day: "2-digit", month: "long", year: "numeric"
+        });
+
+        if (data.rutas.length === 0) {
+            contenedor.innerHTML = `
+                <div class="card"><div class="aviso-vacio">No hay rutas asignadas para ${fechaTexto}.</div></div>
+            `;
+            return;
+        }
+
+        contenedor.innerHTML = `
+            <div class="card">
+                <div class="card-title">📅 ${fechaTexto}</div>
+            </div>
+            ${data.rutas.map(r => `
+                <div class="card">
+                    <div class="cobertura-numero">Ruta ${r.ruta} — ${r.completadas} / ${r.total}</div>
+                    <div class="cobertura-sub">${r.porcentaje_avance}% completado</div>
+                    <div class="cobertura-bar-fondo">
+                        <div class="cobertura-bar-fill" style="width:${r.porcentaje_avance}%;"></div>
+                    </div>
+                </div>
+            `).join("")}
+        `;
+    }
+
+    // ─────────────────────────────────────────
     // BÚSQUEDA NIT (vía API, ya no data.json local)
     // ─────────────────────────────────────────
     async function buscarNIT() {
@@ -666,11 +1721,12 @@
         contactoActual = null;
         renovoActual   = null;
         guiaActual     = null;
+        resultadoYaRenovadoActual = null;
         resetearFlujo();
 
         let sucursales = [];
         try {
-            const resp = await fetch(`${API_BASE_URL}/sucursales?nit=${encodeURIComponent(nit)}`, {
+            const resp = await fetch(`${API_BASE_URL}/sucursales?nit=${encodeURIComponent(nit)}&actividad=${actividadActual}`, {
                 headers: {
                     // Necesario mientras la API esté detrás de un túnel gratuito de
                     // ngrok: evita la página de advertencia (interstitial) que
@@ -713,7 +1769,7 @@
 
             const icono = bloqueada ? "🔴" : (reintento ? "🟡" : "🟢");
             const estadoTexto = bloqueada
-                ? `[BLOQUEADO] ${LABEL_ESTADO_AUDITORIA[suc.estado_auditoria] || suc.estado_auditoria}`
+                ? `[BLOQUEADO] ${CATEGORIA_INFO[suc.estado_auditoria]?.label || suc.estado_auditoria}`
                 : (reintento ? `[DISPONIBLE] Reintento (intento ${suc.intento_siguiente})` : "[DISPONIBLE] Pendiente, nadie ha ido");
 
             div.innerHTML = `
@@ -814,6 +1870,7 @@
         contactoActual = valor;
         renovoActual   = null;
         guiaActual     = null;
+        resultadoYaRenovadoActual = null;
 
         // Estilos botones
         document.getElementById("btn-contacto-si").className = "opcion-btn" + (valor === "SI" ? " selected-green" : "");
@@ -823,22 +1880,26 @@
         document.getElementById("card-no-efectiva").classList.add("hidden");
         document.getElementById("card-renovo").classList.add("hidden");
         document.getElementById("card-guia").classList.add("hidden");
+        document.getElementById("card-resultado-yarenovado").classList.add("hidden");
         document.getElementById("card-instruccion").classList.add("hidden");
         document.getElementById("btn-enviar").classList.add("hidden");
 
         if (valor === "NO") {
+            // Rama compartida entre ambas actividades — sin cambios.
             document.getElementById("motivo_pendiente").value = "";
             document.getElementById("observaciones_ne").value = "";
             document.getElementById("card-no-efectiva").classList.remove("hidden");
             mostrarInstruccion("NO-EFECTIVA");
             document.getElementById("btn-enviar").classList.remove("hidden");
+        } else if (actividadActual === "YA_RENOVADO") {
+            document.getElementById("card-resultado-yarenovado").classList.remove("hidden");
         } else {
             document.getElementById("card-renovo").classList.remove("hidden");
         }
     }
 
     // ─────────────────────────────────────────
-    // PASO 2 — ¿YA RENOVÓ?
+    // PASO 2 (RENOVACION) — ¿YA RENOVÓ?
     // ─────────────────────────────────────────
     function seleccionarRenovo(valor) {
         renovoActual = valor;
@@ -860,7 +1921,7 @@
     }
 
     // ─────────────────────────────────────────
-    // PASO 3 — ¿QUIERE GUÍA?
+    // PASO 3 (RENOVACION) — ¿QUIERE GUÍA?
     // ─────────────────────────────────────────
     function seleccionarGuia(valor) {
         guiaActual = valor;
@@ -873,6 +1934,20 @@
 
         const estado = valor === "SI" ? "NO_RENOVO_CON_GUIA" : "NO_RENOVO_SIN_GUIA";
         mostrarInstruccion(estado);
+        document.getElementById("btn-enviar").classList.remove("hidden");
+    }
+
+    // ─────────────────────────────────────────
+    // PASO 2 (YA_RENOVADO) — ¿QUÉ ACTIVIDAD SE REALIZÓ?
+    // ─────────────────────────────────────────
+    function seleccionarResultadoYaRenovado(valor) {
+        resultadoYaRenovadoActual = valor;
+
+        document.getElementById("btn-resultado-vitrinapp").className   = "opcion-btn" + (valor === "VITRINAPP" ? " selected-green" : "");
+        document.getElementById("btn-resultado-diagnostico").className = "opcion-btn" + (valor === "DIAGNOSTICO_NEGOCIO" ? " selected-green" : "");
+        document.getElementById("btn-resultado-contenido").className   = "opcion-btn" + (valor === "CONSUMO_CONTENIDO" ? " selected-green" : "");
+
+        mostrarInstruccion(valor);
         document.getElementById("btn-enviar").classList.remove("hidden");
     }
 
@@ -901,6 +1976,24 @@
             <strong>📸 Foto requerida:</strong><br>
             1️⃣ Foto de la <strong>fachada</strong> del local.<br><br>
             <em style="color:var(--subtle)">Envíala cuando el bot te la solicite.</em>
+        `,
+        "VITRINAPP": `
+            <strong>📸 Fotos requeridas:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br>
+            2️⃣ Captura de pantalla del <strong>informe PDF de Vitrinapp</strong> generado (debe verse el NIT del negocio).<br><br>
+            <em style="color:var(--subtle)">El bot te las pedirá en orden.</em>
+        `,
+        "DIAGNOSTICO_NEGOCIO": `
+            <strong>📸 Fotos requeridas:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br>
+            2️⃣ Captura de pantalla del <strong>informe PDF de diagnóstico</strong> (debe verse el NIT del negocio).<br><br>
+            <em style="color:var(--subtle)">El bot te las pedirá en orden.</em>
+        `,
+        "CONSUMO_CONTENIDO": `
+            <strong>📸 Fotos requeridas:</strong><br>
+            1️⃣ Foto de la <strong>fachada</strong> del local.<br>
+            2️⃣ Foto de la <strong>interacción con el chat de WhatsApp</strong> del negocio (video/curso).<br><br>
+            <em style="color:var(--subtle)">El bot te las pedirá en orden.</em>
         `
     };
 
@@ -914,8 +2007,8 @@
     // RESET
     // ─────────────────────────────────────────
     function resetearFlujo() {
-        const ids = ["card-datos","card-contacto","card-no-efectiva","card-renovo",
-                     "card-guia","card-instruccion","card-locales","card-reintento","btn-enviar"];
+        const ids = ["card-datos","card-contacto","card-no-efectiva","card-renovo","card-guia",
+                     "card-resultado-yarenovado","card-instruccion","card-locales","card-reintento","btn-enviar"];
         ids.forEach(id => document.getElementById(id).classList.add("hidden"));
         document.getElementById("badge-container").innerHTML = "";
         document.getElementById("intento-info").textContent  = "";
@@ -925,6 +2018,9 @@
         document.getElementById("btn-renovo-no").className   = "opcion-btn";
         document.getElementById("btn-guia-si").className     = "opcion-btn";
         document.getElementById("btn-guia-no").className     = "opcion-btn";
+        document.getElementById("btn-resultado-vitrinapp").className   = "opcion-btn";
+        document.getElementById("btn-resultado-diagnostico").className = "opcion-btn";
+        document.getElementById("btn-resultado-contenido").className   = "opcion-btn";
     }
 
     // ─────────────────────────────────────────
@@ -934,6 +2030,7 @@
         const ruta = document.getElementById("ruta").value;
         const nit  = document.getElementById("nit").value.trim();
 
+        if (!actividadActual) { tg.showAlert("Selecciona una actividad desde el menú principal."); return; }
         if (!ruta)  { tg.showAlert("Seleccione una Ruta."); return; }
         if (!nit)   { tg.showAlert("Ingrese un NIT."); return; }
         if (!tipoRegistroActual) { tg.showAlert("Realice la búsqueda del NIT primero."); return; }
@@ -958,6 +2055,7 @@
         let observaciones = "";
 
         if (contactoActual === "NO") {
+            // Rama compartida entre ambas actividades — sin cambios.
             const selectMotivo = document.getElementById("motivo_pendiente");
             motivo = selectMotivo.value;
             if (!motivo) { tg.showAlert("Seleccione el motivo de la no efectividad."); return; }
@@ -965,6 +2063,10 @@
             const obsManual   = document.getElementById("observaciones_ne").value.trim();
             observaciones = obsManual ? `${textoMotivo} - ${obsManual}` : textoMotivo;
             estado_visita = "NO-EFECTIVA";
+
+        } else if (actividadActual === "YA_RENOVADO") {
+            if (!resultadoYaRenovadoActual) { tg.showAlert("Selecciona qué actividad se realizó."); return; }
+            estado_visita = resultadoYaRenovadoActual; // VITRINAPP | DIAGNOSTICO_NEGOCIO | CONSUMO_CONTENIDO
 
         } else if (renovoActual === "SI") {
             estado_visita = "YA_RENOVO";
@@ -982,6 +2084,7 @@
 
         const payload = {
             ruta, nit,
+            actividad: actividadActual,
             tipo_registro: tipoRegistroActual,
             // Solo tiene sentido para negocios ya existentes (tipo_registro = "BASE");
             // el bot lo usa para bloquear/actualizar la fila correcta en Postgres.
